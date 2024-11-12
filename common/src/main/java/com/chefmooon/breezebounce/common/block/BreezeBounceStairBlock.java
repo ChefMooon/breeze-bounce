@@ -39,7 +39,7 @@ public class BreezeBounceStairBlock extends StairBlock implements SimpleBreezeBo
     }
 
     public BreezeBounceStairBlock(BlockState blockState, Properties properties) {
-        super(blockState, properties);
+        super(blockState, properties.sound(SimpleBreezeBounceBlock.bounceSoundType()));
         this.registerDefaultState(this.defaultBlockState().setValue(POWERED, Boolean.FALSE));
     }
 
@@ -59,9 +59,9 @@ public class BreezeBounceStairBlock extends StairBlock implements SimpleBreezeBo
     }
 
     @Override
-    public void updateEntityAfterFallOn(BlockGetter blockGetter, Entity entity) {
+    public void updateEntityMovementAfterFallOn(BlockGetter blockGetter, Entity entity) {
         if (entity.isSuppressingBounce()) {
-            super.updateEntityAfterFallOn(blockGetter, entity);
+            super.updateEntityMovementAfterFallOn(blockGetter, entity);
         } else {
             BlockPos blockPos = entity.getBlockPosBelowThatAffectsMyMovement().above();
             if (blockGetter.getBlockState(blockPos).getBlock() instanceof BreezeBounceStairBlock) {
@@ -81,11 +81,11 @@ public class BreezeBounceStairBlock extends StairBlock implements SimpleBreezeBo
     }
 
     @Override
-    protected void onExplosionHit(BlockState blockState, Level level, BlockPos blockPos, Explosion explosion, BiConsumer<ItemStack, BlockPos> biConsumer) {
+    protected void onExplosionHit(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, Explosion explosion, BiConsumer<ItemStack, BlockPos> biConsumer) {
         if (explosion.canTriggerBlocks() && !(Boolean)blockState.getValue(POWERED)) {
-            this.inflate(this, blockState, level, blockPos, (Player) null);
+            this.inflate(this, blockState, serverLevel, blockPos, (Player) null);
         }
-        super.onExplosionHit(blockState, level, blockPos, explosion, biConsumer);
+        super.onExplosionHit(blockState, serverLevel, blockPos, explosion, biConsumer);
     }
 
     @Override
@@ -114,7 +114,8 @@ public class BreezeBounceStairBlock extends StairBlock implements SimpleBreezeBo
 
         for (Direction direction : directions) {
             BlockPos blockPos2 = blockPos.relative(direction);
-            if (!level.getBlockState(blockPos2).isSolidRender(level, blockPos2)) {
+//            if (!level.getBlockState(blockPos2).isSolidRender(level, blockPos2)) {
+            if (!level.getBlockState(blockPos2).isSolidRender()) {
                 spawnSlabParticles(level, blockPos, randomSource, direction, half, facing, d);
                 spawnOtherParticles(level, blockPos, randomSource, direction, half, facing, d);
             }

@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "A": {
-      "item": "minecraft:light_blue_wool"
-    },
-    "B": {
-      "item": "minecraft:leather"
-    },
-    "C": {
-      "item": "minecraft:wind_charge"
-    }
+    "A": "minecraft:light_blue_wool",
+    "B": "minecraft:leather",
+    "C": "minecraft:wind_charge"
   },
   "pattern": [
     "BAB",

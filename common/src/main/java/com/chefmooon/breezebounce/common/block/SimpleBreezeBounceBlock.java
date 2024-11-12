@@ -5,6 +5,7 @@ import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -12,6 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -203,5 +205,9 @@ public interface SimpleBreezeBounceBlock {
         if (blockState.getBlock() instanceof BreezeBounceBlock) {
             this.inflate(block, blockState, level, blockPos, (Player) null);
         }
+    }
+
+    static SoundType bounceSoundType() {
+        return new SoundType(3.0f, 1.0f, SoundEvents.WOOL_BREAK, ModSounds.BOUNCE_BLOCK_STEP.get(), SoundEvents.WOOL_PLACE, ModSounds.BOUNCE_BLOCK_BOUNCE.get(), SoundEvents.EMPTY);
     }
 }

@@ -1,4 +1,5 @@
 {
+  "block.breezebounce.basic_bounce": "Bounce Block",
   "block.breezebounce.basic_bounce_black": "Black Bounce Block",
   "block.breezebounce.basic_bounce_blue": "Blue Bounce Block",
   "block.breezebounce.basic_bounce_brown": "Brown Bounce Block",
@@ -45,6 +46,7 @@
   "block.breezebounce.basic_bounce_stair_red": "Red Bounce Stair Block",
   "block.breezebounce.basic_bounce_stair_white": "White Bounce Stair Block",
   "block.breezebounce.basic_bounce_stair_yellow": "Yellow Bounce Stair Block",
+  "block.breezebounce.basic_bounce_wall": "Bounce Post Block",
   "block.breezebounce.basic_bounce_wall_black": "Black Bounce Post Block",
   "block.breezebounce.basic_bounce_wall_blue": "Blue Bounce Post Block",
   "block.breezebounce.basic_bounce_wall_brown": "Brown Bounce Post Block",
@@ -59,9 +61,7 @@
   "block.breezebounce.basic_bounce_wall_pink": "Pink Bounce Post Block",
   "block.breezebounce.basic_bounce_wall_purple": "Purple Bounce Post Block",
   "block.breezebounce.basic_bounce_wall_red": "Red Bounce Post Block",
-  "block.breezebounce.basic_bounce_wall_white": "Bounce Post Block",
   "block.breezebounce.basic_bounce_wall_yellow": "Yellow Bounce Post Block",
-  "block.breezebounce.basic_bounce_white": "Bounce Block",
   "block.breezebounce.basic_bounce_yellow": "Yellow Bounce Block",
   "breezebounce.subtitles.bounce_block_bounce": "Squeaky Bounce",
   "breezebounce.subtitles.bounce_block_deflate": "Bounce Block Deflated",

@@ -29,7 +29,7 @@ public class BreezeBounceBlock extends Block implements SimpleBreezeBounceBlock 
     }
 
     public BreezeBounceBlock(Properties properties) {
-        super(properties);
+        super(properties.sound(SimpleBreezeBounceBlock.bounceSoundType()));
         this.registerDefaultState(this.defaultBlockState().setValue(POWERED, false));
     }
 
@@ -50,9 +50,9 @@ public class BreezeBounceBlock extends Block implements SimpleBreezeBounceBlock 
     }
 
     @Override
-    public void updateEntityAfterFallOn(BlockGetter blockGetter, Entity entity) {
+    public void updateEntityMovementAfterFallOn(BlockGetter blockGetter, Entity entity) {
         if (entity.isSuppressingBounce()) {
-            super.updateEntityAfterFallOn(blockGetter, entity);
+            super.updateEntityMovementAfterFallOn(blockGetter, entity);
         } else {
             BlockPos blockPos = entity.getBlockPosBelowThatAffectsMyMovement();
             if (blockGetter.getBlockState(blockPos).getBlock() instanceof BreezeBounceBlock) {
@@ -67,11 +67,11 @@ public class BreezeBounceBlock extends Block implements SimpleBreezeBounceBlock 
     }
 
     @Override
-    protected void onExplosionHit(BlockState blockState, Level level, BlockPos blockPos, Explosion explosion, BiConsumer<ItemStack, BlockPos> biConsumer) {
+    protected void onExplosionHit(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, Explosion explosion, BiConsumer<ItemStack, BlockPos> biConsumer) {
         if (explosion.canTriggerBlocks() && !(Boolean)blockState.getValue(POWERED)) {
-            inflate(this, blockState, level, blockPos, (Player) null);
+            inflate(this, blockState, serverLevel, blockPos, (Player) null);
         }
-        super.onExplosionHit(blockState, level, blockPos, explosion, biConsumer);
+        super.onExplosionHit(blockState, serverLevel, blockPos, explosion, biConsumer);
     }
 
     @Override
@@ -96,7 +96,8 @@ public class BreezeBounceBlock extends Block implements SimpleBreezeBounceBlock 
 
         for (Direction direction : directions) {
             BlockPos blockPos2 = blockPos.relative(direction);
-            if (!level.getBlockState(blockPos2).isSolidRender(level, blockPos2)) {
+//            if (!level.getBlockState(blockPos2).isSolidRender(level, blockPos2)) {
+            if (!level.getBlockState(blockPos2).isSolidRender()) {
                 Direction.Axis axis = direction.getAxis();
                 double e = axis == Direction.Axis.X ? 0.5 + d * (double) direction.getStepX() : (double) randomSource.nextFloat();
                 double f = axis == Direction.Axis.Y ? 0.5 + d * (double) direction.getStepY() : (double) randomSource.nextFloat();

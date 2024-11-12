@@ -20,7 +20,7 @@ config = "${mod_id}-common.mixins.json"
 [[dependencies.${mod_id}]]
 modId = "neoforge"
 mandatory = true
-versionRange = "[21.0,)"
+versionRange = "[21.2.0,)"
 ordering = "NONE"
 side = "BOTH"
 

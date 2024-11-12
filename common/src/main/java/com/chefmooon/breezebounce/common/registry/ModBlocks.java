@@ -1,20 +1,83 @@
 package com.chefmooon.breezebounce.common.registry;
 
 import com.chefmooon.breezebounce.common.util.TextUtil;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
 
 public class ModBlocks {
     public static BlockBehaviour.Properties basicBounce() {
-        return BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.GUITAR).strength(1.6F).sound(bounceSoundType()).ignitedByLava();
+        return BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.GUITAR).strength(1.6F).ignitedByLava();
     }
 
-    private static SoundType bounceSoundType() {
-        return new SoundType(3.0f, 1.0f, SoundEvents.WOOL_BREAK, ModSounds.BOUNCE_BLOCK_STEP.get(), SoundEvents.WOOL_PLACE, ModSounds.BOUNCE_BLOCK_BOUNCE.get(), SoundEvents.EMPTY);
+    public static BlockBehaviour.Properties basicBounceWhite() {
+        return basicBounce().mapColor(MapColor.SNOW);
     }
+
+    public static BlockBehaviour.Properties basicBounceLightGray() {
+        return basicBounce().mapColor(MapColor.COLOR_LIGHT_GRAY);
+    }
+
+    public static BlockBehaviour.Properties basicBounceGray() {
+        return basicBounce().mapColor(MapColor.COLOR_GRAY);
+    }
+
+    public static BlockBehaviour.Properties basicBounceBlack() {
+        return basicBounce().mapColor(MapColor.COLOR_BLACK);
+    }
+
+    public static BlockBehaviour.Properties basicBounceBrown() {
+        return basicBounce().mapColor(MapColor.COLOR_BROWN);
+    }
+
+    public static BlockBehaviour.Properties basicBounceRed() {
+        return basicBounce().mapColor(MapColor.COLOR_RED);
+    }
+
+    public static BlockBehaviour.Properties basicBounceOrange() {
+        return basicBounce().mapColor(MapColor.COLOR_ORANGE);
+    }
+
+    public static BlockBehaviour.Properties basicBounceYellow() {
+        return basicBounce().mapColor(MapColor.COLOR_YELLOW);
+    }
+
+    public static BlockBehaviour.Properties basicBounceLime() {
+        return basicBounce().mapColor(MapColor.COLOR_LIGHT_GREEN);
+    }
+
+    public static BlockBehaviour.Properties basicBounceGreen() {
+        return basicBounce().mapColor(MapColor.COLOR_GREEN);
+    }
+
+    public static BlockBehaviour.Properties basicBounceCyan() {
+        return basicBounce().mapColor(MapColor.COLOR_CYAN);
+    }
+
+    public static BlockBehaviour.Properties basicBounceLightBlue() {
+        return basicBounce().mapColor(MapColor.COLOR_LIGHT_BLUE);
+    }
+
+    public static BlockBehaviour.Properties basicBounceBlue() {
+        return basicBounce().mapColor(MapColor.COLOR_BLUE);
+    }
+
+    public static BlockBehaviour.Properties basicBouncePurple() {
+        return basicBounce().mapColor(MapColor.COLOR_PURPLE);
+    }
+
+    public static BlockBehaviour.Properties basicBounceMagenta() {
+        return basicBounce().mapColor(MapColor.COLOR_MAGENTA);
+    }
+
+    public static BlockBehaviour.Properties basicBouncePink() {
+        return basicBounce().mapColor(MapColor.COLOR_PINK);
+    }
+
     public static final ResourceLocation BASIC_BOUNCE_WHITE = block("basic_bounce_white");
     public static final ResourceLocation BASIC_BOUNCE_LIGHT_GRAY = block("basic_bounce_light_gray");
     public static final ResourceLocation BASIC_BOUNCE_GRAY = block("basic_bounce_gray");

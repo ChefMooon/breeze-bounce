@@ -28,7 +28,7 @@ public abstract class EntityMixin {
             // Horizontal Collision
             if (entity.horizontalCollision) {
                 BlockPos onPos = entity.getOnPos();
-                Direction direction = Direction.getNearest(vec3);
+                Direction direction = Direction.getApproximateNearest(vec3);
                 BlockPos upperBlockPos = new BlockPos(onPos.getX(), (int) Math.floor(entity.getEyeY() + 0.17), onPos.getZ()).relative(direction);
                 if (direction != Direction.DOWN && direction != Direction.UP) {
                     BlockState upperBlockState = level.getBlockState(upperBlockPos);
@@ -61,14 +61,14 @@ public abstract class EntityMixin {
             }
 
             // Vertical Above Collision
-            if ((entity.verticalCollision && !entity.verticalCollisionBelow) || (entity.verticalCollision && !isStanding(entity))) {
+            if (!entity.onGround() && ((entity.verticalCollision && !entity.verticalCollisionBelow) || (entity.verticalCollision && !isStanding(entity)))) {
                 BlockPos blockPos = entity.getOnPos();
                 if (isStanding(entity)) {
                     blockPos = blockPos.above(2);
                 } else {
                     blockPos = blockPos.above();
                 }
-                Direction direction = Direction.getNearest(vec3);
+                Direction direction = Direction.getApproximateNearest(vec3);
                 BlockState blockState = level.getBlockState(blockPos);
                 Block block = level.getBlockState(blockPos).getBlock();
                 if (direction == Direction.UP) {

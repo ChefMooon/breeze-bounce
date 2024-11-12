@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "A": {
-      "item": "breezebounce:basic_bounce_blue"
-    }
+    "A": "breezebounce:basic_bounce_blue"
   },
   "pattern": [
     "A",

@@ -6,7 +6,6 @@ import com.chefmooon.breezebounce.common.fabric.CommonSetup;
 import net.fabricmc.api.ModInitializer;
 
 public class BreezeBounceImpl implements ModInitializer {
-	public static final String MOD_ID = "breezebounce";
 
 	@Override
 	public void onInitialize() {

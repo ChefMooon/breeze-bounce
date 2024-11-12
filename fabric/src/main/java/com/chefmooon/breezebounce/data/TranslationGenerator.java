@@ -100,7 +100,7 @@ public class TranslationGenerator extends FabricLanguageProvider {
         translationBuilder.add(ModItemsImpl.BASIC_BOUNCE_WALL_PINK, "Pink Bounce Post Block");
     }
 
-    private static Item getItem(ResourceLocation location) {
-        return BuiltInRegistries.ITEM.get(location);
-    }
+//    private static Item getItem(ResourceLocation location) {
+//        return BuiltInRegistries.ITEM.get(location);
+//    }
 }

@@ -5,9 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
@@ -56,9 +54,11 @@ public class BreezeBounceWallBlock extends BreezeBounceBlock implements SimpleWa
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
     @Override
-    public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
+    public BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess scheduledTickAccess, BlockPos currentPos, Direction direction, BlockPos arg6, BlockState arg7, RandomSource arg8) {
+//    public BlockState updateShape(LevelReader level, ScheduledTickAccess scheduledTickAccess, BlockPos arg3, Direction arg4, BlockPos blockPos, BlockState state, RandomSource arg7) {
+//    public BlockState updateShape(BlockState state, Direction facing, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
         if (state.getValue(WATERLOGGED)) {
-            level.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
+            scheduledTickAccess.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
         return state;
     }
@@ -109,7 +109,8 @@ public class BreezeBounceWallBlock extends BreezeBounceBlock implements SimpleWa
             Direction.Axis axis = direction.getAxis();
             if (facingAxis == axis) {
                 BlockPos blockPos2 = blockPos.relative(direction);
-                if (level.getBlockState(blockPos2).isSolidRender(level, blockPos2)) {
+//                if (level.getBlockState(blockPos2).isSolidRender(level, blockPos2)) {
+                if (level.getBlockState(blockPos2).isSolidRender()) {
                     continue;
                 }
             }
