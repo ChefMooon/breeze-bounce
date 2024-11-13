@@ -14,17 +14,20 @@ create crazy obstacle courses.
 ![Blocks Banner](img/blocks_banner.png)
 ## Current Features
 ***
-### Bounce Block
+### Bounce Blocks
 
-This Wind Charge-infused, wool-like block bounces entities that touch any of its sides. 
-It has an 'Inflated' state triggered by a wind charge strike, temporarily increasing its 
-bounce power for a set duration.
+Breeze Bounce has a set of Wind Charge-infused, wool-like blocks that will bounce entities that touch any side.
+When struck by a wind charge the block becomes ‘Inflated’ for a short duration, while inflated bounce power is
+increased. They are available as full blocks, stairs, slabs, and posts.
 
-- Recipe: 1x Wind Charge, 4x Leather, 4x Wool -> 4x Bounce Blocks
-- Colours: White, Light Gray, Gray, Black, Brown, Red, Orange, Yellow, Lime, Green, 
-  Cyan, Light Blue, Blue, Purple, Magenta, Pink
+![Bounce Blocks](https://i.imgur.com/9tb0JN4.gif)
 
-***Technical Info***
+**Details**
+- Colours: White, Light Gray, Gray, Black, Brown, Red, Orange, Yellow, Lime, Green, Cyan, Light Blue, Blue, Magenta, Purple, Pink
+- Posts can be placed horizontally
+- Stairs, Slabs, and Posts can be waterlogged
+
+***Technical Details***
 - When struck by a Wind Charge becomes inflated for 80 ticks
 - Flammable and can be ignited by Lava
 - Custom Sounds
@@ -34,30 +37,24 @@ bounce power for a set duration.
   - Player Step
   - Inflate / Deflate
 
-### Bounce Stair Block
+<details>
+  <summary>Crafting Recipe's</summary>
+  <h3>Bounce Block</h3>
+  1x Wind Charge, 4x Leather, 4x Wool -> 4x Bounce Blocks
+  <img src="https://i.imgur.com/Drth1bk.png" title="Bounce Block Recipe" />
 
-This block has similar properties to the Bounce Block but is the shape of a fence post.
-
-- Recipe: 6x Bounce Blocks -> 4x Bounce Stair Blocks
-- Colours: White, Light Gray, Gray, Black, Brown, Red, Orange, Yellow, Lime, Green,
-  Cyan, Light Blue, Blue, Purple, Magenta, Pink
-
-### Bounce Slab Block
-
-This block has similar properties to the Bounce Block but is the shape of a fence post.
-
-- Recipe: 3x Bounce Blocks -> 6x Bounce Slab Blocks
-- Colours: White, Light Gray, Gray, Black, Brown, Red, Orange, Yellow, Lime, Green,
-  Cyan, Light Blue, Blue, Purple, Magenta, Pink
-
-### Bounce Post Block
-
-This block has similar properties to the Bounce Block but is the shape of a fence post. It
-can also be placed horizontally.
-
-- Recipe: 2x Bounce Blocks -> 8x Bounce Post Blocks
-- Colours: White, Light Gray, Gray, Black, Brown, Red, Orange, Yellow, Lime, Green,
-  Cyan, Light Blue, Blue, Purple, Magenta, Pink
+  <h3>Bounce Stair Block</h3>
+  6x Bounce Blocks -> 4x Bounce Stair Blocks
+  <img src="https://i.imgur.com/27ZUpfb.png" title="Bounce Stair Block Recipe" />
+  
+  <h3>Bounce Slab Block</h3>
+  3x Bounce Blocks -> 6x Bounce Slab Blocks
+  <img src="https://i.imgur.com/gmrixQ7.png" title="Bounce Slab Block Recipe" />
+  
+  <h3>Bounce Post Block</h3>
+  2x Bounce Blocks -> 8x Bounce Post Blocks
+  <img src="https://i.imgur.com/EHVodIy.png" title="Bounce Post Block Recipe" />
+</details>
 
 ***
 
