@@ -12,7 +12,7 @@ architectury {
 
 subprojects {
     apply plugin: "dev.architectury.loom"
-    apply plugin: "me.shedaniel.unified-publishing"
+//    apply plugin: "me.shedaniel.unified-publishing"
     apply plugin: "com.matthewprenger.cursegradle"
     apply plugin: "com.modrinth.minotaur"
 

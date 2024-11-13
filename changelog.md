@@ -8,7 +8,6 @@ Greatly appreciate any bug reports on the
 
 - Basic Bounce Stair
 - Basic Bounce Slab
-- 
 
 ### Changed
 
