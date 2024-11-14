@@ -6,24 +6,7 @@ Greatly appreciate any bug reports on the
 
 ### Added
 
-- Basic Bounce Stair
-- Basic Bounce Slab
-
-### Changed
-
-- Bounce Post Block
-  - Can now be placed horizontally
-  - Recipe no longer restricted to middle column in crafting table
-- updated api's for latest 1.21.1 versions
-  - minecraft
-  - fabric
-  - fabric api
-  - neoforge
-
-### Fixed
-
-- Purple and Magenta blocks now properly named
-- Cyan, Light Blue, and Blue Post blocks now properly named
+- New zh_cn translations, thank you QiuShui!
 
 [Current Features](https://github.com/ChefMooon/breeze-bounce/blob/1.21.x-multi/README.md#current-features)
 
