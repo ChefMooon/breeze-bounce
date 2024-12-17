@@ -4,8 +4,6 @@ Greatly appreciate any bug reports on the
 
 ***
 
-This is a Beta release for Minecraft 1.21.2-1.21.3.
-
 ### Changed
 
 - Block names updated
