@@ -35,7 +35,7 @@ public interface SimpleBreezeBounceBlock {
     int FIRE_SPREAD = 60;
 
     int DOUBLE_JUMP_SPREAD = 1;
-    double DOUBLE_JUMP_ACTIVATION_THRESHOLD = 2.4;
+    double DOUBLE_BOUNCE_ACTIVATION_THRESHOLD = 2.4;
 
     default void spawnParticles(Level level, BlockPos blockPos) {
     }
@@ -241,8 +241,9 @@ public interface SimpleBreezeBounceBlock {
         return bl ? ModSounds.BOUNCE_BLOCK_INFLATE.get() : ModSounds.BOUNCE_BLOCK_DEFLATE.get();
     }
 
-    default void tryDoubleJumpSpread(Level level, BlockState blockState, BlockPos blockPos) {
+    default void tryDoubleBounceSpread(Level level, BlockState blockState, BlockPos blockPos) {
         if (blockState.getBlock() instanceof SimpleBreezeBounceBlock && !blockState.getValue(POWERED)) {
+            level.playSound(null, blockPos, ModSounds.BOUNCE_BLOCK_DOUBLE_BOUNCE.get(), SoundSource.BLOCKS, 1.0f, 0.6f);
             Set<BlockPos> blocks = ValidConnectionUtil.findDoubleJumpBlocks(level, blockPos, DOUBLE_JUMP_SPREAD);
             for (BlockPos pos : blocks) {
                 BlockState doubleJumpBlockState = level.getBlockState(pos);

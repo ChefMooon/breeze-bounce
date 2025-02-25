@@ -25,6 +25,12 @@
       "breezebounce:bounce_block_step_1"
     ]
   },
+  "bounce_block_double_bounce": {
+    "subtitle": "breezebounce.subtitles.bounce_block_double_bounce",
+    "sounds": [
+      "breezebounce:bounce_block_double_bounce"
+    ]
+  },
   "block.inflation_machine.startup": {
     "subtitle": "breezebounce.subtitles.block.inflation_machine.startup",
     "sounds": [

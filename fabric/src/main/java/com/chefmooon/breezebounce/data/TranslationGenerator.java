@@ -37,6 +37,7 @@ public class TranslationGenerator extends FabricLanguageProvider {
         translationBuilder.add(SUBTITLE + "bounce_block_deflate", "Bounce Block Deflated");
         translationBuilder.add(SUBTITLE + "bounce_block_bounce", "Squeaky Bounce");
         translationBuilder.add(SUBTITLE + "bounce_block_step", "Squeaky Step");
+        translationBuilder.add(SUBTITLE + "bounce_block_double_bounce", "Squeaky Double Bounce");
 
         translationBuilder.add(ModItemsImpl.BASIC_BOUNCE, "White Bounce Block");
         translationBuilder.add(ModItemsImpl.BASIC_BOUNCE_LIGHT_GRAY, "Light Gray Bounce Block");
