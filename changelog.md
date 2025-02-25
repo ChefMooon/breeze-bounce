@@ -11,7 +11,7 @@ Greatly appreciate any bug reports on the
 
 ### Changed
 
-- 
+- Sneaking now prevents fall damage when landing on Bounce Blocks
 
 [Current Features](https://github.com/ChefMooon/breeze-bounce/blob/1.21.x-multi/README.md#current-features)
 
