@@ -1,5 +1,6 @@
 package com.chefmooon.breezebounce.common.block;
 
+import com.chefmooon.breezebounce.BreezeBounce;
 import com.chefmooon.breezebounce.common.registry.ModParticleTypes;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -43,11 +44,11 @@ public class BreezeBounceBlock extends Block implements SimpleBreezeBounceBlock 
     @Override
     public void fallOn(Level level, BlockState blockState, BlockPos blockPos, Entity entity, float f) {
         if (entity.isSuppressingBounce()) {
+            if (f > DOUBLE_JUMP_ACTIVATION_THRESHOLD) tryDoubleJumpSpread(level, blockState, blockPos);
             super.fallOn(level, blockState, blockPos, entity, f);
         } else {
             entity.causeFallDamage(f, 0.0F, level.damageSources().fall());
         }
-        //if (f > DOUBLE_JUMP_ACTIVATION_THRESHOLD) tryDoubleJumpSpread(level, blockState, blockPos, entity); // todo - bug - double jump, need to change implementation?
     }
 
     @Override

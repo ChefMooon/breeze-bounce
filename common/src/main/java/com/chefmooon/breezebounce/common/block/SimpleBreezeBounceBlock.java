@@ -1,7 +1,7 @@
 package com.chefmooon.breezebounce.common.block;
 
-import com.chefmooon.breezebounce.BreezeBounce;
 import com.chefmooon.breezebounce.common.registry.ModSounds;
+import com.chefmooon.breezebounce.common.util.ValidConnectionUtil;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -20,6 +20,8 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Set;
 
 public interface SimpleBreezeBounceBlock {
     BooleanProperty POWERED = BlockStateProperties.POWERED;
@@ -237,23 +239,16 @@ public interface SimpleBreezeBounceBlock {
         return bl ? ModSounds.BOUNCE_BLOCK_INFLATE.get() : ModSounds.BOUNCE_BLOCK_DEFLATE.get();
     }
 
-    // TODO double jump functionality
-    default void tryDoubleJumpSpread(Block block, Level level, BlockState blockState, BlockPos blockPos, Entity entity) {
-        if (entity.isSuppressingBounce()) {
-            for (BlockPos.MutableBlockPos mutableBlockPos : getSpreadPosMutable(blockPos)) {
-                this.activateDoubleBounce(block, level, mutableBlockPos.immutable());
+    default void tryDoubleJumpSpread(Level level, BlockState blockState, BlockPos blockPos) {
+        if (blockState.getBlock() instanceof SimpleBreezeBounceBlock && !blockState.getValue(POWERED)) {
+            Set<BlockPos> blocks = ValidConnectionUtil.findDoubleJumpBlocks(level, blockPos, DOUBLE_JUMP_SPREAD);
+            for (BlockPos pos : blocks) {
+                BlockState doubleJumpBlockState = level.getBlockState(pos);
+                Block block = doubleJumpBlockState.getBlock();
+                if (block instanceof SimpleBreezeBounceBlock && !doubleJumpBlockState.getValue(POWERED)) {
+                    this.inflate(block, doubleJumpBlockState, level, pos, null);
+                }
             }
-        }
-    }
-
-    default Iterable<BlockPos.MutableBlockPos> getSpreadPosMutable(BlockPos blockPos) {
-        return BlockPos.spiralAround(blockPos, DOUBLE_JUMP_SPREAD, Direction.NORTH, Direction.EAST);
-    }
-
-    default void activateDoubleBounce(Block block, Level level, BlockPos blockPos) {
-        BlockState blockState = level.getBlockState(blockPos);
-        if (blockState.getBlock() instanceof BreezeBounceBlock) {
-            this.inflate(block, blockState, level, blockPos, (Player) null);
         }
     }
 }
