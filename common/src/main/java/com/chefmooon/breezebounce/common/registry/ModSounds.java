@@ -12,6 +12,7 @@ public class ModSounds {
     public static final Supplier<SoundEvent> BOUNCE_BLOCK_DEFLATE = registerSound("bounce_block_deflate");
     public static final Supplier<SoundEvent> BOUNCE_BLOCK_BOUNCE = registerSound("bounce_block_bounce");
     public static final Supplier<SoundEvent> BOUNCE_BLOCK_STEP = registerSound("bounce_block_step");
+    public static final Supplier<SoundEvent> BOUNCE_BLOCK_DOUBLE_BOUNCE = registerSound("bounce_block_double_bounce");
 
     public static final Supplier<SoundEvent> BLOCK_INFLATION_MACHINE_STARTUP = registerSound("block.inflation_machine.startup");
     public static final Supplier<SoundEvent> BLOCK_INFLATION_MACHINE_SHUTDOWN = registerSound("block.inflation_machine.shutdown");

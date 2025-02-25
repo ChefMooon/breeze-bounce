@@ -53,7 +53,7 @@ public class BreezeBounceStairBlock extends StairBlock implements SimpleBreezeBo
     @Override
     public void fallOn(Level level, BlockState blockState, BlockPos blockPos, Entity entity, float f) {
         if (entity.isSuppressingBounce()) {
-            if (f > DOUBLE_JUMP_ACTIVATION_THRESHOLD) tryDoubleJumpSpread(level, blockState, blockPos);
+            if (f > DOUBLE_BOUNCE_ACTIVATION_THRESHOLD) tryDoubleBounceSpread(level, blockState, blockPos);
         } else {
             entity.causeFallDamage(f, 0.0F, level.damageSources().fall());
         }
