@@ -1,5 +1,6 @@
 package com.chefmooon.breezebounce.common.block;
 
+import com.chefmooon.breezebounce.BreezeBounce;
 import com.chefmooon.breezebounce.common.registry.ModSounds;
 import com.chefmooon.breezebounce.common.util.ValidConnectionUtil;
 import com.mojang.datafixers.util.Pair;
@@ -224,7 +225,7 @@ public interface SimpleBreezeBounceBlock {
     }
 
     default float getVolume(float y) {
-        return Math.clamp(1.0f + (Math.abs(y) * 0.3f), 1.0f, 1.8f);
+        return Math.clamp(0.6f + (Math.abs(y) * 0.3f), 0.6f, 1.2f);
     }
 
     default float getPitch(float y) {
