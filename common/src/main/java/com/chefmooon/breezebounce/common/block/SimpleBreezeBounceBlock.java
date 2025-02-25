@@ -226,7 +226,7 @@ public interface SimpleBreezeBounceBlock {
     }
 
     default float getVolume(float y) {
-        return Math.clamp(1.0f + (Math.abs(y) * 0.3f), 1.0f, 1.8f);
+        return Math.clamp(0.6f + (Math.abs(y) * 0.3f), 0.6f, 1.2f);
     }
 
     default float getPitch(float y) {
@@ -256,6 +256,6 @@ public interface SimpleBreezeBounceBlock {
     }
 
     static SoundType bounceSoundType() {
-        return new SoundType(3.0f, 1.0f, SoundEvents.WOOL_BREAK, ModSounds.BOUNCE_BLOCK_STEP.get(), SoundEvents.WOOL_PLACE, ModSounds.BOUNCE_BLOCK_BOUNCE.get(), SoundEvents.EMPTY);
+        return new SoundType(1.0f, 1.0f, SoundEvents.WOOL_BREAK, ModSounds.BOUNCE_BLOCK_STEP.get(), SoundEvents.WOOL_PLACE, ModSounds.BOUNCE_BLOCK_BOUNCE.get(), SoundEvents.EMPTY);
     }
 }
