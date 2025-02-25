@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "breezebounce:block/inflation_machine_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "breezebounce:block/inflation_machine"
+    },
+    "axis=z": {
+      "model": "breezebounce:block/inflation_machine_horizontal",
+      "x": 90
+    }
+  }
+}

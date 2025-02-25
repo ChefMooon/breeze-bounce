@@ -12,10 +12,7 @@ import net.minecraft.data.models.blockstates.MultiVariantGenerator;
 import net.minecraft.data.models.blockstates.PropertyDispatch;
 import net.minecraft.data.models.blockstates.Variant;
 import net.minecraft.data.models.blockstates.VariantProperties;
-import net.minecraft.data.models.model.ModelLocationUtils;
-import net.minecraft.data.models.model.ModelTemplates;
-import net.minecraft.data.models.model.TextureMapping;
-import net.minecraft.data.models.model.TextureSlot;
+import net.minecraft.data.models.model.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -48,6 +45,7 @@ public class ModModelGenerator extends FabricModelProvider {
         createBasicBounce(ModBlocksImpl.BASIC_BOUNCE_MAGENTA, ModBlocksImpl.BASIC_BOUNCE_SLAB_MAGENTA, ModBlocksImpl.BASIC_BOUNCE_STAIR_MAGENTA, ModBlocksImpl.BASIC_BOUNCE_WALL_MAGENTA, blockStateModelGenerator);
         createBasicBounce(ModBlocksImpl.BASIC_BOUNCE_PINK, ModBlocksImpl.BASIC_BOUNCE_SLAB_PINK, ModBlocksImpl.BASIC_BOUNCE_STAIR_PINK, ModBlocksImpl.BASIC_BOUNCE_WALL_PINK, blockStateModelGenerator);
 
+        blockStateModelGenerator.createRotatedPillarWithHorizontalVariant(ModBlocksImpl.INFLATION_MACHINE, TexturedModel.COLUMN, TexturedModel.COLUMN_HORIZONTAL);
     }
 
     @Override

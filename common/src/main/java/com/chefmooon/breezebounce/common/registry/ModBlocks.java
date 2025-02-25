@@ -15,6 +15,9 @@ public class ModBlocks {
     private static SoundType bounceSoundType() {
         return new SoundType(3.0f, 1.0f, SoundEvents.WOOL_BREAK, ModSounds.BOUNCE_BLOCK_STEP.get(), SoundEvents.WOOL_PLACE, ModSounds.BOUNCE_BLOCK_BOUNCE.get(), SoundEvents.EMPTY);
     }
+
+    public static final ResourceLocation INFLATION_MACHINE = block("inflation_machine");
+
     public static final ResourceLocation BASIC_BOUNCE_WHITE = block("basic_bounce_white");
     public static final ResourceLocation BASIC_BOUNCE_LIGHT_GRAY = block("basic_bounce_light_gray");
     public static final ResourceLocation BASIC_BOUNCE_GRAY = block("basic_bounce_gray");

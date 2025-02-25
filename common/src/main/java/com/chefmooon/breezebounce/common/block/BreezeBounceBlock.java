@@ -12,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -30,13 +31,13 @@ public class BreezeBounceBlock extends Block implements SimpleBreezeBounceBlock 
 
     public BreezeBounceBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.defaultBlockState().setValue(POWERED, false));
+        this.registerDefaultState(this.defaultBlockState().setValue(POWERED, false).setValue(MACHINE_POWERED, false));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        builder.add(POWERED);
+        builder.add(POWERED, MACHINE_POWERED);
     }
 
     @Override
@@ -62,6 +63,12 @@ public class BreezeBounceBlock extends Block implements SimpleBreezeBounceBlock 
     }
 
     @Override
+    protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+        checkMachinePower(level, this, pos, state, neighborState);
+        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
+    }
+
+    @Override
     public float getJumpFactor() {
         return this.jumpFactor + 0.5f;
     }
@@ -69,14 +76,14 @@ public class BreezeBounceBlock extends Block implements SimpleBreezeBounceBlock 
     @Override
     protected void onExplosionHit(BlockState blockState, Level level, BlockPos blockPos, Explosion explosion, BiConsumer<ItemStack, BlockPos> biConsumer) {
         if (explosion.canTriggerBlocks() && !(Boolean)blockState.getValue(POWERED)) {
-            inflate(this, blockState, level, blockPos, (Player) null);
+            this.inflate(this, blockState, level, blockPos, (Player) null);
         }
         super.onExplosionHit(blockState, level, blockPos, explosion, biConsumer);
     }
 
     @Override
     protected void tick(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, RandomSource randomSource) {
-        if ((Boolean)blockState.getValue(POWERED)) {
+        if ((Boolean)blockState.getValue(POWERED) && !(Boolean)blockState.getValue(MACHINE_POWERED)) {
             checkPower(this, blockState, serverLevel, blockPos);
         }
     }

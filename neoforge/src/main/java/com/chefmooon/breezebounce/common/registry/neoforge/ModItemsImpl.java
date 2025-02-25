@@ -19,6 +19,8 @@ public class ModItemsImpl {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Registries.ITEM, BreezeBounce.MOD_ID);
     public static LinkedHashSet<Supplier<Item>> CREATIVE_TAB_ITEMS = Sets.newLinkedHashSet();
 
+    public static final Supplier<Item> INFLATION_MACHINE = registerItem(ModItems.INFLATION_MACHINE, () -> new BlockItem(ModBlocksImpl.INFLATION_MACHINE.get(), basicItemProperties()));
+
     public static final Supplier<Item> BASIC_BOUNCE = registerItem(ModItems.BASIC_BOUNCE, () -> new BlockItem(ModBlocksImpl.BASIC_BOUNCE_WHITE.get(), basicItemProperties()));
     public static final Supplier<Item> BASIC_BOUNCE_STAIR_WHITE = registerItem(ModItems.BASIC_BOUNCE_STAIR_WHITE, () -> new BlockItem(ModBlocksImpl.BASIC_BOUNCE_STAIR_WHITE.get(), basicItemProperties()));
     public static final Supplier<Item> BASIC_BOUNCE_SLAB_WHITE = registerItem(ModItems.BASIC_BOUNCE_SLAB_WHITE, () -> new BlockItem(ModBlocksImpl.BASIC_BOUNCE_SLAB_WHITE.get(), basicItemProperties()));

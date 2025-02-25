@@ -1,5 +1,6 @@
 package com.chefmooon.breezebounce.common.block;
 
+import com.chefmooon.breezebounce.BreezeBounce;
 import com.chefmooon.breezebounce.common.registry.ModSounds;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
@@ -12,6 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -21,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 
 public interface SimpleBreezeBounceBlock {
     BooleanProperty POWERED = BlockStateProperties.POWERED;
+    BooleanProperty MACHINE_POWERED = BooleanProperty.create("machine_powered");
     int ticksToStayPowered = 80;
     double TERMINAL_VELOCITY = 1.0;
 
@@ -108,6 +111,31 @@ public interface SimpleBreezeBounceBlock {
         level.gameEvent(player, GameEvent.BLOCK_ACTIVATE, blockPos);
     }
 
+    default void machineInflate(Block block, BlockState blockState, Level level, BlockPos blockPos, @Nullable Player player) {
+        level.setBlock(blockPos, blockState.setValue(POWERED, true), 3);
+        level.updateNeighborsAt(blockPos, block);
+        level.scheduleTick(blockPos, block, 5);
+        this.playSound((Player) null, level, blockPos, true);
+        level.gameEvent(player, GameEvent.BLOCK_ACTIVATE, blockPos);
+    }
+
+    default void machineSilentInflate(Block block, BlockState blockState, Level level, BlockPos blockPos, @Nullable Player player) {
+        level.setBlock(blockPos, blockState.setValue(POWERED, true), 3);
+        level.updateNeighborsAt(blockPos, block);
+        level.scheduleTick(blockPos, block, 5);
+        level.gameEvent(player, GameEvent.BLOCK_ACTIVATE, blockPos);
+    }
+
+    default void machineInflation(Block block, BlockState blockState, Level level, BlockPos blockPos, @Nullable Player player) {
+        if (!level.getBlockTicks().hasScheduledTick(blockPos, block)) {
+            if (!blockState.getValue(POWERED)) {
+                machineInflate(block, blockState, level, blockPos, player);
+            } else {
+                machineSilentInflate(block, blockState, level, blockPos, player);
+            }
+        }
+    }
+
     default int getPoweredTime() {
         return ticksToStayPowered;
     }
@@ -119,6 +147,30 @@ public interface SimpleBreezeBounceBlock {
             this.playSound((Player)null, level, blockPos, false);
             level.gameEvent((Player)null, GameEvent.BLOCK_DEACTIVATE, blockPos);
         }
+    }
+
+    default void checkMachinePower(LevelAccessor level, Block block, BlockPos pos, BlockState state, BlockState neighborState) {
+        if (block instanceof SimpleBreezeBounceBlock) {
+            if (state.getValue(POWERED)) {
+                if (((neighborState.is(Blocks.MOVING_PISTON) || neighborState.is(Blocks.PISTON_HEAD)))) {
+                    this.deflate(block, state, level, pos);
+                } else {
+                    if (neighborState.getBlock() instanceof SimpleBreezeBounceBlock && !neighborState.getValue(MACHINE_POWERED)) {
+                        if (!level.getBlockTicks().hasScheduledTick(pos, block)) {
+                            level.setBlock(pos, state.setValue(MACHINE_POWERED, false), 3);
+                            level.scheduleTick(pos, block, 5);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    default void deflate(Block block, BlockState blockState, LevelAccessor level, BlockPos blockPos) {
+        level.setBlock(blockPos, blockState.setValue(POWERED, false).setValue(MACHINE_POWERED, false), 3);
+        level.blockUpdated(blockPos, block);
+        this.playSound((Player)null, level, blockPos, false);
+        level.gameEvent((Player)null, GameEvent.BLOCK_DEACTIVATE, blockPos);
     }
 
     default Vec3 getBounceDirection(Vec3 vec3) {
