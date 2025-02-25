@@ -13,6 +13,10 @@ public class ModSounds {
     public static final Supplier<SoundEvent> BOUNCE_BLOCK_BOUNCE = registerSound("bounce_block_bounce");
     public static final Supplier<SoundEvent> BOUNCE_BLOCK_STEP = registerSound("bounce_block_step");
 
+    public static final Supplier<SoundEvent> BLOCK_INFLATION_MACHINE_STARTUP = registerSound("block.inflation_machine.startup");
+    public static final Supplier<SoundEvent> BLOCK_INFLATION_MACHINE_SHUTDOWN = registerSound("block.inflation_machine.shutdown");
+    public static final Supplier<SoundEvent> BLOCK_INFLATION_MACHINE_INFLATE = registerSound("block.inflation_machine.inflate");
+
     private static Supplier<SoundEvent> registerSound(String string) {
         return registerSound(TextUtil.res(string), () -> SoundEvent.createVariableRangeEvent(TextUtil.res(string)));
     }

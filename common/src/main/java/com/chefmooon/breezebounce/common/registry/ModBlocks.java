@@ -78,6 +78,8 @@ public class ModBlocks {
         return basicBounce().mapColor(MapColor.COLOR_PINK);
     }
 
+    public static final ResourceLocation INFLATION_MACHINE = block("inflation_machine");
+
     public static final ResourceLocation BASIC_BOUNCE_WHITE = block("basic_bounce_white");
     public static final ResourceLocation BASIC_BOUNCE_LIGHT_GRAY = block("basic_bounce_light_gray");
     public static final ResourceLocation BASIC_BOUNCE_GRAY = block("basic_bounce_gray");

@@ -15,6 +15,8 @@ import static com.chefmooon.breezebounce.common.registry.ModItems.basicItemPrope
 
 public class ModItemsImpl {
 
+    public static final Item INFLATION_MACHINE = registerItem(ModItems.INFLATION_MACHINE, ModBlocksImpl.INFLATION_MACHINE);
+
     public static final Item BASIC_BOUNCE = registerItem(ModItems.BASIC_BOUNCE, ModBlocksImpl.BASIC_BOUNCE_WHITE);
     public static final Item BASIC_BOUNCE_STAIR_WHITE = registerItem(ModItems.BASIC_BOUNCE_STAIR_WHITE, ModBlocksImpl.BASIC_BOUNCE_STAIR_WHITE);
     public static final Item BASIC_BOUNCE_SLAB_WHITE = registerItem(ModItems.BASIC_BOUNCE_SLAB_WHITE, ModBlocksImpl.BASIC_BOUNCE_SLAB_WHITE);

@@ -9,6 +9,8 @@ public class ModItems {
         return new Item.Properties();
     }
 
+    public static final ResourceLocation INFLATION_MACHINE = item("inflation_machine");
+
     public static final ResourceLocation BASIC_BOUNCE = item("basic_bounce");
     public static final ResourceLocation BASIC_BOUNCE_LIGHT_GRAY = item("basic_bounce_light_gray");
     public static final ResourceLocation BASIC_BOUNCE_GRAY = item("basic_bounce_gray");

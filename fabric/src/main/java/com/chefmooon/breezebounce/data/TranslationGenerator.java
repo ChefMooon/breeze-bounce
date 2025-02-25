@@ -2,6 +2,7 @@ package com.chefmooon.breezebounce.data;
 
 import com.chefmooon.breezebounce.BreezeBounce;
 import com.chefmooon.breezebounce.common.registry.ModItems;
+import com.chefmooon.breezebounce.common.registry.ModMenuTypes;
 import com.chefmooon.breezebounce.common.registry.fabric.ModCreativeTabs;
 import com.chefmooon.breezebounce.common.registry.fabric.ModItemsImpl;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -22,8 +23,15 @@ public class TranslationGenerator extends FabricLanguageProvider {
     @Override
     public void generateTranslations(HolderLookup.Provider registryLookup, TranslationBuilder translationBuilder) {
         String SUBTITLE = BreezeBounce.MOD_ID + ".subtitles.";
+        String CONTAINER = BreezeBounce.MOD_ID + ".container.";
 
         translationBuilder.add(ModCreativeTabs.ITEM_GROUP, "Breeze Bounce");
+
+        translationBuilder.add(CONTAINER + ModMenuTypes.INFLATION_MACHINE.getPath(), "Inflation Machine");
+
+        translationBuilder.add(SUBTITLE + "inflation_machine.startup", "Inflation Machine Startup");
+        translationBuilder.add(SUBTITLE + "inflation_machine.shutdown", "Inflation Machine Shutdown");
+        translationBuilder.add(SUBTITLE + "inflation_machine.inflate", "Inflation Machine Inflating");
 
         translationBuilder.add(SUBTITLE + "bounce_block_inflate", "Bounce Block Inflated");
         translationBuilder.add(SUBTITLE + "bounce_block_deflate", "Bounce Block Deflated");
@@ -98,9 +106,7 @@ public class TranslationGenerator extends FabricLanguageProvider {
         translationBuilder.add(ModItemsImpl.BASIC_BOUNCE_WALL_PURPLE, "Purple Bounce Post");
         translationBuilder.add(ModItemsImpl.BASIC_BOUNCE_WALL_MAGENTA, "Magenta Bounce Post");
         translationBuilder.add(ModItemsImpl.BASIC_BOUNCE_WALL_PINK, "Pink Bounce Post");
-    }
 
-//    private static Item getItem(ResourceLocation location) {
-//        return BuiltInRegistries.ITEM.get(location);
-//    }
+        translationBuilder.add(ModItemsImpl.INFLATION_MACHINE, "Inflation Machine");
+    }
 }

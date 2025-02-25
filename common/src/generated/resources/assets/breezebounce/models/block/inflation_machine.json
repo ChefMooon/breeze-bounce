@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "breezebounce:block/inflation_machine_top",
+    "side": "breezebounce:block/inflation_machine_side"
+  }
+}

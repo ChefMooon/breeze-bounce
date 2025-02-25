@@ -14,6 +14,8 @@ public class BreezeBounceImpl implements ModInitializer {
 		ModBlocksImpl.register();
 		ModCreativeTabs.register();
 		ModItemsImpl.register();
+		ModBlockEntityTypesImpl.register();
+		ModMenuTypesImpl.register();
 		ModParticleTypesImpl.register();
 		ModSoundsImpl.register();
 

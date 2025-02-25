@@ -20,6 +20,8 @@ public class BreezeBounceImpl {
         ModBlocksImpl.register(modEventBus);
         ModCreativeTabs.register(modEventBus);
         ModItemsImpl.register(modEventBus);
+        ModBlockEntityTypesImpl.register(modEventBus);
+        ModMenuTypesImpl.register(modEventBus);
         ModParticleTypesImpl.register(modEventBus);
         ModSoundsImpl.register(modEventBus);
     }

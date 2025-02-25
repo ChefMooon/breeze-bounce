@@ -9,9 +9,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Explosion;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -30,13 +28,13 @@ public class BreezeBounceBlock extends Block implements SimpleBreezeBounceBlock 
 
     public BreezeBounceBlock(Properties properties) {
         super(properties.sound(SimpleBreezeBounceBlock.bounceSoundType()));
-        this.registerDefaultState(this.defaultBlockState().setValue(POWERED, false));
+        this.registerDefaultState(this.defaultBlockState().setValue(POWERED, false).setValue(MACHINE_POWERED, false));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        builder.add(POWERED);
+        builder.add(POWERED, MACHINE_POWERED);
     }
 
     @Override
@@ -62,6 +60,14 @@ public class BreezeBounceBlock extends Block implements SimpleBreezeBounceBlock 
     }
 
     @Override
+    protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess scheduledTickAccess, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
+        if (level instanceof LevelAccessor levelAccessor) {
+            checkMachinePower(levelAccessor, this, pos, state, neighborState);
+        }
+        return super.updateShape(state, level, scheduledTickAccess, pos, direction, neighborPos, neighborState, random);
+    }
+
+    @Override
     public float getJumpFactor() {
         return this.jumpFactor + 0.5f;
     }
@@ -76,7 +82,7 @@ public class BreezeBounceBlock extends Block implements SimpleBreezeBounceBlock 
 
     @Override
     protected void tick(BlockState blockState, ServerLevel serverLevel, BlockPos blockPos, RandomSource randomSource) {
-        if ((Boolean)blockState.getValue(POWERED)) {
+        if ((Boolean)blockState.getValue(POWERED) && !(Boolean)blockState.getValue(MACHINE_POWERED)) {
             checkPower(this, blockState, serverLevel, blockPos);
         }
     }

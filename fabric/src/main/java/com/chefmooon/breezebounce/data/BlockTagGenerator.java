@@ -19,6 +19,9 @@ public class BlockTagGenerator extends FabricTagProvider.BlockTagProvider {
     }
 
     private void registerMinecraftBlockTags() {
+        getOrCreateTagBuilder(BlockTags.MINEABLE_WITH_PICKAXE)
+                .add(ModBlocksImpl.INFLATION_MACHINE);
+
         getOrCreateTagBuilder(BlockTags.WOOL)
                 .add(ModBlocksImpl.BASIC_BOUNCE_WHITE)
                 .add(ModBlocksImpl.BASIC_BOUNCE_LIGHT_GRAY)

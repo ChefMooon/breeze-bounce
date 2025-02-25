@@ -24,5 +24,24 @@
       "breezebounce:bounce_block_step_0",
       "breezebounce:bounce_block_step_1"
     ]
+  },
+  "block.inflation_machine.startup": {
+    "subtitle": "breezebounce.subtitles.block.inflation_machine.startup",
+    "sounds": [
+      "breezebounce:inflation_machine_startup"
+    ]
+  },
+  "block.inflation_machine.shutdown": {
+    "subtitle": "breezebounce.subtitles.block.inflation_machine.shutdown",
+    "sounds": [
+      "breezebounce:inflation_machine_shutdown"
+    ]
+  },
+  "block.inflation_machine.inflate": {
+    "subtitle": "breezebounce.subtitles.block.inflation_machine.inflate",
+    "sounds": [
+      "breezebounce:inflation_machine_inflate_01",
+      "breezebounce:inflation_machine_inflate_02"
+    ]
   }
 }

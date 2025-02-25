@@ -1,10 +1,7 @@
 package com.chefmooon.breezebounce.common.registry.neoforge;
 
 import com.chefmooon.breezebounce.BreezeBounce;
-import com.chefmooon.breezebounce.common.block.neoforge.BreezeBounceBlockImpl;
-import com.chefmooon.breezebounce.common.block.neoforge.BreezeBounceSlabBlockImpl;
-import com.chefmooon.breezebounce.common.block.neoforge.BreezeBounceStairBlockImpl;
-import com.chefmooon.breezebounce.common.block.neoforge.BreezeBounceWallBlockImpl;
+import com.chefmooon.breezebounce.common.block.neoforge.*;
 import com.chefmooon.breezebounce.common.registry.ModBlocks;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -23,6 +20,9 @@ import static com.chefmooon.breezebounce.common.registry.ModBlocks.*;
 
 public class ModBlocksImpl {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(BreezeBounce.MOD_ID);
+
+    public static final DeferredBlock<Block> INFLATION_MACHINE = registerBlock(ModBlocks.INFLATION_MACHINE,
+            InflationMachineBlockImpl::new, BlockBehaviour.Properties.ofFullCopy(Blocks.COBBLESTONE));
 
     public static final DeferredBlock<Block> BASIC_BOUNCE_WHITE = registerBaseBlock(ModBlocks.BASIC_BOUNCE_WHITE,
             basicBounceWhite());

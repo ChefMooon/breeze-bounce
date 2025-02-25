@@ -4,6 +4,7 @@ import com.chefmooon.breezebounce.common.block.BreezeBounceBlock;
 import com.chefmooon.breezebounce.common.block.BreezeBounceSlabBlock;
 import com.chefmooon.breezebounce.common.block.BreezeBounceStairBlock;
 import com.chefmooon.breezebounce.common.block.BreezeBounceWallBlock;
+import com.chefmooon.breezebounce.common.block.fabric.InflationMachineBlockImpl;
 import com.chefmooon.breezebounce.common.registry.ModBlocks;
 import com.chefmooon.breezebounce.common.registry.ModSounds;
 import com.chefmooon.breezebounce.common.util.TextUtil;
@@ -14,6 +15,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
@@ -22,6 +24,9 @@ import net.minecraft.world.level.material.MapColor;
 import static com.chefmooon.breezebounce.common.registry.ModBlocks.basicBounce;
 
 public class ModBlocksImpl {
+
+    public static final Block INFLATION_MACHINE = registerBlock(ModBlocks.INFLATION_MACHINE,
+            new InflationMachineBlockImpl(BlockBehaviour.Properties.ofFullCopy(Blocks.COBBLESTONE).setId(key(ModBlocks.INFLATION_MACHINE))));
 
     public static final Block BASIC_BOUNCE_WHITE = registerBlock(ModBlocks.BASIC_BOUNCE_WHITE,
             new BreezeBounceBlock(basicBounce().mapColor(MapColor.SNOW).setId(key(ModBlocks.BASIC_BOUNCE_WHITE))));

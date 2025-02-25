@@ -4,11 +4,8 @@ import com.chefmooon.breezebounce.BreezeBounce;
 import com.chefmooon.breezebounce.common.block.neoforge.BreezeBounceStairBlockImpl;
 import com.chefmooon.breezebounce.common.registry.ModItems;
 import com.google.common.collect.Sets;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
@@ -16,7 +13,6 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.LinkedHashSet;
-import java.util.function.Supplier;
 
 import static com.chefmooon.breezebounce.common.registry.ModItems.basicItemProperties;
 
@@ -25,6 +21,7 @@ public class ModItemsImpl {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(BreezeBounce.MOD_ID);
     public static LinkedHashSet<DeferredItem<BlockItem>> CREATIVE_TAB_ITEMS = Sets.newLinkedHashSet();
 
+    public static final DeferredItem<BlockItem> INFLATION_MACHINE = registerItem(ModItems.INFLATION_MACHINE, ModBlocksImpl.INFLATION_MACHINE);
 
     public static final DeferredItem<BlockItem> BASIC_BOUNCE = registerItem(ModItems.BASIC_BOUNCE, ModBlocksImpl.BASIC_BOUNCE_WHITE);
     public static final DeferredItem<BlockItem> BASIC_BOUNCE_STAIR_WHITE = registerStairItem(ModItems.BASIC_BOUNCE_STAIR_WHITE, ModBlocksImpl.BASIC_BOUNCE_STAIR_WHITE);

@@ -36,6 +36,16 @@ public class RecipeGenerator extends FabricRecipeProvider {
 
     public void build(HolderLookup.Provider provider, RecipeOutput exporter) {
 
+        ShapedRecipeBuilder.shaped(provider.lookupOrThrow(Registries.ITEM), RecipeCategory.MISC, ModItemsImpl.INFLATION_MACHINE)
+                .pattern("AAA")
+                .pattern("ABA")
+                .pattern("AAA")
+                .define('A', Items.COBBLESTONE)
+                .define('B', Items.WIND_CHARGE)
+                .unlockedBy(RecipeProvider.getHasName(Items.WIND_CHARGE), RecipeProvider.inventoryTrigger(ItemPredicate.Builder.item().of(provider.lookupOrThrow(Registries.ITEM), Items.WIND_CHARGE)))
+                .unlockedBy(RecipeProvider.getHasName(Items.COBBLESTONE), RecipeProvider.inventoryTrigger(ItemPredicate.Builder.item().of(provider.lookupOrThrow(Registries.ITEM), Items.COBBLESTONE)))
+                .save(exporter, RecipeProvider.getSimpleRecipeName(ModItemsImpl.INFLATION_MACHINE))
+        ;
 
         buildBasicBounceBlockRecipes(
                 Items.WHITE_WOOL,
