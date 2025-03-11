@@ -1,0 +1,20 @@
+{
+  "values": [
+    "breezebounce:basic_bounce_wall",
+    "breezebounce:basic_bounce_wall_orange",
+    "breezebounce:basic_bounce_wall_magenta",
+    "breezebounce:basic_bounce_wall_light_blue",
+    "breezebounce:basic_bounce_wall_yellow",
+    "breezebounce:basic_bounce_wall_lime",
+    "breezebounce:basic_bounce_wall_pink",
+    "breezebounce:basic_bounce_wall_gray",
+    "breezebounce:basic_bounce_wall_light_gray",
+    "breezebounce:basic_bounce_wall_cyan",
+    "breezebounce:basic_bounce_wall_purple",
+    "breezebounce:basic_bounce_wall_blue",
+    "breezebounce:basic_bounce_wall_brown",
+    "breezebounce:basic_bounce_wall_green",
+    "breezebounce:basic_bounce_wall_red",
+    "breezebounce:basic_bounce_wall_black"
+  ]
+}

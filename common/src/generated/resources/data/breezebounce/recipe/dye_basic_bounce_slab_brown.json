@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:brown_dye",
+    "#breezebounce:bounce_slabs"
+  ],
+  "result": {
+    "count": 1,
+    "id": "breezebounce:basic_bounce_slab_brown"
+  }
+}

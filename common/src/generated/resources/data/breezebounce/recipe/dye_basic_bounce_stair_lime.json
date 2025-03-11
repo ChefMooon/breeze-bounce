@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:lime_dye",
+    "#breezebounce:bounce_stairs"
+  ],
+  "result": {
+    "count": 1,
+    "id": "breezebounce:basic_bounce_stair_lime"
+  }
+}

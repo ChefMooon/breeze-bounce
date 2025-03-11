@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:red_dye",
+    "#breezebounce:bounce_walls"
+  ],
+  "result": {
+    "count": 1,
+    "id": "breezebounce:basic_bounce_wall_red"
+  }
+}
