@@ -1,0 +1,20 @@
+{
+  "values": [
+    "breezebounce:basic_bounce",
+    "breezebounce:basic_bounce_orange",
+    "breezebounce:basic_bounce_magenta",
+    "breezebounce:basic_bounce_light_blue",
+    "breezebounce:basic_bounce_yellow",
+    "breezebounce:basic_bounce_lime",
+    "breezebounce:basic_bounce_pink",
+    "breezebounce:basic_bounce_gray",
+    "breezebounce:basic_bounce_light_gray",
+    "breezebounce:basic_bounce_cyan",
+    "breezebounce:basic_bounce_purple",
+    "breezebounce:basic_bounce_blue",
+    "breezebounce:basic_bounce_brown",
+    "breezebounce:basic_bounce_green",
+    "breezebounce:basic_bounce_red",
+    "breezebounce:basic_bounce_black"
+  ]
+}

@@ -8,6 +8,7 @@ Greatly appreciate any bug reports on the
 
 - Inflation Machine
 - Bounce Block Double Jump
+- Recipes to dye any color bounce block, including stairs, slabs, and posts, into another color
 
 ### Changed
 

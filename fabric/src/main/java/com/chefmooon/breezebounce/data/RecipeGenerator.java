@@ -1,13 +1,12 @@
 package com.chefmooon.breezebounce.data;
 
+import com.chefmooon.breezebounce.common.core.BreezeBounceBlockTypes;
 import com.chefmooon.breezebounce.common.registry.fabric.ModItemsImpl;
+import com.chefmooon.breezebounce.common.tag.BreezeBounceTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
@@ -20,6 +19,7 @@ public class RecipeGenerator extends FabricRecipeProvider {
 
     @Override
     public void buildRecipes(RecipeOutput exporter) {
+        buildDyeRecipes(exporter);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItemsImpl.INFLATION_MACHINE)
                 .pattern("AAA")
@@ -175,6 +175,38 @@ public class RecipeGenerator extends FabricRecipeProvider {
                 ModItemsImpl.BASIC_BOUNCE_WALL_PINK,
                 exporter
         );
+    }
+
+    private void buildDyeRecipes(RecipeOutput exporter) {
+        for (BreezeBounceBlockTypes type: BreezeBounceBlockTypes.values()) {
+            ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, type.getBlockItem())
+                    .requires(type.getDyeItem())
+                    .requires(BreezeBounceTags.BOUNCE_BLOCKS)
+                    .unlockedBy(RecipeProvider.getHasName(type.getDyeItem()), RecipeProvider.has(type.getDyeItem()))
+                    .unlockedBy("has_bounce_block", RecipeProvider.has(BreezeBounceTags.BOUNCE_BLOCKS))
+                    .save(exporter, "dye_" + RecipeProvider.getSimpleRecipeName(type.getBlockItem()));
+
+            ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, type.getStairItem())
+                    .requires(type.getDyeItem())
+                    .requires(BreezeBounceTags.BOUNCE_STAIRS)
+                    .unlockedBy(RecipeProvider.getHasName(type.getDyeItem()), RecipeProvider.has(type.getDyeItem()))
+                    .unlockedBy("has_bounce_stair", RecipeProvider.has(BreezeBounceTags.BOUNCE_STAIRS))
+                    .save(exporter, "dye_" + RecipeProvider.getSimpleRecipeName(type.getStairItem()));
+
+            ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, type.getSlabItem())
+                    .requires(type.getDyeItem())
+                    .requires(BreezeBounceTags.BOUNCE_SLABS)
+                    .unlockedBy(RecipeProvider.getHasName(type.getDyeItem()), RecipeProvider.has(type.getDyeItem()))
+                    .unlockedBy("has_bounce_slab", RecipeProvider.has(BreezeBounceTags.BOUNCE_SLABS))
+                    .save(exporter, "dye_" + RecipeProvider.getSimpleRecipeName(type.getSlabItem()));
+
+            ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, type.getWallItem())
+                    .requires(type.getDyeItem())
+                    .requires(BreezeBounceTags.BOUNCE_WALLS)
+                    .unlockedBy(RecipeProvider.getHasName(type.getDyeItem()), RecipeProvider.has(type.getDyeItem()))
+                    .unlockedBy("has_bounce_wall", RecipeProvider.has(BreezeBounceTags.BOUNCE_WALLS))
+                    .save(exporter, "dye_" + RecipeProvider.getSimpleRecipeName(type.getWallItem()));
+        }
     }
 
     private void buildBasicBounceBlockRecipes(Item wool, Item basicBounce, Item basicBounceStair, Item basicBounceSlab, Item basicBounceWall, RecipeOutput exporter) {
