@@ -31,6 +31,7 @@ public class RecipeGenerator extends FabricRecipeProvider {
 
     public void build(HolderLookup.Provider provider, RecipeOutput exporter) {
         buildDyeRecipes(provider, exporter);
+        buildBounceBlockRecipes(provider, exporter);
 
         ShapedRecipeBuilder.shaped(provider.lookupOrThrow(Registries.ITEM), RecipeCategory.MISC, ModItemsImpl.INFLATION_MACHINE)
                 .pattern("AAA")
@@ -42,155 +43,17 @@ public class RecipeGenerator extends FabricRecipeProvider {
                 .unlockedBy(RecipeProvider.getHasName(Items.COBBLESTONE), RecipeProvider.inventoryTrigger(ItemPredicate.Builder.item().of(provider.lookupOrThrow(Registries.ITEM), Items.COBBLESTONE)))
                 .save(exporter, RecipeProvider.getSimpleRecipeName(ModItemsImpl.INFLATION_MACHINE))
         ;
-
-        buildBasicBounceBlockRecipes(
-                Items.WHITE_WOOL,
-                ModItemsImpl.BASIC_BOUNCE,
-                ModItemsImpl.BASIC_BOUNCE_STAIR_WHITE,
-                ModItemsImpl.BASIC_BOUNCE_SLAB_WHITE,
-                ModItemsImpl.BASIC_BOUNCE_WALL,
-                provider, exporter
-        );
-
-        buildBasicBounceBlockRecipes(
-                Items.LIGHT_GRAY_WOOL,
-                ModItemsImpl.BASIC_BOUNCE_LIGHT_GRAY,
-                ModItemsImpl.BASIC_BOUNCE_STAIR_LIGHT_GRAY,
-                ModItemsImpl.BASIC_BOUNCE_SLAB_LIGHT_GRAY,
-                ModItemsImpl.BASIC_BOUNCE_WALL_LIGHT_GRAY,
-                provider, exporter
-        );
-
-        buildBasicBounceBlockRecipes(
-                Items.GRAY_WOOL,
-                ModItemsImpl.BASIC_BOUNCE_GRAY,
-                ModItemsImpl.BASIC_BOUNCE_STAIR_GRAY,
-                ModItemsImpl.BASIC_BOUNCE_SLAB_GRAY,
-                ModItemsImpl.BASIC_BOUNCE_WALL_GRAY,
-                provider, exporter
-        );
-
-        buildBasicBounceBlockRecipes(
-                Items.BLACK_WOOL,
-                ModItemsImpl.BASIC_BOUNCE_BLACK,
-                ModItemsImpl.BASIC_BOUNCE_STAIR_BLACK,
-                ModItemsImpl.BASIC_BOUNCE_SLAB_BLACK,
-                ModItemsImpl.BASIC_BOUNCE_WALL_BLACK,
-                provider, exporter
-        );
-
-        buildBasicBounceBlockRecipes(
-                Items.BROWN_WOOL,
-                ModItemsImpl.BASIC_BOUNCE_BROWN,
-                ModItemsImpl.BASIC_BOUNCE_STAIR_BROWN,
-                ModItemsImpl.BASIC_BOUNCE_SLAB_BROWN,
-                ModItemsImpl.BASIC_BOUNCE_WALL_BROWN,
-                provider, exporter
-        );
-
-        buildBasicBounceBlockRecipes(
-                Items.RED_WOOL,
-                ModItemsImpl.BASIC_BOUNCE_RED,
-                ModItemsImpl.BASIC_BOUNCE_STAIR_RED,
-                ModItemsImpl.BASIC_BOUNCE_SLAB_RED,
-                ModItemsImpl.BASIC_BOUNCE_WALL_RED,
-                provider, exporter
-        );
-
-        buildBasicBounceBlockRecipes(
-                Items.ORANGE_WOOL,
-                ModItemsImpl.BASIC_BOUNCE_ORANGE,
-                ModItemsImpl.BASIC_BOUNCE_STAIR_ORANGE,
-                ModItemsImpl.BASIC_BOUNCE_SLAB_ORANGE,
-                ModItemsImpl.BASIC_BOUNCE_WALL_ORANGE,
-                provider, exporter
-        );
-
-        buildBasicBounceBlockRecipes(
-                Items.YELLOW_WOOL,
-                ModItemsImpl.BASIC_BOUNCE_YELLOW,
-                ModItemsImpl.BASIC_BOUNCE_STAIR_YELLOW,
-                ModItemsImpl.BASIC_BOUNCE_SLAB_YELLOW,
-                ModItemsImpl.BASIC_BOUNCE_WALL_YELLOW,
-                provider, exporter
-        );
-
-        buildBasicBounceBlockRecipes(
-                Items.LIME_WOOL,
-                ModItemsImpl.BASIC_BOUNCE_LIME,
-                ModItemsImpl.BASIC_BOUNCE_STAIR_LIME,
-                ModItemsImpl.BASIC_BOUNCE_SLAB_LIME,
-                ModItemsImpl.BASIC_BOUNCE_WALL_LIME,
-                provider, exporter
-        );
-
-        buildBasicBounceBlockRecipes(
-                Items.GREEN_WOOL,
-                ModItemsImpl.BASIC_BOUNCE_GREEN,
-                ModItemsImpl.BASIC_BOUNCE_STAIR_GREEN,
-                ModItemsImpl.BASIC_BOUNCE_SLAB_GREEN,
-                ModItemsImpl.BASIC_BOUNCE_WALL_GREEN,
-                provider, exporter
-        );
-
-        buildBasicBounceBlockRecipes(
-                Items.CYAN_WOOL,
-                ModItemsImpl.BASIC_BOUNCE_CYAN,
-                ModItemsImpl.BASIC_BOUNCE_STAIR_CYAN,
-                ModItemsImpl.BASIC_BOUNCE_SLAB_CYAN,
-                ModItemsImpl.BASIC_BOUNCE_WALL_CYAN,
-                provider, exporter
-        );
-
-        buildBasicBounceBlockRecipes(
-                Items.LIGHT_BLUE_WOOL,
-                ModItemsImpl.BASIC_BOUNCE_LIGHT_BLUE,
-                ModItemsImpl.BASIC_BOUNCE_STAIR_LIGHT_BLUE,
-                ModItemsImpl.BASIC_BOUNCE_SLAB_LIGHT_BLUE,
-                ModItemsImpl.BASIC_BOUNCE_WALL_LIGHT_BLUE,
-                provider, exporter
-        );
-
-        buildBasicBounceBlockRecipes(
-                Items.BLUE_WOOL,
-                ModItemsImpl.BASIC_BOUNCE_BLUE,
-                ModItemsImpl.BASIC_BOUNCE_STAIR_BLUE,
-                ModItemsImpl.BASIC_BOUNCE_SLAB_BLUE,
-                ModItemsImpl.BASIC_BOUNCE_WALL_BLUE,
-                provider, exporter
-        );
-
-        buildBasicBounceBlockRecipes(
-                Items.PURPLE_WOOL,
-                ModItemsImpl.BASIC_BOUNCE_PURPLE,
-                ModItemsImpl.BASIC_BOUNCE_STAIR_PURPLE,
-                ModItemsImpl.BASIC_BOUNCE_SLAB_PURPLE,
-                ModItemsImpl.BASIC_BOUNCE_WALL_PURPLE,
-                provider, exporter
-        );
-
-        buildBasicBounceBlockRecipes(
-                Items.MAGENTA_WOOL,
-                ModItemsImpl.BASIC_BOUNCE_MAGENTA,
-                ModItemsImpl.BASIC_BOUNCE_STAIR_MAGENTA,
-                ModItemsImpl.BASIC_BOUNCE_SLAB_MAGENTA,
-                ModItemsImpl.BASIC_BOUNCE_WALL_MAGENTA,
-                provider, exporter
-        );
-
-        buildBasicBounceBlockRecipes(
-                Items.PINK_WOOL,
-                ModItemsImpl.BASIC_BOUNCE_PINK,
-                ModItemsImpl.BASIC_BOUNCE_STAIR_PINK,
-                ModItemsImpl.BASIC_BOUNCE_SLAB_PINK,
-                ModItemsImpl.BASIC_BOUNCE_WALL_PINK,
-                provider, exporter
-        );
     }
 
-    private void buildDyeRecipes(HolderGetter.Provider provider, RecipeOutput exporter) {
+    private void buildBounceBlockRecipes(HolderLookup.Provider provider, RecipeOutput exporter) {
+        for (BreezeBounceBlockTypes type : BreezeBounceBlockTypes.values()) {
+            buildBasicBounceBlockRecipes(type.getWoolItem(), type.getBlockItem(), type.getStairItem(), type.getSlabItem(), type.getWallItem(), provider, exporter);
+        }
+    }
+
+    private void buildDyeRecipes(HolderLookup.Provider provider, RecipeOutput exporter) {
         HolderGetter<Item> holderGetter = provider.lookupOrThrow(Registries.ITEM);
-        for (BreezeBounceBlockTypes type: BreezeBounceBlockTypes.values()) {
+        for (BreezeBounceBlockTypes type : BreezeBounceBlockTypes.values()) {
             ShapelessRecipeBuilder.shapeless(holderGetter, RecipeCategory.MISC, type.getBlockItem())
                     .requires(type.getDyeItem())
                     .requires(BreezeBounceTags.BOUNCE_BLOCKS)
