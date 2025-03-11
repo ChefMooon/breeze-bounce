@@ -73,5 +73,9 @@
   "breezebounce.subtitles.inflation_machine.inflate": "Inflation Machine Inflating",
   "breezebounce.subtitles.inflation_machine.shutdown": "Inflation Machine Shutdown",
   "breezebounce.subtitles.inflation_machine.startup": "Inflation Machine Startup",
-  "itemGroup.breezebounce": "Breeze Bounce"
+  "itemGroup.breezebounce": "Breeze Bounce",
+  "tag.item.breezebounce.bounce_blocks": "Bounce Blocks",
+  "tag.item.breezebounce.bounce_slabs": "Bounce Slabs",
+  "tag.item.breezebounce.bounce_stairs": "Bounce Stairs",
+  "tag.item.breezebounce.bounce_walls": "Bounce Posts"
 }

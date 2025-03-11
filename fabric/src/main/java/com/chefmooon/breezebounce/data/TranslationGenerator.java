@@ -25,6 +25,7 @@ public class TranslationGenerator extends FabricLanguageProvider {
     public void generateTranslations(HolderLookup.Provider registryLookup, TranslationBuilder translationBuilder) {
         String SUBTITLE = BreezeBounce.MOD_ID + ".subtitles.";
         String CONTAINER = BreezeBounce.MOD_ID + ".container.";
+        String TAG = "tag.item." + BreezeBounce.MOD_ID + ".";
 
         translationBuilder.add(ModCreativeTabs.ITEM_GROUP, "Breeze Bounce");
 
@@ -110,5 +111,10 @@ public class TranslationGenerator extends FabricLanguageProvider {
         translationBuilder.add(ModItemsImpl.BASIC_BOUNCE_WALL_PINK, "Pink Bounce Post");
 
         translationBuilder.add(ModItemsImpl.INFLATION_MACHINE, "Inflation Machine");
+
+        translationBuilder.add(TAG + "bounce_blocks", "Bounce Blocks");
+        translationBuilder.add(TAG + "bounce_stairs", "Bounce Stairs");
+        translationBuilder.add(TAG + "bounce_slabs", "Bounce Slabs");
+        translationBuilder.add(TAG + "bounce_walls", "Bounce Posts");
     }
 }
