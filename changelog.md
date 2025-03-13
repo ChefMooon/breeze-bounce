@@ -13,7 +13,9 @@ Greatly appreciate any bug reports on the
 ### Changed
 
 - Sneaking now prevents fall damage when landing on Bounce Blocks
-- Bounce Block Sound volume reduced
+- Bounce Block sound adjustments
+  - Inlfate/Deflate Sounds cleaned up
+  - Volume reduced
 
 [Current Features](https://github.com/ChefMooon/breeze-bounce/blob/1.21.x-multi/README.md#current-features)
 
