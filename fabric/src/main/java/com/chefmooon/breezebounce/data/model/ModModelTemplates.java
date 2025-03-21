@@ -1,8 +1,8 @@
 package com.chefmooon.breezebounce.data.model;
 
 import com.chefmooon.breezebounce.BreezeBounce;
-import net.minecraft.data.models.model.ModelTemplate;
-import net.minecraft.data.models.model.TextureSlot;
+import net.minecraft.client.data.models.model.ModelTemplate;
+import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.Optional;

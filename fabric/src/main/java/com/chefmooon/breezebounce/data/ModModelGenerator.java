@@ -1,18 +1,18 @@
 package com.chefmooon.breezebounce.data;
 
 import com.chefmooon.breezebounce.common.block.BreezeBounceBlock;
-import com.chefmooon.breezebounce.data.model.ModModelTemplates;
 import com.chefmooon.breezebounce.common.registry.fabric.ModBlocksImpl;
+import com.chefmooon.breezebounce.data.model.ModModelTemplates;
+import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
+import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
+import net.minecraft.client.data.models.blockstates.PropertyDispatch;
+import net.minecraft.client.data.models.blockstates.Variant;
+import net.minecraft.client.data.models.blockstates.VariantProperties;
+import net.minecraft.client.data.models.model.*;
 import net.minecraft.core.Direction;
-import net.minecraft.data.models.BlockModelGenerators;
-import net.minecraft.data.models.ItemModelGenerators;
-import net.minecraft.data.models.blockstates.MultiVariantGenerator;
-import net.minecraft.data.models.blockstates.PropertyDispatch;
-import net.minecraft.data.models.blockstates.Variant;
-import net.minecraft.data.models.blockstates.VariantProperties;
-import net.minecraft.data.models.model.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -66,7 +66,8 @@ public class ModModelGenerator extends FabricModelProvider {
                 TextureMapping.singleSlot(TextureSlot.ALL, ModelLocationUtils.getModelLocation(block, "_powered")), blockStateModelGenerator.modelOutput);
         blockStateModelGenerator.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block)
                 .with(BlockModelGenerators.createBooleanModelDispatch(BreezeBounceBlock.POWERED, BASIC_BOUNCE_POWERED, BASIC_BOUNCE)));
-        blockStateModelGenerator.delegateItemModel(block, ModelLocationUtils.getModelLocation(block));
+        blockStateModelGenerator.itemModelOutput.accept(block.asItem(),ItemModelUtils.plainModel(ModelLocationUtils.getModelLocation(block)));
+//        blockStateModelGenerator.delegateItemModel(block, ModelLocationUtils.getModelLocation(block));
     }
 
     private void createBasicBounceStair(Block fullBlock, Block stairBlock, BlockModelGenerators blockStateModelGenerator) {
@@ -568,7 +569,8 @@ public class ModModelGenerator extends FabricModelProvider {
                         )
         ));
 
-        blockStateModelGenerator.delegateItemModel(stairBlock, BASIC_BOUNCE_STAIRS_STRAIGHT);
+        blockStateModelGenerator.itemModelOutput.accept(stairBlock.asItem(), ItemModelUtils.plainModel(BASIC_BOUNCE_STAIRS_STRAIGHT));
+//        blockStateModelGenerator.delegateItemModel(stairBlock, BASIC_BOUNCE_STAIRS_STRAIGHT);
     }
 
     private void createBasicBounceSlab(Block fullBlock, Block slabBlock, BlockModelGenerators blockStateModelGenerator){
@@ -613,6 +615,7 @@ public class ModModelGenerator extends FabricModelProvider {
         blockStateModelGenerator.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block)
                 .with(BlockModelGenerators.createBooleanModelDispatch(BreezeBounceBlock.POWERED, BASIC_BOUNCE_POWERED_WALL, BASIC_BOUNCE_WALL))
                 .with(BlockModelGenerators.createRotatedPillar()));
-        blockStateModelGenerator.delegateItemModel(block, BASIC_BOUNCE_WALL);
+        blockStateModelGenerator.itemModelOutput.accept(block.asItem(), ItemModelUtils.plainModel(BASIC_BOUNCE_WALL));
+//        blockStateModelGenerator.delegateItemModel(block, BASIC_BOUNCE_WALL);
     }
 }

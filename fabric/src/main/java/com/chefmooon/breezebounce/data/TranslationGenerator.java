@@ -1,16 +1,12 @@
 package com.chefmooon.breezebounce.data;
 
 import com.chefmooon.breezebounce.BreezeBounce;
-import com.chefmooon.breezebounce.common.registry.ModItems;
 import com.chefmooon.breezebounce.common.registry.ModMenuTypes;
 import com.chefmooon.breezebounce.common.registry.fabric.ModCreativeTabs;
 import com.chefmooon.breezebounce.common.registry.fabric.ModItemsImpl;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 
 import java.util.concurrent.CompletableFuture;
 
