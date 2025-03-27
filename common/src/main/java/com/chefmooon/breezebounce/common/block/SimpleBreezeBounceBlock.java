@@ -172,7 +172,7 @@ public interface SimpleBreezeBounceBlock {
 
     default void deflate(Block block, BlockState blockState, LevelAccessor level, BlockPos blockPos) {
         level.setBlock(blockPos, blockState.setValue(POWERED, false).setValue(MACHINE_POWERED, false), 3);
-        level.blockUpdated(blockPos, block);
+//        level.blockUpdated(blockPos, block); // TODO Test this
         this.playSound((Player)null, level, blockPos, false);
         level.gameEvent((Player)null, GameEvent.BLOCK_DEACTIVATE, blockPos);
     }

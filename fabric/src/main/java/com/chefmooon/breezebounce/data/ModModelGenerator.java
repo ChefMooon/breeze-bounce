@@ -7,11 +7,11 @@ import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.MultiVariant;
 import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
 import net.minecraft.client.data.models.blockstates.PropertyDispatch;
-import net.minecraft.client.data.models.blockstates.Variant;
-import net.minecraft.client.data.models.blockstates.VariantProperties;
 import net.minecraft.client.data.models.model.*;
+import net.minecraft.client.renderer.block.model.VariantMutator;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -60,14 +60,14 @@ public class ModModelGenerator extends FabricModelProvider {
     }
 
     private void createBasicBounceBlock(Block block, BlockModelGenerators blockStateModelGenerator) {
-        ResourceLocation BASIC_BOUNCE = ModelTemplates.CUBE_ALL.create(ModelLocationUtils.getModelLocation(block),
-                TextureMapping.singleSlot(TextureSlot.ALL, ModelLocationUtils.getModelLocation(block)), blockStateModelGenerator.modelOutput);
-        ResourceLocation BASIC_BOUNCE_POWERED = ModelTemplates.CUBE_ALL.create(ModelLocationUtils.getModelLocation(block, "_powered"),
-                TextureMapping.singleSlot(TextureSlot.ALL, ModelLocationUtils.getModelLocation(block, "_powered")), blockStateModelGenerator.modelOutput);
-        blockStateModelGenerator.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block)
+        MultiVariant BASIC_BOUNCE = BlockModelGenerators.plainVariant(ModelTemplates.CUBE_ALL.create(ModelLocationUtils.getModelLocation(block),
+                TextureMapping.singleSlot(TextureSlot.ALL, ModelLocationUtils.getModelLocation(block)), blockStateModelGenerator.modelOutput));
+        MultiVariant BASIC_BOUNCE_POWERED = BlockModelGenerators.plainVariant(ModelTemplates.CUBE_ALL.create(ModelLocationUtils.getModelLocation(block, "_powered"),
+                TextureMapping.singleSlot(TextureSlot.ALL, ModelLocationUtils.getModelLocation(block, "_powered")), blockStateModelGenerator.modelOutput));
+        blockStateModelGenerator.blockStateOutput.accept(MultiVariantGenerator.dispatch(block)
                 .with(BlockModelGenerators.createBooleanModelDispatch(BreezeBounceBlock.POWERED, BASIC_BOUNCE_POWERED, BASIC_BOUNCE)));
-        blockStateModelGenerator.itemModelOutput.accept(block.asItem(),ItemModelUtils.plainModel(ModelLocationUtils.getModelLocation(block)));
-//        blockStateModelGenerator.delegateItemModel(block, ModelLocationUtils.getModelLocation(block));
+
+        blockStateModelGenerator.registerSimpleItemModel(block, ModelLocationUtils.getModelLocation(block));
     }
 
     private void createBasicBounceStair(Block fullBlock, Block stairBlock, BlockModelGenerators blockStateModelGenerator) {
@@ -78,499 +78,110 @@ public class ModModelGenerator extends FabricModelProvider {
                 .put(TextureSlot.TOP, ModelLocationUtils.getModelLocation(fullBlock).withSuffix("_powered"))
                 .put(TextureSlot.SIDE, ModelLocationUtils.getModelLocation(fullBlock).withSuffix("_powered"));
 
-        ResourceLocation BASIC_BOUNCE_STAIRS_INNER = ModelTemplates.STAIRS_INNER.create(ModelLocationUtils.getModelLocation(stairBlock, "_inner"),
-                mapping, blockStateModelGenerator.modelOutput);
-        ResourceLocation BASIC_BOUNCE_STAIRS_STRAIGHT = ModelTemplates.STAIRS_STRAIGHT.create(ModelLocationUtils.getModelLocation(stairBlock, "_straight"),
-                mapping, blockStateModelGenerator.modelOutput);
-        ResourceLocation BASIC_BOUNCE_STAIRS_OUTER = ModelTemplates.STAIRS_OUTER.create(ModelLocationUtils.getModelLocation(stairBlock, "_outer"),
+        ResourceLocation BASIC_BOUNCE_STAIRS_STRAIGHT_LOCATION = ModelTemplates.STAIRS_STRAIGHT.create(ModelLocationUtils.getModelLocation(stairBlock, "_straight"),
                 mapping, blockStateModelGenerator.modelOutput);
 
-        ResourceLocation BASIC_BOUNCE_STAIRS_INNER_POWERED = ModelTemplates.STAIRS_INNER.create(ModelLocationUtils.getModelLocation(stairBlock, "_inner_powered"),
-                mappingPowered, blockStateModelGenerator.modelOutput);
-        ResourceLocation BASIC_BOUNCE_STAIRS_STRAIGHT_POWERED = ModelTemplates.STAIRS_STRAIGHT.create(ModelLocationUtils.getModelLocation(stairBlock, "_straight_powered"),
-                mappingPowered, blockStateModelGenerator.modelOutput);
-        ResourceLocation BASIC_BOUNCE_STAIRS_OUTER_POWERED = ModelTemplates.STAIRS_OUTER.create(ModelLocationUtils.getModelLocation(stairBlock, "_outer_powered"),
-                mappingPowered, blockStateModelGenerator.modelOutput);
+        MultiVariant BASIC_BOUNCE_STAIRS_INNER = BlockModelGenerators.plainVariant(ModelTemplates.STAIRS_INNER.create(ModelLocationUtils.getModelLocation(stairBlock, "_inner"),
+                mapping, blockStateModelGenerator.modelOutput));
+        MultiVariant BASIC_BOUNCE_STAIRS_STRAIGHT = BlockModelGenerators.plainVariant(BASIC_BOUNCE_STAIRS_STRAIGHT_LOCATION);
+        MultiVariant BASIC_BOUNCE_STAIRS_OUTER = BlockModelGenerators.plainVariant(ModelTemplates.STAIRS_OUTER.create(ModelLocationUtils.getModelLocation(stairBlock, "_outer"),
+                mapping, blockStateModelGenerator.modelOutput));
 
-        blockStateModelGenerator.blockStateOutput.accept(MultiVariantGenerator.multiVariant(stairBlock).with(
-                PropertyDispatch.properties(BreezeBounceBlock.POWERED, BlockStateProperties.HORIZONTAL_FACING, BlockStateProperties.HALF, BlockStateProperties.STAIRS_SHAPE)
-                        .select(Boolean.FALSE, Direction.EAST, Half.BOTTOM, StairsShape.STRAIGHT,
-                                Variant.variant().with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_STRAIGHT))
-                        .select(Boolean.FALSE, Direction.WEST, Half.BOTTOM, StairsShape.STRAIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_STRAIGHT)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.SOUTH, Half.BOTTOM, StairsShape.STRAIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_STRAIGHT)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.NORTH, Half.BOTTOM, StairsShape.STRAIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_STRAIGHT)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.EAST, Half.BOTTOM, StairsShape.OUTER_RIGHT,
-                                Variant.variant().with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER))
-                        .select(Boolean.FALSE, Direction.WEST, Half.BOTTOM, StairsShape.OUTER_RIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.SOUTH, Half.BOTTOM, StairsShape.OUTER_RIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.NORTH, Half.BOTTOM, StairsShape.OUTER_RIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.EAST, Half.BOTTOM, StairsShape.OUTER_LEFT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.WEST, Half.BOTTOM, StairsShape.OUTER_LEFT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.SOUTH, Half.BOTTOM, StairsShape.OUTER_LEFT,
-                                Variant.variant().with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER))
-                        .select(Boolean.FALSE, Direction.NORTH, Half.BOTTOM, StairsShape.OUTER_LEFT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.EAST, Half.BOTTOM, StairsShape.INNER_RIGHT,
-                                Variant.variant().with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER))
-                        .select(Boolean.FALSE, Direction.WEST, Half.BOTTOM, StairsShape.INNER_RIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.SOUTH, Half.BOTTOM, StairsShape.INNER_RIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.NORTH, Half.BOTTOM, StairsShape.INNER_RIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.EAST, Half.BOTTOM, StairsShape.INNER_LEFT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.WEST, Half.BOTTOM, StairsShape.INNER_LEFT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.SOUTH, Half.BOTTOM, StairsShape.INNER_LEFT,
-                                Variant.variant().with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER))
-                        .select(Boolean.FALSE, Direction.NORTH, Half.BOTTOM, StairsShape.INNER_LEFT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.EAST, Half.TOP, StairsShape.STRAIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_STRAIGHT)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.WEST, Half.TOP, StairsShape.STRAIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_STRAIGHT)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.SOUTH, Half.TOP, StairsShape.STRAIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_STRAIGHT)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.NORTH, Half.TOP, StairsShape.STRAIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_STRAIGHT)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.EAST, Half.TOP, StairsShape.OUTER_RIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.WEST, Half.TOP, StairsShape.OUTER_RIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.SOUTH, Half.TOP, StairsShape.OUTER_RIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.NORTH, Half.TOP, StairsShape.OUTER_RIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.EAST, Half.TOP, StairsShape.OUTER_LEFT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.WEST, Half.TOP, StairsShape.OUTER_LEFT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.SOUTH, Half.TOP, StairsShape.OUTER_LEFT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.NORTH, Half.TOP, StairsShape.OUTER_LEFT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.EAST, Half.TOP, StairsShape.INNER_RIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.WEST, Half.TOP, StairsShape.INNER_RIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.SOUTH, Half.TOP, StairsShape.INNER_RIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.NORTH, Half.TOP, StairsShape.INNER_RIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.EAST, Half.TOP, StairsShape.INNER_LEFT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.WEST, Half.TOP, StairsShape.INNER_LEFT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.SOUTH, Half.TOP, StairsShape.INNER_LEFT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.FALSE, Direction.NORTH, Half.TOP, StairsShape.INNER_LEFT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
+        MultiVariant BASIC_BOUNCE_STAIRS_INNER_POWERED = BlockModelGenerators.plainVariant(ModelTemplates.STAIRS_INNER.create(ModelLocationUtils.getModelLocation(stairBlock, "_inner_powered"),
+                mappingPowered, blockStateModelGenerator.modelOutput));
+        MultiVariant BASIC_BOUNCE_STAIRS_STRAIGHT_POWERED = BlockModelGenerators.plainVariant(ModelTemplates.STAIRS_STRAIGHT.create(ModelLocationUtils.getModelLocation(stairBlock, "_straight_powered"),
+                mappingPowered, blockStateModelGenerator.modelOutput));
+        MultiVariant BASIC_BOUNCE_STAIRS_OUTER_POWERED = BlockModelGenerators.plainVariant(ModelTemplates.STAIRS_OUTER.create(ModelLocationUtils.getModelLocation(stairBlock, "_outer_powered"),
+                mappingPowered, blockStateModelGenerator.modelOutput));
+
+        blockStateModelGenerator.blockStateOutput.accept(MultiVariantGenerator.dispatch(stairBlock).with(
+                PropertyDispatch.initial(BreezeBounceBlock.POWERED, BlockStateProperties.HORIZONTAL_FACING, BlockStateProperties.HALF, BlockStateProperties.STAIRS_SHAPE)
+                        .select(Boolean.FALSE, Direction.EAST, Half.BOTTOM, StairsShape.STRAIGHT, BASIC_BOUNCE_STAIRS_STRAIGHT)
+                        .select(Boolean.FALSE, Direction.WEST, Half.BOTTOM, StairsShape.STRAIGHT, withUVLock(BASIC_BOUNCE_STAIRS_STRAIGHT, BlockModelGenerators.Y_ROT_180))
+                        .select(Boolean.FALSE, Direction.SOUTH, Half.BOTTOM, StairsShape.STRAIGHT, withUVLock(BASIC_BOUNCE_STAIRS_STRAIGHT, BlockModelGenerators.Y_ROT_90))
+                        .select(Boolean.FALSE, Direction.NORTH, Half.BOTTOM, StairsShape.STRAIGHT, withUVLock(BASIC_BOUNCE_STAIRS_STRAIGHT, BlockModelGenerators.Y_ROT_270))
+                        .select(Boolean.FALSE, Direction.EAST, Half.BOTTOM, StairsShape.OUTER_RIGHT, BASIC_BOUNCE_STAIRS_OUTER)
+                        .select(Boolean.FALSE, Direction.WEST, Half.BOTTOM, StairsShape.OUTER_RIGHT, withUVLock(BASIC_BOUNCE_STAIRS_OUTER, BlockModelGenerators.Y_ROT_180))
+                        .select(Boolean.FALSE, Direction.SOUTH, Half.BOTTOM, StairsShape.OUTER_RIGHT, withUVLock(BASIC_BOUNCE_STAIRS_OUTER, BlockModelGenerators.Y_ROT_90))
+                        .select(Boolean.FALSE, Direction.NORTH, Half.BOTTOM, StairsShape.OUTER_RIGHT, withUVLock(BASIC_BOUNCE_STAIRS_OUTER, BlockModelGenerators.Y_ROT_270))
+                        .select(Boolean.FALSE, Direction.EAST, Half.BOTTOM, StairsShape.OUTER_LEFT, withUVLock(BASIC_BOUNCE_STAIRS_OUTER, BlockModelGenerators.Y_ROT_270))
+                        .select(Boolean.FALSE, Direction.WEST, Half.BOTTOM, StairsShape.OUTER_LEFT, withUVLock(BASIC_BOUNCE_STAIRS_OUTER, BlockModelGenerators.Y_ROT_90))
+                        .select(Boolean.FALSE, Direction.SOUTH, Half.BOTTOM, StairsShape.OUTER_LEFT, BASIC_BOUNCE_STAIRS_OUTER)
+                        .select(Boolean.FALSE, Direction.NORTH, Half.BOTTOM, StairsShape.OUTER_LEFT, withUVLock(BASIC_BOUNCE_STAIRS_OUTER, BlockModelGenerators.Y_ROT_180))
+                        .select(Boolean.FALSE, Direction.EAST, Half.BOTTOM, StairsShape.INNER_RIGHT, BASIC_BOUNCE_STAIRS_INNER)
+                        .select(Boolean.FALSE, Direction.WEST, Half.BOTTOM, StairsShape.INNER_RIGHT, withUVLock(BASIC_BOUNCE_STAIRS_INNER, BlockModelGenerators.Y_ROT_180))
+                        .select(Boolean.FALSE, Direction.SOUTH, Half.BOTTOM, StairsShape.INNER_RIGHT, withUVLock(BASIC_BOUNCE_STAIRS_INNER, BlockModelGenerators.Y_ROT_90))
+                        .select(Boolean.FALSE, Direction.NORTH, Half.BOTTOM, StairsShape.INNER_RIGHT, withUVLock(BASIC_BOUNCE_STAIRS_INNER, BlockModelGenerators.Y_ROT_270))
+                        .select(Boolean.FALSE, Direction.EAST, Half.BOTTOM, StairsShape.INNER_LEFT, withUVLock(BASIC_BOUNCE_STAIRS_INNER, BlockModelGenerators.Y_ROT_270))
+                        .select(Boolean.FALSE, Direction.WEST, Half.BOTTOM, StairsShape.INNER_LEFT, withUVLock(BASIC_BOUNCE_STAIRS_INNER, BlockModelGenerators.Y_ROT_90))
+                        .select(Boolean.FALSE, Direction.SOUTH, Half.BOTTOM, StairsShape.INNER_LEFT, BASIC_BOUNCE_STAIRS_INNER)
+                        .select(Boolean.FALSE, Direction.NORTH, Half.BOTTOM, StairsShape.INNER_LEFT, withUVLock(BASIC_BOUNCE_STAIRS_INNER, BlockModelGenerators.Y_ROT_180))
+                        .select(Boolean.FALSE, Direction.EAST, Half.TOP, StairsShape.STRAIGHT, withUVLock(BASIC_BOUNCE_STAIRS_STRAIGHT, BlockModelGenerators.X_ROT_180))
+                        .select(Boolean.FALSE, Direction.WEST, Half.TOP, StairsShape.STRAIGHT, withUVLock(BASIC_BOUNCE_STAIRS_STRAIGHT, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_180))
+                        .select(Boolean.FALSE, Direction.SOUTH, Half.TOP, StairsShape.STRAIGHT, withUVLock(BASIC_BOUNCE_STAIRS_STRAIGHT, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_90))
+                        .select(Boolean.FALSE, Direction.NORTH, Half.TOP, StairsShape.STRAIGHT, withUVLock(BASIC_BOUNCE_STAIRS_STRAIGHT, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_270))
+                        .select(Boolean.FALSE, Direction.EAST, Half.TOP, StairsShape.OUTER_RIGHT, withUVLock(BASIC_BOUNCE_STAIRS_OUTER, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_90))
+                        .select(Boolean.FALSE, Direction.WEST, Half.TOP, StairsShape.OUTER_RIGHT, withUVLock(BASIC_BOUNCE_STAIRS_OUTER, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_270))
+                        .select(Boolean.FALSE, Direction.SOUTH, Half.TOP, StairsShape.OUTER_RIGHT, withUVLock(BASIC_BOUNCE_STAIRS_OUTER, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_180))
+                        .select(Boolean.FALSE, Direction.NORTH, Half.TOP, StairsShape.OUTER_RIGHT, withUVLock(BASIC_BOUNCE_STAIRS_OUTER, BlockModelGenerators.X_ROT_180))
+                        .select(Boolean.FALSE, Direction.EAST, Half.TOP, StairsShape.OUTER_LEFT, withUVLock(BASIC_BOUNCE_STAIRS_OUTER, BlockModelGenerators.X_ROT_180))
+                        .select(Boolean.FALSE, Direction.WEST, Half.TOP, StairsShape.OUTER_LEFT, withUVLock(BASIC_BOUNCE_STAIRS_OUTER, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_180))
+                        .select(Boolean.FALSE, Direction.SOUTH, Half.TOP, StairsShape.OUTER_LEFT, withUVLock(BASIC_BOUNCE_STAIRS_OUTER, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_90))
+                        .select(Boolean.FALSE, Direction.NORTH, Half.TOP, StairsShape.OUTER_LEFT, withUVLock(BASIC_BOUNCE_STAIRS_OUTER, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_270))
+                        .select(Boolean.FALSE, Direction.EAST, Half.TOP, StairsShape.INNER_RIGHT, withUVLock(BASIC_BOUNCE_STAIRS_INNER, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_90))
+                        .select(Boolean.FALSE, Direction.WEST, Half.TOP, StairsShape.INNER_RIGHT, withUVLock(BASIC_BOUNCE_STAIRS_INNER, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_270))
+                        .select(Boolean.FALSE, Direction.SOUTH, Half.TOP, StairsShape.INNER_RIGHT, withUVLock(BASIC_BOUNCE_STAIRS_INNER, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_180))
+                        .select(Boolean.FALSE, Direction.NORTH, Half.TOP, StairsShape.INNER_RIGHT, withUVLock(BASIC_BOUNCE_STAIRS_INNER, BlockModelGenerators.X_ROT_180))
+                        .select(Boolean.FALSE, Direction.EAST, Half.TOP, StairsShape.INNER_LEFT, withUVLock(BASIC_BOUNCE_STAIRS_INNER, BlockModelGenerators.X_ROT_180))
+                        .select(Boolean.FALSE, Direction.WEST, Half.TOP, StairsShape.INNER_LEFT, withUVLock(BASIC_BOUNCE_STAIRS_INNER, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_180))
+                        .select(Boolean.FALSE, Direction.SOUTH, Half.TOP, StairsShape.INNER_LEFT, withUVLock(BASIC_BOUNCE_STAIRS_INNER, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_90))
+                        .select(Boolean.FALSE, Direction.NORTH, Half.TOP, StairsShape.INNER_LEFT, withUVLock(BASIC_BOUNCE_STAIRS_INNER, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_270))
 
                         // ***** THE DIVIDE ***** //
 
-                        .select(Boolean.TRUE, Direction.EAST, Half.BOTTOM, StairsShape.STRAIGHT,
-                                Variant.variant().with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_STRAIGHT_POWERED))
-                        .select(Boolean.TRUE, Direction.WEST, Half.BOTTOM, StairsShape.STRAIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_STRAIGHT_POWERED)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.SOUTH, Half.BOTTOM, StairsShape.STRAIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_STRAIGHT_POWERED)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.NORTH, Half.BOTTOM, StairsShape.STRAIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_STRAIGHT_POWERED)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.EAST, Half.BOTTOM, StairsShape.OUTER_RIGHT,
-                                Variant.variant().with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER_POWERED))
-                        .select(Boolean.TRUE, Direction.WEST, Half.BOTTOM, StairsShape.OUTER_RIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER_POWERED)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.SOUTH, Half.BOTTOM, StairsShape.OUTER_RIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER_POWERED)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.NORTH, Half.BOTTOM, StairsShape.OUTER_RIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER_POWERED)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.EAST, Half.BOTTOM, StairsShape.OUTER_LEFT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER_POWERED)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.WEST, Half.BOTTOM, StairsShape.OUTER_LEFT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER_POWERED)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.SOUTH, Half.BOTTOM, StairsShape.OUTER_LEFT,
-                                Variant.variant().with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER_POWERED))
-                        .select(Boolean.TRUE, Direction.NORTH, Half.BOTTOM, StairsShape.OUTER_LEFT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER_POWERED)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.EAST, Half.BOTTOM, StairsShape.INNER_RIGHT,
-                                Variant.variant().with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER_POWERED))
-                        .select(Boolean.TRUE, Direction.WEST, Half.BOTTOM, StairsShape.INNER_RIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER_POWERED)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.SOUTH, Half.BOTTOM, StairsShape.INNER_RIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER_POWERED)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.NORTH, Half.BOTTOM, StairsShape.INNER_RIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER_POWERED)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.EAST, Half.BOTTOM, StairsShape.INNER_LEFT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER_POWERED)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.WEST, Half.BOTTOM, StairsShape.INNER_LEFT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER_POWERED)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.SOUTH, Half.BOTTOM, StairsShape.INNER_LEFT,
-                                Variant.variant().with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER_POWERED))
-                        .select(Boolean.TRUE, Direction.NORTH, Half.BOTTOM, StairsShape.INNER_LEFT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER_POWERED)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.EAST, Half.TOP, StairsShape.STRAIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_STRAIGHT_POWERED)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.WEST, Half.TOP, StairsShape.STRAIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_STRAIGHT_POWERED)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.SOUTH, Half.TOP, StairsShape.STRAIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_STRAIGHT_POWERED)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.NORTH, Half.TOP, StairsShape.STRAIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_STRAIGHT_POWERED)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.EAST, Half.TOP, StairsShape.OUTER_RIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER_POWERED)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.WEST, Half.TOP, StairsShape.OUTER_RIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER_POWERED)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.SOUTH, Half.TOP, StairsShape.OUTER_RIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER_POWERED)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.NORTH, Half.TOP, StairsShape.OUTER_RIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER_POWERED)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.EAST, Half.TOP, StairsShape.OUTER_LEFT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER_POWERED)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.WEST, Half.TOP, StairsShape.OUTER_LEFT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER_POWERED)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.SOUTH, Half.TOP, StairsShape.OUTER_LEFT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER_POWERED)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.NORTH, Half.TOP, StairsShape.OUTER_LEFT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_OUTER_POWERED)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.EAST, Half.TOP, StairsShape.INNER_RIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER_POWERED)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.WEST, Half.TOP, StairsShape.INNER_RIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER_POWERED)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.SOUTH, Half.TOP, StairsShape.INNER_RIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER_POWERED)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.NORTH, Half.TOP, StairsShape.INNER_RIGHT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER_POWERED)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.EAST, Half.TOP, StairsShape.INNER_LEFT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER_POWERED)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.WEST, Half.TOP, StairsShape.INNER_LEFT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER_POWERED)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.SOUTH, Half.TOP, StairsShape.INNER_LEFT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER_POWERED)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R90)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
-                        .select(Boolean.TRUE, Direction.NORTH, Half.TOP, StairsShape.INNER_LEFT,
-                                Variant.variant()
-                                        .with(VariantProperties.MODEL, BASIC_BOUNCE_STAIRS_INNER_POWERED)
-                                        .with(VariantProperties.X_ROT, VariantProperties.Rotation.R180)
-                                        .with(VariantProperties.Y_ROT, VariantProperties.Rotation.R270)
-                                        .with(VariantProperties.UV_LOCK, true)
-                        )
+                        .select(Boolean.TRUE, Direction.EAST, Half.BOTTOM, StairsShape.STRAIGHT, BASIC_BOUNCE_STAIRS_STRAIGHT_POWERED)
+                        .select(Boolean.TRUE, Direction.WEST, Half.BOTTOM, StairsShape.STRAIGHT, withUVLock(BASIC_BOUNCE_STAIRS_STRAIGHT_POWERED, BlockModelGenerators.Y_ROT_180))
+                        .select(Boolean.TRUE, Direction.SOUTH, Half.BOTTOM, StairsShape.STRAIGHT, withUVLock(BASIC_BOUNCE_STAIRS_STRAIGHT_POWERED, BlockModelGenerators.Y_ROT_90))
+                        .select(Boolean.TRUE, Direction.NORTH, Half.BOTTOM, StairsShape.STRAIGHT, withUVLock(BASIC_BOUNCE_STAIRS_STRAIGHT_POWERED, BlockModelGenerators.Y_ROT_270))
+                        .select(Boolean.TRUE, Direction.EAST, Half.BOTTOM, StairsShape.OUTER_RIGHT, BASIC_BOUNCE_STAIRS_OUTER_POWERED)
+                        .select(Boolean.TRUE, Direction.WEST, Half.BOTTOM, StairsShape.OUTER_RIGHT, withUVLock(BASIC_BOUNCE_STAIRS_OUTER_POWERED, BlockModelGenerators.Y_ROT_180))
+                        .select(Boolean.TRUE, Direction.SOUTH, Half.BOTTOM, StairsShape.OUTER_RIGHT, withUVLock(BASIC_BOUNCE_STAIRS_OUTER_POWERED, BlockModelGenerators.Y_ROT_90))
+                        .select(Boolean.TRUE, Direction.NORTH, Half.BOTTOM, StairsShape.OUTER_RIGHT, withUVLock(BASIC_BOUNCE_STAIRS_OUTER_POWERED, BlockModelGenerators.Y_ROT_270))
+                        .select(Boolean.TRUE, Direction.EAST, Half.BOTTOM, StairsShape.OUTER_LEFT, withUVLock(BASIC_BOUNCE_STAIRS_OUTER_POWERED, BlockModelGenerators.Y_ROT_270))
+                        .select(Boolean.TRUE, Direction.WEST, Half.BOTTOM, StairsShape.OUTER_LEFT, withUVLock(BASIC_BOUNCE_STAIRS_OUTER_POWERED, BlockModelGenerators.Y_ROT_90))
+                        .select(Boolean.TRUE, Direction.SOUTH, Half.BOTTOM, StairsShape.OUTER_LEFT, BASIC_BOUNCE_STAIRS_OUTER_POWERED)
+                        .select(Boolean.TRUE, Direction.NORTH, Half.BOTTOM, StairsShape.OUTER_LEFT, withUVLock(BASIC_BOUNCE_STAIRS_OUTER_POWERED, BlockModelGenerators.Y_ROT_180))
+                        .select(Boolean.TRUE, Direction.EAST, Half.BOTTOM, StairsShape.INNER_RIGHT, BASIC_BOUNCE_STAIRS_INNER_POWERED)
+                        .select(Boolean.TRUE, Direction.WEST, Half.BOTTOM, StairsShape.INNER_RIGHT, withUVLock(BASIC_BOUNCE_STAIRS_INNER_POWERED, BlockModelGenerators.Y_ROT_180))
+                        .select(Boolean.TRUE, Direction.SOUTH, Half.BOTTOM, StairsShape.INNER_RIGHT, withUVLock(BASIC_BOUNCE_STAIRS_INNER_POWERED, BlockModelGenerators.Y_ROT_90))
+                        .select(Boolean.TRUE, Direction.NORTH, Half.BOTTOM, StairsShape.INNER_RIGHT, withUVLock(BASIC_BOUNCE_STAIRS_INNER_POWERED, BlockModelGenerators.Y_ROT_270))
+                        .select(Boolean.TRUE, Direction.EAST, Half.BOTTOM, StairsShape.INNER_LEFT, withUVLock(BASIC_BOUNCE_STAIRS_INNER_POWERED, BlockModelGenerators.Y_ROT_270))
+                        .select(Boolean.TRUE, Direction.WEST, Half.BOTTOM, StairsShape.INNER_LEFT, withUVLock(BASIC_BOUNCE_STAIRS_INNER_POWERED, BlockModelGenerators.Y_ROT_90))
+                        .select(Boolean.TRUE, Direction.SOUTH, Half.BOTTOM, StairsShape.INNER_LEFT, BASIC_BOUNCE_STAIRS_INNER_POWERED)
+                        .select(Boolean.TRUE, Direction.NORTH, Half.BOTTOM, StairsShape.INNER_LEFT, withUVLock(BASIC_BOUNCE_STAIRS_INNER_POWERED, BlockModelGenerators.Y_ROT_180))
+                        .select(Boolean.TRUE, Direction.EAST, Half.TOP, StairsShape.STRAIGHT, withUVLock(BASIC_BOUNCE_STAIRS_STRAIGHT_POWERED, BlockModelGenerators.X_ROT_180))
+                        .select(Boolean.TRUE, Direction.WEST, Half.TOP, StairsShape.STRAIGHT, withUVLock(BASIC_BOUNCE_STAIRS_STRAIGHT_POWERED, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_180))
+                        .select(Boolean.TRUE, Direction.SOUTH, Half.TOP, StairsShape.STRAIGHT, withUVLock(BASIC_BOUNCE_STAIRS_STRAIGHT_POWERED, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_90))
+                        .select(Boolean.TRUE, Direction.NORTH, Half.TOP, StairsShape.STRAIGHT, withUVLock(BASIC_BOUNCE_STAIRS_STRAIGHT_POWERED, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_270))
+                        .select(Boolean.TRUE, Direction.EAST, Half.TOP, StairsShape.OUTER_RIGHT, withUVLock(BASIC_BOUNCE_STAIRS_OUTER_POWERED, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_90))
+                        .select(Boolean.TRUE, Direction.WEST, Half.TOP, StairsShape.OUTER_RIGHT, withUVLock(BASIC_BOUNCE_STAIRS_OUTER_POWERED, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_270))
+                        .select(Boolean.TRUE, Direction.SOUTH, Half.TOP, StairsShape.OUTER_RIGHT, withUVLock(BASIC_BOUNCE_STAIRS_OUTER_POWERED, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_180))
+                        .select(Boolean.TRUE, Direction.NORTH, Half.TOP, StairsShape.OUTER_RIGHT, withUVLock(BASIC_BOUNCE_STAIRS_OUTER_POWERED, BlockModelGenerators.X_ROT_180))
+                        .select(Boolean.TRUE, Direction.EAST, Half.TOP, StairsShape.OUTER_LEFT, withUVLock(BASIC_BOUNCE_STAIRS_OUTER_POWERED, BlockModelGenerators.X_ROT_180))
+                        .select(Boolean.TRUE, Direction.WEST, Half.TOP, StairsShape.OUTER_LEFT, withUVLock(BASIC_BOUNCE_STAIRS_OUTER_POWERED, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_180))
+                        .select(Boolean.TRUE, Direction.SOUTH, Half.TOP, StairsShape.OUTER_LEFT, withUVLock(BASIC_BOUNCE_STAIRS_OUTER_POWERED, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_90))
+                        .select(Boolean.TRUE, Direction.NORTH, Half.TOP, StairsShape.OUTER_LEFT, withUVLock(BASIC_BOUNCE_STAIRS_OUTER_POWERED, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_270))
+                        .select(Boolean.TRUE, Direction.EAST, Half.TOP, StairsShape.INNER_RIGHT, withUVLock(BASIC_BOUNCE_STAIRS_INNER_POWERED, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_90))
+                        .select(Boolean.TRUE, Direction.WEST, Half.TOP, StairsShape.INNER_RIGHT, withUVLock(BASIC_BOUNCE_STAIRS_INNER_POWERED, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_270))
+                        .select(Boolean.TRUE, Direction.SOUTH, Half.TOP, StairsShape.INNER_RIGHT, withUVLock(BASIC_BOUNCE_STAIRS_INNER_POWERED, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_180))
+                        .select(Boolean.TRUE, Direction.NORTH, Half.TOP, StairsShape.INNER_RIGHT, withUVLock(BASIC_BOUNCE_STAIRS_INNER_POWERED, BlockModelGenerators.X_ROT_180))
+                        .select(Boolean.TRUE, Direction.EAST, Half.TOP, StairsShape.INNER_LEFT, withUVLock(BASIC_BOUNCE_STAIRS_INNER_POWERED, BlockModelGenerators.X_ROT_180))
+                        .select(Boolean.TRUE, Direction.WEST, Half.TOP, StairsShape.INNER_LEFT, withUVLock(BASIC_BOUNCE_STAIRS_INNER_POWERED, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_180))
+                        .select(Boolean.TRUE, Direction.SOUTH, Half.TOP, StairsShape.INNER_LEFT, withUVLock(BASIC_BOUNCE_STAIRS_INNER_POWERED, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_90))
+                        .select(Boolean.TRUE, Direction.NORTH, Half.TOP, StairsShape.INNER_LEFT, withUVLock(BASIC_BOUNCE_STAIRS_INNER_POWERED, BlockModelGenerators.X_ROT_180, BlockModelGenerators.Y_ROT_270))
         ));
 
-        blockStateModelGenerator.itemModelOutput.accept(stairBlock.asItem(), ItemModelUtils.plainModel(BASIC_BOUNCE_STAIRS_STRAIGHT));
-//        blockStateModelGenerator.delegateItemModel(stairBlock, BASIC_BOUNCE_STAIRS_STRAIGHT);
+        blockStateModelGenerator.registerSimpleItemModel(stairBlock, BASIC_BOUNCE_STAIRS_STRAIGHT_LOCATION);
     }
 
     private void createBasicBounceSlab(Block fullBlock, Block slabBlock, BlockModelGenerators blockStateModelGenerator){
@@ -582,40 +193,49 @@ public class ModModelGenerator extends FabricModelProvider {
         TextureMapping mappingPowered = TextureMapping.singleSlot(TextureSlot.BOTTOM, fullModelLocation.withSuffix("_powered"))
                 .put(TextureSlot.TOP, fullModelLocation.withSuffix("_powered"));
 
-        ResourceLocation BASIC_BOUNCE_SLAB_BOTTOM = ModelTemplates.SLAB_BOTTOM.create(slabModelLocation,
+        MultiVariant BASIC_BOUNCE_SLAB_BOTTOM = BlockModelGenerators.plainVariant(ModelTemplates.SLAB_BOTTOM.create(slabModelLocation,
                 mapping.put(TextureSlot.SIDE, ModelLocationUtils.getModelLocation(slabBlock, "_side_bottom")),
-                blockStateModelGenerator.modelOutput);
-        ResourceLocation BASIC_BOUNCE_SLAB_TOP = ModelTemplates.SLAB_TOP.create(slabModelLocation.withSuffix("_top"),
+                blockStateModelGenerator.modelOutput));
+        MultiVariant BASIC_BOUNCE_SLAB_TOP = BlockModelGenerators.plainVariant(ModelTemplates.SLAB_TOP.create(slabModelLocation.withSuffix("_top"),
                 mapping.put(TextureSlot.SIDE, ModelLocationUtils.getModelLocation(slabBlock, "_side_top")),
-                blockStateModelGenerator.modelOutput);
+                blockStateModelGenerator.modelOutput));
 
-        ResourceLocation BASIC_BOUNCE_SLAB_BOTTOM_POWERED = ModelTemplates.SLAB_BOTTOM.create(slabModelLocation.withSuffix("_powered"),
+        MultiVariant BASIC_BOUNCE_SLAB_BOTTOM_POWERED = BlockModelGenerators.plainVariant(ModelTemplates.SLAB_BOTTOM.create(slabModelLocation.withSuffix("_powered"),
                 mappingPowered.put(TextureSlot.SIDE, ModelLocationUtils.getModelLocation(slabBlock, "_side_bottom_powered")),
-                blockStateModelGenerator.modelOutput);
-        ResourceLocation BASIC_BOUNCE_SLAB_TOP_POWERED = ModelTemplates.SLAB_TOP.create(slabModelLocation.withSuffix("_top_powered"),
+                blockStateModelGenerator.modelOutput));
+        MultiVariant BASIC_BOUNCE_SLAB_TOP_POWERED = BlockModelGenerators.plainVariant(ModelTemplates.SLAB_TOP.create(slabModelLocation.withSuffix("_top_powered"),
                 mappingPowered.put(TextureSlot.SIDE, ModelLocationUtils.getModelLocation(slabBlock, "_side_top_powered")),
-                blockStateModelGenerator.modelOutput);
+                blockStateModelGenerator.modelOutput));
 
-        blockStateModelGenerator.blockStateOutput.accept(MultiVariantGenerator.multiVariant(slabBlock)
-                .with(PropertyDispatch.properties(BreezeBounceBlock.POWERED, BlockStateProperties.SLAB_TYPE)
-                        .select(Boolean.FALSE, SlabType.BOTTOM, Variant.variant().with(VariantProperties.MODEL, BASIC_BOUNCE_SLAB_BOTTOM))
-                        .select(Boolean.FALSE, SlabType.TOP, Variant.variant().with(VariantProperties.MODEL, BASIC_BOUNCE_SLAB_TOP))
-                        .select(Boolean.FALSE, SlabType.DOUBLE, Variant.variant().with(VariantProperties.MODEL, ModelLocationUtils.getModelLocation(fullBlock)))
-                        .select(Boolean.TRUE, SlabType.BOTTOM, Variant.variant().with(VariantProperties.MODEL, BASIC_BOUNCE_SLAB_BOTTOM_POWERED))
-                        .select(Boolean.TRUE, SlabType.TOP, Variant.variant().with(VariantProperties.MODEL, BASIC_BOUNCE_SLAB_TOP_POWERED))
-                        .select(Boolean.TRUE, SlabType.DOUBLE, Variant.variant().with(VariantProperties.MODEL, ModelLocationUtils.getModelLocation(fullBlock, "_powered"))))
+        blockStateModelGenerator.blockStateOutput.accept(MultiVariantGenerator.dispatch(slabBlock)
+                .with(PropertyDispatch.initial(BreezeBounceBlock.POWERED, BlockStateProperties.SLAB_TYPE)
+                        .select(Boolean.FALSE, SlabType.BOTTOM, BASIC_BOUNCE_SLAB_BOTTOM)
+                        .select(Boolean.FALSE, SlabType.TOP, BASIC_BOUNCE_SLAB_TOP)
+                        .select(Boolean.FALSE, SlabType.DOUBLE, BlockModelGenerators.plainVariant(ModelLocationUtils.getModelLocation(fullBlock)))
+                        .select(Boolean.TRUE, SlabType.BOTTOM, BASIC_BOUNCE_SLAB_BOTTOM_POWERED)
+                        .select(Boolean.TRUE, SlabType.TOP, BASIC_BOUNCE_SLAB_TOP_POWERED)
+                        .select(Boolean.TRUE, SlabType.DOUBLE, BlockModelGenerators.plainVariant(ModelLocationUtils.getModelLocation(fullBlock, "_powered"))))
         );
     }
 
     private void createBasicBounceWall(Block block, BlockModelGenerators blockStateModelGenerator) {
-        ResourceLocation BASIC_BOUNCE_WALL = ModModelTemplates.TEMPLATE_BOUNCE_WALL.create(ModelLocationUtils.getModelLocation(block),
+        ResourceLocation BASIC_BOUNCE_WALL_LOCATION = ModModelTemplates.TEMPLATE_BOUNCE_WALL.create(ModelLocationUtils.getModelLocation(block),
                 TextureMapping.singleSlot(TextureSlot.ALL, ModelLocationUtils.getModelLocation(block)), blockStateModelGenerator.modelOutput);
-        ResourceLocation BASIC_BOUNCE_POWERED_WALL = ModModelTemplates.TEMPLATE_BOUNCE_WALL.create(ModelLocationUtils.getModelLocation(block, "_powered"),
-                TextureMapping.singleSlot(TextureSlot.ALL, ModelLocationUtils.getModelLocation(block, "_powered")), blockStateModelGenerator.modelOutput);
-        blockStateModelGenerator.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block)
+        MultiVariant BASIC_BOUNCE_WALL = BlockModelGenerators.plainVariant(BASIC_BOUNCE_WALL_LOCATION);
+        MultiVariant BASIC_BOUNCE_POWERED_WALL = BlockModelGenerators.plainVariant(ModModelTemplates.TEMPLATE_BOUNCE_WALL.create(ModelLocationUtils.getModelLocation(block, "_powered"),
+                TextureMapping.singleSlot(TextureSlot.ALL, ModelLocationUtils.getModelLocation(block, "_powered")), blockStateModelGenerator.modelOutput));
+        blockStateModelGenerator.blockStateOutput.accept(MultiVariantGenerator.dispatch(block)
                 .with(BlockModelGenerators.createBooleanModelDispatch(BreezeBounceBlock.POWERED, BASIC_BOUNCE_POWERED_WALL, BASIC_BOUNCE_WALL))
                 .with(BlockModelGenerators.createRotatedPillar()));
-        blockStateModelGenerator.itemModelOutput.accept(block.asItem(), ItemModelUtils.plainModel(BASIC_BOUNCE_WALL));
-//        blockStateModelGenerator.delegateItemModel(block, BASIC_BOUNCE_WALL);
+
+        blockStateModelGenerator.registerSimpleItemModel(block, BASIC_BOUNCE_WALL_LOCATION);
+    }
+
+    private MultiVariant withUVLock(MultiVariant variant, VariantMutator variantMutator) {
+        return variant.with(variantMutator).with(BlockModelGenerators.UV_LOCK);
+    }
+
+    private MultiVariant withUVLock(MultiVariant variant, VariantMutator variantMutator, VariantMutator variantMutator2) {
+        return variant.with(variantMutator).with(variantMutator2).with(BlockModelGenerators.UV_LOCK);
     }
 }

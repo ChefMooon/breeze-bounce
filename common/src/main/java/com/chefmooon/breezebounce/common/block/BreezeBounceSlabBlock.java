@@ -43,7 +43,7 @@ public class BreezeBounceSlabBlock extends SlabBlock implements SimpleBreezeBoun
     }
 
     @Override
-    public void fallOn(Level level, BlockState blockState, BlockPos blockPos, Entity entity, float f) {
+    public void fallOn(Level level, BlockState blockState, BlockPos blockPos, Entity entity, double f) {
         if (entity.isSuppressingBounce()) {
             if (f > DOUBLE_BOUNCE_ACTIVATION_THRESHOLD) tryDoubleBounceSpread(level, blockState, blockPos);
 

@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
@@ -120,14 +121,14 @@ public class InflationMachineBlockEntity extends BlockEntity implements WorldlyC
     protected void loadAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
         super.loadAdditional(compoundTag, provider);
         this.lockKey = LockCode.fromTag(compoundTag, provider);
-        if (compoundTag.contains("CustomName", 8)) {
-            this.name = parseCustomNameSafe(compoundTag.getString("CustomName"), provider);
+        if (compoundTag.contains("CustomName")) {
+            this.name = parseCustomNameSafe(compoundTag.get("CustomName"), provider);
         }
         this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
         ContainerHelper.loadAllItems(compoundTag, this.items, provider);
-        this.inflateTime = compoundTag.getShort("InflateTime");
+        this.inflateTime = compoundTag.getShortOr("InflateTime", (short)0);
         this.inflateDuration = this.getInflateDuration(this.items.get(0));
-        this.soundCooldownTime = compoundTag.getShort("SoundCooldownTime");
+        this.soundCooldownTime = compoundTag.getShortOr("SoundCooldownTime", (short)0);
     }
 
     @Override
@@ -382,11 +383,11 @@ public class InflationMachineBlockEntity extends BlockEntity implements WorldlyC
         }
     }
 
-    protected void applyImplicitComponents(DataComponentInput componentInput) {
-        super.applyImplicitComponents(componentInput);
-        this.name = componentInput.get(DataComponents.CUSTOM_NAME);
-        this.lockKey = componentInput.getOrDefault(DataComponents.LOCK, LockCode.NO_LOCK);
-        (componentInput.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY)).copyInto(this.getItems());
+    protected void applyImplicitComponents(DataComponentGetter dataComponentGetter) {
+        super.applyImplicitComponents(dataComponentGetter);
+        this.name = dataComponentGetter.get(DataComponents.CUSTOM_NAME);
+        this.lockKey = dataComponentGetter.getOrDefault(DataComponents.LOCK, LockCode.NO_LOCK);
+        (dataComponentGetter.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY)).copyInto(this.getItems());
     }
 
     protected void collectImplicitComponents(DataComponentMap.Builder components) {

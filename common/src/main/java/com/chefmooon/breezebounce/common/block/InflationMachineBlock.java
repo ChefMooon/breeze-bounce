@@ -1,5 +1,6 @@
 package com.chefmooon.breezebounce.common.block;
 
+import com.chefmooon.breezebounce.BreezeBounce;
 import com.chefmooon.breezebounce.common.block.entity.InflationMachineBlockEntity;
 import com.chefmooon.breezebounce.common.registry.ModParticleTypes;
 import com.mojang.serialization.MapCodec;
@@ -12,8 +13,10 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
@@ -107,21 +110,15 @@ public class InflationMachineBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState blockState2, boolean bl) {
-        if (!blockState.is(blockState2.getBlock())) {
-            BlockEntity blockEntity = level.getBlockEntity(blockPos);
-            if (blockEntity instanceof InflationMachineBlockEntity inflationMachineBlockEntity) {
-                if (level instanceof ServerLevel) {
-                    Containers.dropContents(level, blockPos, inflationMachineBlockEntity);
-                    inflationMachineBlockEntity.onRemoveMachinePower(level, blockPos, blockState);
-                }
-
-                super.onRemove(blockState, level, blockPos, blockState2, bl);
-                level.updateNeighbourForOutputSignal(blockPos, this);
-            } else {
-                super.onRemove(blockState, level, blockPos, blockState2, bl);
+    public BlockState playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+        BlockEntity blockEntity = level.getBlockEntity(pos);
+        if (blockEntity instanceof InflationMachineBlockEntity inflationMachineBlockEntity) {
+            if (!level.isClientSide) {
+                if (state.getValue(INFLATE)) inflationMachineBlockEntity.onRemoveMachinePower(level, pos, state);
             }
         }
+
+        return super.playerWillDestroy(level, pos, state, player);
     }
 
     @Override
