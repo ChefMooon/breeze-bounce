@@ -4,18 +4,9 @@ Greatly appreciate any bug reports on the
 
 ***
 
-### Added
+### Fixed
 
-- Inflation Machine
-- Bounce Block Double Jump
-- Recipes to dye any color bounce block, including stairs, slabs, and posts, into another color
-
-### Changed
-
-- Sneaking now prevents fall damage when landing on Bounce Blocks
-- Bounce Block sound adjustments
-  - Inlfate/Deflate Sounds cleaned up
-  - Volume reduced
+- When broken Inflation Machine will only remove inflation if the machine is on
 
 [Current Features](https://github.com/ChefMooon/breeze-bounce/blob/1.21.x-multi/README.md#current-features)
 

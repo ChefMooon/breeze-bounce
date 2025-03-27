@@ -112,7 +112,7 @@ public class InflationMachineBlock extends BaseEntityBlock {
             if (blockEntity instanceof InflationMachineBlockEntity inflationMachineBlockEntity) {
                 if (level instanceof ServerLevel) {
                     Containers.dropContents(level, blockPos, inflationMachineBlockEntity);
-                    inflationMachineBlockEntity.onRemoveMachinePower(level, blockPos, blockState);
+                    if (blockState.getValue(INFLATE)) inflationMachineBlockEntity.onRemoveMachinePower(level, blockPos, blockState);
                 }
 
                 super.onRemove(blockState, level, blockPos, blockState2, bl);
