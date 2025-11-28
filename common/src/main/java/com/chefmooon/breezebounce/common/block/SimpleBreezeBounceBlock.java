@@ -6,10 +6,13 @@ import com.chefmooon.breezebounce.common.util.ValidConnectionUtil;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -18,10 +21,14 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.Half;
+import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Set;
 
 public interface SimpleBreezeBounceBlock {
@@ -103,6 +110,51 @@ public interface SimpleBreezeBounceBlock {
                 entity.setDeltaMovement(reverseVector.x, reverseVector.y, reverseVector.z);
             }
             this.playBounceSound(entity, level, blockPos, (float) reverseVector.length());
+        }
+    }
+
+    default void doubleBounceUp(Level level, BlockPos blockPos, Entity entity, double terminalVelocity) {
+        double VERTICAL_TERMINAL_VELOCITY = terminalVelocity * 1.2;
+        Vec3 vec3 = entity.getDeltaMovement();
+        entity.setDeltaMovement(vec3.x, VERTICAL_TERMINAL_VELOCITY, vec3.z);
+        level.playLocalSound(blockPos.getX(), blockPos.getY(), blockPos.getZ(), this.getBounceSound(), SoundSource.BLOCKS, getVolume((float) VERTICAL_TERMINAL_VELOCITY - 0.7f), getPitch((float) VERTICAL_TERMINAL_VELOCITY), false);
+    }
+
+    default AABB getEntityCheckAABB(Block block, BlockState blockState, BlockPos blockPos) {
+        AABB checkAABB;
+        switch (block) {
+            case BreezeBounceStairBlock breezeBounceStairBlock -> {
+                if (blockState.getValue(BreezeBounceStairBlock.HALF) == Half.BOTTOM) {
+                    checkAABB = new AABB(blockPos).inflate(0.0, 0.5, 0.0);
+                } else {
+                    checkAABB = new AABB(blockPos.above());
+                }
+            }
+            case BreezeBounceSlabBlock breezeBounceSlabBlock -> {
+                SlabType slabType = blockState.getValue(BreezeBounceSlabBlock.TYPE);
+                if (slabType == SlabType.TOP || slabType == SlabType.DOUBLE) {
+                    checkAABB = new AABB(blockPos.above());
+                } else {
+                    checkAABB = new AABB(blockPos);
+                }
+            }
+            case BreezeBounceWallBlock breezeBounceWallBlock -> {
+                if (blockState.getValue(BreezeBounceWallBlock.AXIS) == Direction.Axis.Y) {
+                    checkAABB = new AABB(blockPos.above());
+                } else {
+                    checkAABB = new AABB(blockPos);
+                }
+            }
+            case null, default -> checkAABB = new AABB(blockPos.above());
+        }
+        return checkAABB;
+    }
+
+    default void doubleBounceEntities(Block block, BlockState blockState, Level level, BlockPos blockPos) {
+        AABB checkAABB = getEntityCheckAABB(block, blockState, blockPos);
+        List<Entity> entities = level.getEntitiesOfClass(Entity.class, checkAABB, entity -> true);
+        for (Entity entity : entities) {
+            if (entity != null) this.doubleBounceUp(level, blockPos, entity, TERMINAL_VELOCITY);
         }
     }
 
@@ -249,6 +301,7 @@ public interface SimpleBreezeBounceBlock {
                 Block block = doubleJumpBlockState.getBlock();
                 if (block instanceof SimpleBreezeBounceBlock && !doubleJumpBlockState.getValue(POWERED)) {
                     this.inflate(block, doubleJumpBlockState, level, pos, null);
+                    this.doubleBounceEntities(block, doubleJumpBlockState, level, pos);
                 }
             }
         }

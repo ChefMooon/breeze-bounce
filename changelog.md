@@ -4,9 +4,9 @@ Greatly appreciate any bug reports on the
 
 ***
 
-### Fixed
+### Changed
 
-- When broken Inflation Machine will only remove inflation if the machine is on
+- Improved 'Double Bounce', entities on affected blocks now bounce upward immediately, creating a trampoline-like effect.
 
 [Current Features](https://github.com/ChefMooon/breeze-bounce/blob/1.21.x-multi/README.md#current-features)
 
