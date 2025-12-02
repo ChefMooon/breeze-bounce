@@ -10,6 +10,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -19,10 +20,14 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.Half;
+import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Set;
 
 public interface SimpleBreezeBounceBlock {
@@ -71,7 +76,8 @@ public interface SimpleBreezeBounceBlock {
                 entity.setDeltaMovement(vec3.x, VERTICAL_TERMINAL_VELOCITY, vec3.z);
             }
 
-            if (vec3.y < -0.08) {
+            float soundVelocityThreshold = entity instanceof ItemEntity ? -0.15f : -0.08f;
+            if (vec3.y < soundVelocityThreshold) {
                 this.playBounceSound(entity, (float) vec3.y);
             }
         }
@@ -104,6 +110,51 @@ public interface SimpleBreezeBounceBlock {
                 entity.setDeltaMovement(reverseVector.x, reverseVector.y, reverseVector.z);
             }
             this.playBounceSound(entity, level, blockPos, (float) reverseVector.length());
+        }
+    }
+
+    default void doubleBounceUp(Level level, BlockPos blockPos, Entity entity, double terminalVelocity) {
+        double VERTICAL_TERMINAL_VELOCITY = terminalVelocity * 1.2;
+        Vec3 vec3 = entity.getDeltaMovement();
+        entity.setDeltaMovement(vec3.x, VERTICAL_TERMINAL_VELOCITY, vec3.z);
+        level.playLocalSound(blockPos.getX(), blockPos.getY(), blockPos.getZ(), this.getBounceSound(), SoundSource.BLOCKS, getVolume((float) VERTICAL_TERMINAL_VELOCITY - 0.7f), getPitch((float) VERTICAL_TERMINAL_VELOCITY), false);
+    }
+
+    default AABB getEntityCheckAABB(Block block, BlockState blockState, BlockPos blockPos) {
+        AABB checkAABB;
+        switch (block) {
+            case BreezeBounceStairBlock breezeBounceStairBlock -> {
+                if (blockState.getValue(BreezeBounceStairBlock.HALF) == Half.BOTTOM) {
+                    checkAABB = new AABB(blockPos).inflate(0.0, 0.5, 0.0);
+                } else {
+                    checkAABB = new AABB(blockPos.above());
+                }
+            }
+            case BreezeBounceSlabBlock breezeBounceSlabBlock -> {
+                SlabType slabType = blockState.getValue(BreezeBounceSlabBlock.TYPE);
+                if (slabType == SlabType.TOP || slabType == SlabType.DOUBLE) {
+                    checkAABB = new AABB(blockPos.above());
+                } else {
+                    checkAABB = new AABB(blockPos);
+                }
+            }
+            case BreezeBounceWallBlock breezeBounceWallBlock -> {
+                if (blockState.getValue(BreezeBounceWallBlock.AXIS) == Direction.Axis.Y) {
+                    checkAABB = new AABB(blockPos.above());
+                } else {
+                    checkAABB = new AABB(blockPos);
+                }
+            }
+            case null, default -> checkAABB = new AABB(blockPos.above());
+        }
+        return checkAABB;
+    }
+
+    default void doubleBounceEntities(Block block, BlockState blockState, Level level, BlockPos blockPos, Entity sourceEntity) {
+        AABB checkAABB = getEntityCheckAABB(block, blockState, blockPos);
+        List<Entity> entities = level.getEntitiesOfClass(Entity.class, checkAABB, entity -> true);
+        for (Entity entity : entities) {
+            if (entity != null && !entity.is(sourceEntity)) this.doubleBounceUp(level, blockPos, entity, TERMINAL_VELOCITY);
         }
     }
 
@@ -208,8 +259,21 @@ public interface SimpleBreezeBounceBlock {
     }
 
     default void playBounceSound(Entity entity, float y) {
-        if (entity instanceof Player) {
-            entity.playSound(this.getBounceSound(), getVolume(y), getPitch(y));
+        Level level = entity.level();
+        float volume = getVolume(y);
+        float pitch = getPitch(y);
+
+        int xPos = entity.getBlockX();
+        int yPos = entity.getBlockY();
+        int zPos = entity.getBlockZ();
+        SoundEvent sound = this.getBounceSound();
+
+        if (entity instanceof Player player) {
+            level.playSound(player, xPos,yPos, zPos, sound, SoundSource.BLOCKS, volume, pitch);
+        } else if (level.isClientSide()) {
+            level.playLocalSound(xPos, yPos, zPos, sound, SoundSource.BLOCKS, volume, pitch, false);
+        } else {
+            level.playSound(null, xPos, yPos, zPos, sound, SoundSource.BLOCKS, volume, pitch);
         }
     }
 
@@ -241,7 +305,7 @@ public interface SimpleBreezeBounceBlock {
         return bl ? ModSounds.BOUNCE_BLOCK_INFLATE.get() : ModSounds.BOUNCE_BLOCK_DEFLATE.get();
     }
 
-    default void tryDoubleBounceSpread(Level level, BlockState blockState, BlockPos blockPos) {
+    default void tryDoubleBounceSpread(Level level, BlockState blockState, BlockPos blockPos, Entity entity) {
         if (blockState.getBlock() instanceof SimpleBreezeBounceBlock && !blockState.getValue(POWERED)) {
             level.playSound(null, blockPos, ModSounds.BOUNCE_BLOCK_DOUBLE_BOUNCE.get(), SoundSource.BLOCKS, 1.0f, 0.6f);
             Set<BlockPos> blocks = ValidConnectionUtil.findDoubleJumpBlocks(level, blockPos, DOUBLE_JUMP_SPREAD);
@@ -250,6 +314,7 @@ public interface SimpleBreezeBounceBlock {
                 Block block = doubleJumpBlockState.getBlock();
                 if (block instanceof SimpleBreezeBounceBlock && !doubleJumpBlockState.getValue(POWERED)) {
                     this.inflate(block, doubleJumpBlockState, level, pos, null);
+                    this.doubleBounceEntities(block, doubleJumpBlockState, level, pos, entity);
                 }
             }
         }
