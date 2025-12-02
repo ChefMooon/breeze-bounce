@@ -1,16 +1,24 @@
 package com.chefmooon.breezebounce.common.registry.fabric;
 
+import com.chefmooon.breezebounce.common.item.VelcroArmorItem;
+import com.chefmooon.breezebounce.common.registry.ModArmorMaterials;
 import com.chefmooon.breezebounce.common.registry.ModItems;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 
 import static com.chefmooon.breezebounce.common.registry.ModItems.basicItemProperties;
 
 public class ModItemsImpl {
+
+    public static final Item VELCRO_HELMET = registerItem(ModItems.VELCRO_HELMET, new VelcroArmorItem(ModArmorMaterials.VELCRO, ArmorItem.Type.HELMET, (basicItemProperties().durability(ArmorItem.Type.HELMET.getDurability(5)))));
+    public static final Item VELCRO_CHESTPLATE = registerItem(ModItems.VELCRO_CHESTPLATE, new VelcroArmorItem(ModArmorMaterials.VELCRO, ArmorItem.Type.CHESTPLATE, (basicItemProperties().durability(ArmorItem.Type.CHESTPLATE.getDurability(5)))));
+    public static final Item VELCRO_LEGGINGS = registerItem(ModItems.VELCRO_LEGGINGS, new VelcroArmorItem(ModArmorMaterials.VELCRO, ArmorItem.Type.LEGGINGS, (basicItemProperties().durability(ArmorItem.Type.LEGGINGS.getDurability(5)))));
+    public static final Item VELCRO_BOOTS = registerItem(ModItems.VELCRO_BOOTS, new VelcroArmorItem(ModArmorMaterials.VELCRO, ArmorItem.Type.BOOTS, (basicItemProperties().durability(ArmorItem.Type.BOOTS.getDurability(5)))));
 
     public static final Item INFLATION_MACHINE = registerItem(ModItems.INFLATION_MACHINE, new BlockItem(ModBlocksImpl.INFLATION_MACHINE, basicItemProperties()));
 

@@ -1,5 +1,6 @@
 package com.chefmooon.breezebounce.common.registry.fabric;
 
+import com.chefmooon.breezebounce.common.registry.ModSounds;
 import com.google.common.base.Suppliers;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -11,9 +12,9 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class ModSoundsImpl {
-
-
     static final List<Supplier<?>> SOUNDS = new ArrayList<>();
+
+    public static final Supplier<SoundEvent> ITEM_VELCRO_ARMOUR_EQUIP = registerSound(ModSounds.ITEM_VELCRO_ARMOUR_EQUIP_ID, () -> SoundEvent.createVariableRangeEvent(ModSounds.ITEM_VELCRO_ARMOUR_EQUIP_ID));
 
     public static <T extends SoundEvent> Supplier<T> registerSound(ResourceLocation id, Supplier<T> supplier) {
         var v = Suppliers.memoize(() -> Registry.register(BuiltInRegistries.SOUND_EVENT, id, supplier.get()));

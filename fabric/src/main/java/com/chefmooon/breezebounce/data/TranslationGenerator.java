@@ -1,17 +1,12 @@
 package com.chefmooon.breezebounce.data;
 
 import com.chefmooon.breezebounce.BreezeBounce;
-import com.chefmooon.breezebounce.common.registry.ModItems;
 import com.chefmooon.breezebounce.common.registry.ModMenuTypes;
 import com.chefmooon.breezebounce.common.registry.fabric.ModCreativeTabs;
 import com.chefmooon.breezebounce.common.registry.fabric.ModItemsImpl;
-import com.chefmooon.breezebounce.common.registry.fabric.ModMenuTypesImpl;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -26,6 +21,7 @@ public class TranslationGenerator extends FabricLanguageProvider {
         String SUBTITLE = BreezeBounce.MOD_ID + ".subtitles.";
         String CONTAINER = BreezeBounce.MOD_ID + ".container.";
         String TAG = "tag.item." + BreezeBounce.MOD_ID + ".";
+        String EFFECT = "effect." + BreezeBounce.MOD_ID + ".";
 
         translationBuilder.add(ModCreativeTabs.ITEM_GROUP, "Breeze Bounce");
 
@@ -40,6 +36,14 @@ public class TranslationGenerator extends FabricLanguageProvider {
         translationBuilder.add(SUBTITLE + "bounce_block_bounce", "Squeaky Bounce");
         translationBuilder.add(SUBTITLE + "bounce_block_step", "Squeaky Step");
         translationBuilder.add(SUBTITLE + "bounce_block_double_bounce", "Squeaky Double Bounce");
+
+        translationBuilder.add(SUBTITLE + "item.velcro_armour.equip", "Velcro armor tears");
+        translationBuilder.add(SUBTITLE + "item.velcro_armour.tear", "Velcro tear");
+
+        translationBuilder.add(ModItemsImpl.VELCRO_HELMET, "Velcro Helmet");
+        translationBuilder.add(ModItemsImpl.VELCRO_CHESTPLATE, "Velcro Chestplate");
+        translationBuilder.add(ModItemsImpl.VELCRO_LEGGINGS, "Velcro Leggings");
+        translationBuilder.add(ModItemsImpl.VELCRO_BOOTS, "Velcro Boots");
 
         translationBuilder.add(ModItemsImpl.BASIC_BOUNCE, "White Bounce Block");
         translationBuilder.add(ModItemsImpl.BASIC_BOUNCE_LIGHT_GRAY, "Light Gray Bounce Block");
@@ -111,6 +115,8 @@ public class TranslationGenerator extends FabricLanguageProvider {
         translationBuilder.add(ModItemsImpl.BASIC_BOUNCE_WALL_PINK, "Pink Bounce Post");
 
         translationBuilder.add(ModItemsImpl.INFLATION_MACHINE, "Inflation Machine");
+
+        translationBuilder.add(EFFECT + "velcro", "Velcro'd");
 
         translationBuilder.add(TAG + "bounce_blocks", "Bounce Blocks");
         translationBuilder.add(TAG + "bounce_stairs", "Bounce Stairs");

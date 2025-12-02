@@ -1,11 +1,14 @@
 package com.chefmooon.breezebounce.data;
 
 import com.chefmooon.breezebounce.common.block.BreezeBounceBlock;
-import com.chefmooon.breezebounce.data.model.ModModelTemplates;
+import com.chefmooon.breezebounce.common.registry.ModArmorMaterials;
 import com.chefmooon.breezebounce.common.registry.fabric.ModBlocksImpl;
+import com.chefmooon.breezebounce.common.registry.fabric.ModItemsImpl;
+import com.chefmooon.breezebounce.data.model.ModModelTemplates;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.data.models.BlockModelGenerators;
 import net.minecraft.data.models.ItemModelGenerators;
 import net.minecraft.data.models.blockstates.MultiVariantGenerator;
@@ -14,13 +17,32 @@ import net.minecraft.data.models.blockstates.Variant;
 import net.minecraft.data.models.blockstates.VariantProperties;
 import net.minecraft.data.models.model.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.block.state.properties.StairsShape;
 
+import java.util.List;
+import java.util.Map;
+
 public class ModModelGenerator extends FabricModelProvider {
+
+    private static final List<ModModelGenerator.TrimModelData> GENERATED_TRIM_MODELS = List.of( // there must be a better way to do this
+            new TrimModelData("quartz", 0.1F, Map.of()),
+            new TrimModelData("iron", 0.2F, Map.of(ArmorMaterials.IRON, "iron_darker")),
+            new TrimModelData("netherite", 0.3F, Map.of(ArmorMaterials.NETHERITE, "netherite_darker")),
+            new TrimModelData("redstone", 0.4F, Map.of()),
+            new TrimModelData("copper", 0.5F, Map.of()),
+            new TrimModelData("gold", 0.6F, Map.of(ArmorMaterials.GOLD, "gold_darker")),
+            new TrimModelData("emerald", 0.7F, Map.of()),
+            new TrimModelData("diamond", 0.8F, Map.of(ArmorMaterials.DIAMOND, "diamond_darker")),
+            new TrimModelData("lapis", 0.9F, Map.of()),
+            new TrimModelData("amethyst", 1.0F, Map.of())
+    );
     public ModModelGenerator(FabricDataOutput output) {
         super(output);
     }
@@ -50,6 +72,32 @@ public class ModModelGenerator extends FabricModelProvider {
 
     @Override
     public void generateItemModels(ItemModelGenerators itemModelGenerator) {
+        createVelcroArmor((ArmorItem) ModItemsImpl.VELCRO_HELMET, itemModelGenerator);
+        createVelcroArmor((ArmorItem) ModItemsImpl.VELCRO_CHESTPLATE, itemModelGenerator);
+        createVelcroArmor((ArmorItem) ModItemsImpl.VELCRO_LEGGINGS, itemModelGenerator);
+        createVelcroArmor((ArmorItem) ModItemsImpl.VELCRO_BOOTS, itemModelGenerator);
+    }
+
+    private void createVelcroArmor(ArmorItem armorItem, ItemModelGenerators itemModelGenerators) {
+        ResourceLocation resourceLocation = ModelLocationUtils.getModelLocation(armorItem);
+        ResourceLocation resourceLocation2 = TextureMapping.getItemTexture(armorItem);
+        ResourceLocation resourceLocation3 = TextureMapping.getItemTexture(armorItem, "_overlay");
+
+        ModelTemplates.TWO_LAYERED_ITEM.create(resourceLocation, TextureMapping.layered(resourceLocation2, resourceLocation3), itemModelGenerators.output, (resourceLocationx, map) -> itemModelGenerators.generateBaseArmorTrimTemplate(resourceLocationx, map, ModArmorMaterials.VELCRO));
+
+        for (TrimModelData trimModelData : GENERATED_TRIM_MODELS) {
+            String string = trimModelData.name(armorItem.getMaterial());
+            ResourceLocation resourceLocation4 = itemModelGenerators.getItemModelForTrimMaterial(resourceLocation, string);
+            String string2 = armorItem.getType().getName() + "_trim_" + string;
+            ResourceLocation resourceLocation5 = ResourceLocation.withDefaultNamespace(string2).withPrefix("trims/items/");
+            itemModelGenerators.generateLayeredItem(resourceLocation4, resourceLocation2, resourceLocation3, resourceLocation5);
+        }
+    }
+
+    record TrimModelData(String name, float itemModelIndex, Map<Holder<ArmorMaterial>, String> overrideArmorMaterials) {
+        public String name(Holder<ArmorMaterial> armorMaterial) {
+            return (String)this.overrideArmorMaterials.getOrDefault(armorMaterial, this.name);
+        }
     }
 
     private void createBasicBounce(Block block, Block slabBlock, Block stairBlock, Block wallBlock, BlockModelGenerators blockStateModelGenerator) {

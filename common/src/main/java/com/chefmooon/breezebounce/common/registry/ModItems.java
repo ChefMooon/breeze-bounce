@@ -11,6 +11,11 @@ public class ModItems {
 
     public static final ResourceLocation INFLATION_MACHINE = item("inflation_machine");
 
+    public static final ResourceLocation VELCRO_HELMET = item("velcro_helmet");
+    public static final ResourceLocation VELCRO_CHESTPLATE = item("velcro_chestplate");
+    public static final ResourceLocation VELCRO_LEGGINGS = item("velcro_leggings");
+    public static final ResourceLocation VELCRO_BOOTS = item("velcro_boots");
+
     public static final ResourceLocation BASIC_BOUNCE = item("basic_bounce");
     public static final ResourceLocation BASIC_BOUNCE_LIGHT_GRAY = item("basic_bounce_light_gray");
     public static final ResourceLocation BASIC_BOUNCE_GRAY = item("basic_bounce_gray");

@@ -30,8 +30,45 @@ public class RecipeGenerator extends FabricRecipeProvider {
                 .define('B', Items.WIND_CHARGE)
                 .unlockedBy(RecipeProvider.getHasName(Items.WIND_CHARGE), RecipeProvider.has(Items.WIND_CHARGE))
                 .unlockedBy(RecipeProvider.getHasName(Items.COBBLESTONE), RecipeProvider.has(Items.COBBLESTONE))
-                .save(exporter, RecipeProvider.getSimpleRecipeName(ModItemsImpl.INFLATION_MACHINE))
-        ;
+                .save(exporter, RecipeProvider.getSimpleRecipeName(ModItemsImpl.INFLATION_MACHINE));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItemsImpl.VELCRO_HELMET)
+                .pattern("BAB")
+                .pattern("A A")
+                .define('A', Items.LEATHER)
+                .define('B', Items.CACTUS)
+                .unlockedBy(RecipeProvider.getHasName(Items.LEATHER), RecipeProvider.has(Items.LEATHER))
+                .unlockedBy(RecipeProvider.getHasName(Items.CACTUS), RecipeProvider.has(Items.CACTUS))
+                .save(exporter, RecipeProvider.getSimpleRecipeName(ModItemsImpl.VELCRO_HELMET));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItemsImpl.VELCRO_CHESTPLATE)
+                .pattern("B B")
+                .pattern("AAA")
+                .pattern("BAB")
+                .define('A', Items.LEATHER)
+                .define('B', Items.CACTUS)
+                .unlockedBy(RecipeProvider.getHasName(Items.LEATHER), RecipeProvider.has(Items.LEATHER))
+                .unlockedBy(RecipeProvider.getHasName(Items.CACTUS), RecipeProvider.has(Items.CACTUS))
+                .save(exporter, RecipeProvider.getSimpleRecipeName(ModItemsImpl.VELCRO_CHESTPLATE));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItemsImpl.VELCRO_LEGGINGS)
+                .pattern("BAB")
+                .pattern("A A")
+                .pattern("B B")
+                .define('A', Items.LEATHER)
+                .define('B', Items.CACTUS)
+                .unlockedBy(RecipeProvider.getHasName(Items.LEATHER), RecipeProvider.has(Items.LEATHER))
+                .unlockedBy(RecipeProvider.getHasName(Items.CACTUS), RecipeProvider.has(Items.CACTUS))
+                .save(exporter, RecipeProvider.getSimpleRecipeName(ModItemsImpl.VELCRO_LEGGINGS));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItemsImpl.VELCRO_BOOTS)
+                .pattern("A A")
+                .pattern("B B")
+                .define('A', Items.LEATHER)
+                .define('B', Items.CACTUS)
+                .unlockedBy(RecipeProvider.getHasName(Items.LEATHER), RecipeProvider.has(Items.LEATHER))
+                .unlockedBy(RecipeProvider.getHasName(Items.CACTUS), RecipeProvider.has(Items.CACTUS))
+                .save(exporter, RecipeProvider.getSimpleRecipeName(ModItemsImpl.VELCRO_BOOTS));
     }
 
     private void buildBounceBlockRecipes(RecipeOutput exporter) {

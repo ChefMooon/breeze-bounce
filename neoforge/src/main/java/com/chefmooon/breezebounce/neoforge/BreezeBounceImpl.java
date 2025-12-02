@@ -17,6 +17,7 @@ public class BreezeBounceImpl {
             modEventBus.addListener(BreezeBounceClientImpl::init);
         }
 
+        ModEffectsImpl.register(modEventBus);
         ModBlocksImpl.register(modEventBus);
         ModCreativeTabs.register(modEventBus);
         ModItemsImpl.register(modEventBus);
@@ -24,5 +25,6 @@ public class BreezeBounceImpl {
         ModMenuTypesImpl.register(modEventBus);
         ModParticleTypesImpl.register(modEventBus);
         ModSoundsImpl.register(modEventBus);
+        ModArmorMaterialsImpl.register(modEventBus);
     }
 }
