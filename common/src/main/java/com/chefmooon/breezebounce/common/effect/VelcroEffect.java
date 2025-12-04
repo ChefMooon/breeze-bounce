@@ -35,8 +35,8 @@ public class VelcroEffect extends MobEffect {
         if (isTouchingHorizontalSide(livingEntity, level)) { // TODO: improve make sound on initial contact and fall off
             if (!verticalSound) playVelcroSound(level, belowPos, livingEntity, livingEntity.isCrouching(), livingEntity.getDeltaMovement());
             if (livingEntity.isCrouching()) {
-                livingEntity.setDeltaMovement(livingEntity.getDeltaMovement().x, 0.0, livingEntity.getDeltaMovement().z);
-                livingEntity.fallDistance = 0.0F;
+                livingEntity.setDeltaMovement(livingEntity.getDeltaMovement().x * 0.8, 0.0, livingEntity.getDeltaMovement().z * 0.8);
+                livingEntity.resetFallDistance();
             }
         }
 
