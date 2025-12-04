@@ -1,7 +1,6 @@
 package com.chefmooon.breezebounce.common.registry.fabric;
 
 import com.chefmooon.breezebounce.BreezeBounce;
-import com.chefmooon.breezebounce.fabric.BreezeBounceImpl;
 import com.chefmooon.breezebounce.common.util.TextUtil;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.core.Registry;
