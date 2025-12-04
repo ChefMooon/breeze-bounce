@@ -5,7 +5,11 @@ Greatly appreciate any bug reports on the
 
 ***
 
-Initial update to Minecraft 1.21.5
+### Added
+
+- Velcro Armour: New armour set that allows players wearing a full set to stick to Bounce Blocks while crouching
+    - Made from Leather and Cactus
+    - Can be dyed similar to leather armour
 
 ### Fixed
 
