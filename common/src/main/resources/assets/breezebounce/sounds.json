@@ -49,5 +49,20 @@
       "breezebounce:inflation_machine_inflate_01",
       "breezebounce:inflation_machine_inflate_02"
     ]
+  },
+  "item.velcro_armour.equip": {
+    "subtitle": "breezebounce.subtitles.item.velcro_armour.equip",
+    "sounds": [
+      "breezebounce:velcro_armour_equip_01",
+      "breezebounce:velcro_armour_equip_02",
+      "breezebounce:velcro_armour_equip_03"
+    ]
+  },
+  "item.velcro_armour.tear": {
+    "subtitle": "breezebounce.subtitles.item.velcro_armour.tear",
+    "sounds": [
+      "breezebounce:velcro_armour_tear_01",
+      "breezebounce:velcro_armour_tear_02"
+    ]
   }
 }

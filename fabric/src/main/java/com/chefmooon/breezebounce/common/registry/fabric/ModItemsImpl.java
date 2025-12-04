@@ -1,5 +1,7 @@
 package com.chefmooon.breezebounce.common.registry.fabric;
 
+import com.chefmooon.breezebounce.common.item.VelcroArmorItem;
+import com.chefmooon.breezebounce.common.item.VelcroArmorMaterial;
 import com.chefmooon.breezebounce.common.registry.ModItems;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.Registry;
@@ -9,11 +11,17 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.block.Block;
 
 import static com.chefmooon.breezebounce.common.registry.ModItems.basicItemProperties;
 
 public class ModItemsImpl {
+
+    public static final Item VELCRO_HELMET = registerItem(ModItems.VELCRO_HELMET, new VelcroArmorItem(new Item.Properties().humanoidArmor(VelcroArmorMaterial.INSTANCE, ArmorType.HELMET).setId(key(ModItems.VELCRO_HELMET))));
+    public static final Item VELCRO_CHESTPLATE = registerItem(ModItems.VELCRO_CHESTPLATE, new VelcroArmorItem(new Item.Properties().humanoidArmor(VelcroArmorMaterial.INSTANCE, ArmorType.CHESTPLATE).setId(key(ModItems.VELCRO_CHESTPLATE))));
+    public static final Item VELCRO_LEGGINGS = registerItem(ModItems.VELCRO_LEGGINGS, new VelcroArmorItem(new Item.Properties().humanoidArmor(VelcroArmorMaterial.INSTANCE, ArmorType.LEGGINGS).setId(key(ModItems.VELCRO_LEGGINGS))));
+    public static final Item VELCRO_BOOTS = registerItem(ModItems.VELCRO_BOOTS, new VelcroArmorItem(new Item.Properties().humanoidArmor(VelcroArmorMaterial.INSTANCE, ArmorType.BOOTS).setId(key(ModItems.VELCRO_BOOTS))));
 
     public static final Item INFLATION_MACHINE = registerItem(ModItems.INFLATION_MACHINE, ModBlocksImpl.INFLATION_MACHINE);
 

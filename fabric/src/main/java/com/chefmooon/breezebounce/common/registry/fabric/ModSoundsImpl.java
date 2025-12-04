@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class ModSoundsImpl {
-
-
     static final List<Supplier<?>> SOUNDS = new ArrayList<>();
 
     public static <T extends SoundEvent> Supplier<T> registerSound(ResourceLocation id, Supplier<T> supplier) {

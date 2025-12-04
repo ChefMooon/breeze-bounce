@@ -1,7 +1,9 @@
 package com.chefmooon.breezebounce.data;
 
 import com.chefmooon.breezebounce.common.block.BreezeBounceBlock;
+import com.chefmooon.breezebounce.common.item.ModEquipmentAssets;
 import com.chefmooon.breezebounce.common.registry.fabric.ModBlocksImpl;
+import com.chefmooon.breezebounce.common.registry.fabric.ModItemsImpl;
 import com.chefmooon.breezebounce.data.model.ModModelTemplates;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -50,6 +52,10 @@ public class ModModelGenerator extends FabricModelProvider {
 
     @Override
     public void generateItemModels(ItemModelGenerators itemModelGenerator) {
+        itemModelGenerator.generateTrimmableItem(ModItemsImpl.VELCRO_HELMET, ModEquipmentAssets.VELCRO, ItemModelGenerators.TRIM_PREFIX_HELMET, true);
+        itemModelGenerator.generateTrimmableItem(ModItemsImpl.VELCRO_CHESTPLATE, ModEquipmentAssets.VELCRO, ItemModelGenerators.TRIM_PREFIX_CHESTPLATE, true);
+        itemModelGenerator.generateTrimmableItem(ModItemsImpl.VELCRO_LEGGINGS, ModEquipmentAssets.VELCRO, ItemModelGenerators.TRIM_PREFIX_LEGGINGS, true);
+        itemModelGenerator.generateTrimmableItem(ModItemsImpl.VELCRO_BOOTS, ModEquipmentAssets.VELCRO, ItemModelGenerators.TRIM_PREFIX_BOOTS, true);
     }
 
     private void createBasicBounce(Block block, Block slabBlock, Block stairBlock, Block wallBlock, BlockModelGenerators blockStateModelGenerator) {

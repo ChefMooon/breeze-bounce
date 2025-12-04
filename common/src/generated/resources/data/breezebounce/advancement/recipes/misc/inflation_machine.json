@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:inflation_machine"
+        "recipe": "breezebounce:inflation_machine"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -37,7 +37,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:inflation_machine"
+      "breezebounce:inflation_machine"
     ]
   }
 }

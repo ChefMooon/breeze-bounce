@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "breezebounce:item/velcro_chestplate",
+    "layer1": "breezebounce:item/velcro_chestplate_overlay"
+  }
+}

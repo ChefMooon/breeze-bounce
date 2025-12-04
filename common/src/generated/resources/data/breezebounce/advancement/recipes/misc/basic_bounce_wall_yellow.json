@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:basic_bounce_wall_yellow"
+        "recipe": "breezebounce:basic_bounce_wall_yellow"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:basic_bounce_wall_yellow"
+      "breezebounce:basic_bounce_wall_yellow"
     ]
   }
 }

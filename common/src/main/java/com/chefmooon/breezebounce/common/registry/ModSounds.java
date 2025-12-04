@@ -18,6 +18,9 @@ public class ModSounds {
     public static final Supplier<SoundEvent> BLOCK_INFLATION_MACHINE_SHUTDOWN = registerSound("block.inflation_machine.shutdown");
     public static final Supplier<SoundEvent> BLOCK_INFLATION_MACHINE_INFLATE = registerSound("block.inflation_machine.inflate");
 
+    public static final Supplier<SoundEvent> ITEM_VELCRO_ARMOUR_EQUIP = registerSound("item.velcro_armour.equip");
+    public static final Supplier<SoundEvent> ITEM_VELCRO_ARMOUR_TEAR = registerSound("item.velcro_armour.tear");
+
     private static Supplier<SoundEvent> registerSound(String string) {
         return registerSound(TextUtil.res(string), () -> SoundEvent.createVariableRangeEvent(TextUtil.res(string)));
     }

@@ -5,6 +5,7 @@ import com.chefmooon.breezebounce.common.tag.BreezeBounceTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.tags.ItemTags;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -15,6 +16,36 @@ public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
+        getOrCreateTagBuilder(ItemTags.DYEABLE)
+                .add(ModItemsImpl.VELCRO_HELMET)
+                .add(ModItemsImpl.VELCRO_CHESTPLATE)
+                .add(ModItemsImpl.VELCRO_LEGGINGS)
+                .add(ModItemsImpl.VELCRO_BOOTS);
+
+        getOrCreateTagBuilder(ItemTags.TRIMMABLE_ARMOR)
+                .add(ModItemsImpl.VELCRO_HELMET)
+                .add(ModItemsImpl.VELCRO_CHESTPLATE)
+                .add(ModItemsImpl.VELCRO_LEGGINGS)
+                .add(ModItemsImpl.VELCRO_BOOTS);
+
+        getOrCreateTagBuilder(ItemTags.HEAD_ARMOR_ENCHANTABLE)
+                .add(ModItemsImpl.VELCRO_HELMET);
+        getOrCreateTagBuilder(ItemTags.CHEST_ARMOR_ENCHANTABLE)
+                .add(ModItemsImpl.VELCRO_CHESTPLATE);
+        getOrCreateTagBuilder(ItemTags.LEG_ARMOR_ENCHANTABLE)
+                .add(ModItemsImpl.VELCRO_LEGGINGS);
+        getOrCreateTagBuilder(ItemTags.FOOT_ARMOR_ENCHANTABLE)
+                .add(ModItemsImpl.VELCRO_BOOTS);
+
+        getOrCreateTagBuilder(ItemTags.HEAD_ARMOR)
+                .add(ModItemsImpl.VELCRO_HELMET);
+        getOrCreateTagBuilder(ItemTags.CHEST_ARMOR)
+                .add(ModItemsImpl.VELCRO_CHESTPLATE);
+        getOrCreateTagBuilder(ItemTags.LEG_ARMOR)
+                .add(ModItemsImpl.VELCRO_LEGGINGS);
+        getOrCreateTagBuilder(ItemTags.FOOT_ARMOR)
+                .add(ModItemsImpl.VELCRO_BOOTS);
+
         getOrCreateTagBuilder(BreezeBounceTags.BOUNCE_BLOCKS)
                 .add(ModItemsImpl.BASIC_BOUNCE,
                         ModItemsImpl.BASIC_BOUNCE_ORANGE,

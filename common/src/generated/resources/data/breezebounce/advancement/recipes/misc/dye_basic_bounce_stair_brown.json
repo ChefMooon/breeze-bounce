@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:dye_basic_bounce_stair_brown"
+        "recipe": "breezebounce:dye_basic_bounce_stair_brown"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -37,7 +37,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:dye_basic_bounce_stair_brown"
+      "breezebounce:dye_basic_bounce_stair_brown"
     ]
   }
 }

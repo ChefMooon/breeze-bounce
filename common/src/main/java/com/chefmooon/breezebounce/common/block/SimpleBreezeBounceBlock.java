@@ -1,5 +1,6 @@
 package com.chefmooon.breezebounce.common.block;
 
+import com.chefmooon.breezebounce.BreezeBounce;
 import com.chefmooon.breezebounce.common.registry.ModSounds;
 import com.chefmooon.breezebounce.common.util.ValidConnectionUtil;
 import com.mojang.datafixers.util.Pair;

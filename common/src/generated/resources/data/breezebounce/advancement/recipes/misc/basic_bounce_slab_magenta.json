@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:basic_bounce_slab_magenta"
+        "recipe": "breezebounce:basic_bounce_slab_magenta"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:basic_bounce_slab_magenta"
+      "breezebounce:basic_bounce_slab_magenta"
     ]
   }
 }

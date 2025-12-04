@@ -3,3 +3,13 @@
 6d660e1252a0dc7be797479f49d1188038510fc0 data/breezebounce/tags/item/bounce_slabs.json
 252fa251a9ff5e01a691c17bb40fbed537e6310b data/breezebounce/tags/item/bounce_stairs.json
 a747077247ab2e50f1d5a1d141ff399f0c6b7f07 data/breezebounce/tags/item/bounce_walls.json
+d1e569f3190a2c81b8c519ef100ad472ed655e21 data/minecraft/tags/item/chest_armor.json
+8d30b9b89ee5f72b97028c76b46415deaf18eb6f data/minecraft/tags/item/dyeable.json
+d1e569f3190a2c81b8c519ef100ad472ed655e21 data/minecraft/tags/item/enchantable/chest_armor.json
+bf2443617d36555efc099b8a6e1bdef2c8b762df data/minecraft/tags/item/enchantable/foot_armor.json
+72737fc4d30904b6094964343515b6c965f8878d data/minecraft/tags/item/enchantable/head_armor.json
+2b2a262d4e39502a30f8c5c2e1b75e55d6da455f data/minecraft/tags/item/enchantable/leg_armor.json
+bf2443617d36555efc099b8a6e1bdef2c8b762df data/minecraft/tags/item/foot_armor.json
+72737fc4d30904b6094964343515b6c965f8878d data/minecraft/tags/item/head_armor.json
+2b2a262d4e39502a30f8c5c2e1b75e55d6da455f data/minecraft/tags/item/leg_armor.json
+8d30b9b89ee5f72b97028c76b46415deaf18eb6f data/minecraft/tags/item/trimmable_armor.json

@@ -2,10 +2,14 @@ package com.chefmooon.breezebounce.common.registry.neoforge;
 
 import com.chefmooon.breezebounce.BreezeBounce;
 import com.chefmooon.breezebounce.common.block.neoforge.BreezeBounceStairBlockImpl;
+import com.chefmooon.breezebounce.common.item.VelcroArmorItem;
+import com.chefmooon.breezebounce.common.item.VelcroArmorMaterial;
 import com.chefmooon.breezebounce.common.registry.ModItems;
 import com.google.common.collect.Sets;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
@@ -13,13 +17,19 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.LinkedHashSet;
+import java.util.function.Function;
 
 import static com.chefmooon.breezebounce.common.registry.ModItems.basicItemProperties;
 
 public class ModItemsImpl {
 //    public static final DeferredRegister<Item> ITEMS = DeferredRegister.Items.create(Registries.ITEM, BreezeBounce.MOD_ID);
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(BreezeBounce.MOD_ID);
-    public static LinkedHashSet<DeferredItem<BlockItem>> CREATIVE_TAB_ITEMS = Sets.newLinkedHashSet();
+    public static LinkedHashSet<DeferredItem<? extends Item>> CREATIVE_TAB_ITEMS = Sets.newLinkedHashSet();
+
+    public static final DeferredItem<Item> VELCRO_HELMET = registerItem(ModItems.VELCRO_HELMET, props -> new VelcroArmorItem(props.humanoidArmor(VelcroArmorMaterial.INSTANCE, ArmorType.HELMET)));
+    public static final DeferredItem<Item> VELCRO_CHESTPLATE = registerItem(ModItems.VELCRO_CHESTPLATE, props -> new VelcroArmorItem(props.humanoidArmor(VelcroArmorMaterial.INSTANCE, ArmorType.CHESTPLATE)));
+    public static final DeferredItem<Item> VELCRO_LEGGINGS = registerItem(ModItems.VELCRO_LEGGINGS, props -> new VelcroArmorItem(props.humanoidArmor(VelcroArmorMaterial.INSTANCE, ArmorType.LEGGINGS)));
+    public static final DeferredItem<Item> VELCRO_BOOTS = registerItem(ModItems.VELCRO_BOOTS, props -> new VelcroArmorItem(props.humanoidArmor(VelcroArmorMaterial.INSTANCE, ArmorType.BOOTS)));
 
     public static final DeferredItem<BlockItem> INFLATION_MACHINE = registerItem(ModItems.INFLATION_MACHINE, ModBlocksImpl.INFLATION_MACHINE);
 
@@ -111,6 +121,12 @@ public class ModItemsImpl {
 
     public static DeferredItem<BlockItem> registerItem(final ResourceLocation location, final DeferredBlock<Block> block) {
         DeferredItem<BlockItem> item = ITEMS.registerSimpleBlockItem(location.getPath(), block, basicItemProperties());
+        CREATIVE_TAB_ITEMS.add(item);
+        return item;
+    }
+
+    public static <I extends Item> DeferredItem<I> registerItem(final ResourceLocation location, final Function<Item.Properties, ? extends I> func) {
+        DeferredItem<I> item = ITEMS.registerItem(location.getPath(), func);
         CREATIVE_TAB_ITEMS.add(item);
         return item;
     }

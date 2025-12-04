@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:basic_bounce_gray"
+        "recipe": "breezebounce:basic_bounce_gray"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:basic_bounce_gray"
+      "breezebounce:basic_bounce_gray"
     ]
   }
 }
