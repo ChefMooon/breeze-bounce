@@ -4,6 +4,12 @@ Greatly appreciate any bug reports on the
 
 ***
 
+### Added
+
+- Velcro Armour: New armour set that allows players wearing a full set to stick to Bounce Blocks while crouching
+  - Made from Leather and Cactus
+  - Can be dyed similar to leather armour
+
 ### Changed
 
 - Improved 'Double Bounce', entities on affected blocks now bounce upward immediately, creating a trampoline-like effect.

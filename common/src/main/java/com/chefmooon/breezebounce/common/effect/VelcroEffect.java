@@ -2,7 +2,6 @@ package com.chefmooon.breezebounce.common.effect;
 
 import com.chefmooon.breezebounce.common.block.SimpleBreezeBounceBlock;
 import com.chefmooon.breezebounce.common.registry.ModSounds;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
@@ -21,9 +20,7 @@ public class VelcroEffect extends MobEffect {
 
 
     public boolean applyEffectTick(LivingEntity livingEntity, int amplifier) {
-        Level level = Minecraft.getInstance().level;
-
-        if (level == null) return false;
+        Level level = livingEntity.getCommandSenderWorld();
 
         BlockPos belowPos = livingEntity.getBlockPosBelowThatAffectsMyMovement();
 
