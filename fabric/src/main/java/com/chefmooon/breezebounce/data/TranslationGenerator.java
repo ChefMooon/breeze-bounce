@@ -116,7 +116,7 @@ public class TranslationGenerator extends FabricLanguageProvider {
 
         translationBuilder.add(ModItemsImpl.INFLATION_MACHINE, "Inflation Machine");
 
-        translationBuilder.add(EFFECT + "velcro", "Velcro'd");
+        translationBuilder.add(EFFECT + "velcro", "Velcro");
 
         translationBuilder.add(TAG + "bounce_blocks", "Bounce Blocks");
         translationBuilder.add(TAG + "bounce_stairs", "Bounce Stairs");
