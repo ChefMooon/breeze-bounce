@@ -27,9 +27,9 @@ public class TranslationGenerator extends FabricLanguageProvider {
 
         translationBuilder.add(CONTAINER + ModMenuTypes.INFLATION_MACHINE.getPath(), "Inflation Machine");
 
-        translationBuilder.add(SUBTITLE + "inflation_machine.startup", "Inflation Machine Startup");
-        translationBuilder.add(SUBTITLE + "inflation_machine.shutdown", "Inflation Machine Shutdown");
-        translationBuilder.add(SUBTITLE + "inflation_machine.inflate", "Inflation Machine Inflating");
+        translationBuilder.add(SUBTITLE + "block.inflation_machine.startup", "Inflation Machine Startup");
+        translationBuilder.add(SUBTITLE + "block.inflation_machine.shutdown", "Inflation Machine Shutdown");
+        translationBuilder.add(SUBTITLE + "block.inflation_machine.inflate", "Inflation Machine Inflating");
 
         translationBuilder.add(SUBTITLE + "bounce_block_inflate", "Bounce Block Inflated");
         translationBuilder.add(SUBTITLE + "bounce_block_deflate", "Bounce Block Deflated");

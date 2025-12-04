@@ -15,5 +15,9 @@ Greatly appreciate any bug reports on the
 
 - When broken Inflation Machine will only remove inflation if the machine is on
 
+### Fixed
+
+- Inflation Machine subtitles
+
 [Current Features](https://github.com/ChefMooon/breeze-bounce/blob/1.21.x-multi/README.md#current-features)
 
