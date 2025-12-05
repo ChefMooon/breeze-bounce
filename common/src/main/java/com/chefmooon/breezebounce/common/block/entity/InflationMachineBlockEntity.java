@@ -15,6 +15,7 @@ import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundEvents;
@@ -32,6 +33,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -118,30 +121,30 @@ public class InflationMachineBlockEntity extends BlockEntity implements WorldlyC
     }
 
     @Override
-    protected void loadAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
-        super.loadAdditional(compoundTag, provider);
-        this.lockKey = LockCode.fromTag(compoundTag, provider);
-        if (compoundTag.contains("CustomName")) {
-            this.name = parseCustomNameSafe(compoundTag.get("CustomName"), provider);
+    protected void loadAdditional(ValueInput input) {
+        super.loadAdditional(input);
+        this.lockKey = LockCode.fromTag(input);
+        if (input.contains("CustomName")) {
+            this.name = parseCustomNameSafe(input, "CustomName");
         }
         this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(compoundTag, this.items, provider);
-        this.inflateTime = compoundTag.getShortOr("InflateTime", (short)0);
+        ContainerHelper.loadAllItems(input, this.items);
+        this.inflateTime = input.getShortOr("InflateTime", (short)0);
         this.inflateDuration = this.getInflateDuration(this.items.get(0));
-        this.soundCooldownTime = compoundTag.getShortOr("SoundCooldownTime", (short)0);
+        this.soundCooldownTime = input.getShortOr("SoundCooldownTime", (short)0);
     }
 
     @Override
-    protected void saveAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
-        super.saveAdditional(compoundTag, provider);
-        this.lockKey.addToTag(compoundTag, provider);
+    protected void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
+        this.lockKey.addToTag(output);
         if (this.name != null) {
-            compoundTag.putString("CustomName", Component.Serializer.toJson(this.name, provider));
+            output.storeNullable("CustomName", ComponentSerialization.CODEC, this.name);
         }
-        ContainerHelper.saveAllItems(compoundTag, this.items, provider);
-        compoundTag.putShort("InflateTime", (short) this.inflateTime);
-        compoundTag.putShort("InflateDuration", (short) this.inflateDuration);
-        compoundTag.putShort("SoundCooldownTime", (short) this.soundCooldownTime);
+        ContainerHelper.saveAllItems(output, this.items);
+        output.putShort("InflateTime", (short) this.inflateTime);
+        output.putShort("InflateDuration", (short) this.inflateDuration);
+        output.putShort("SoundCooldownTime", (short) this.soundCooldownTime);
     }
 
     @Override
@@ -149,10 +152,11 @@ public class InflationMachineBlockEntity extends BlockEntity implements WorldlyC
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    @Override
-    public @NotNull CompoundTag getUpdateTag(HolderLookup.Provider provider) {
-        return this.saveCustomAndMetadata(provider);
-    }
+//    @Override
+//    public @NotNull CompoundTag getUpdateTag(HolderLookup.Provider provider) {
+//        return  super.getUpdateTag(provider);
+//        return this.saveCustomAndMetadata(provider);
+//    }
 
     protected int getInflateDuration(ItemStack itemStack) {
         if (itemStack.isEmpty()) {
@@ -401,10 +405,10 @@ public class InflationMachineBlockEntity extends BlockEntity implements WorldlyC
     }
 
     @Override
-    public void removeComponentsFromTag(CompoundTag tag) {
-        tag.remove("CustomName");
-        tag.remove("Lock");
-        tag.remove("Items");
+    public void removeComponentsFromTag(ValueOutput output) {
+        output.discard("CustomName");
+        output.discard("Lock");
+        output.discard("Items");
     }
 
     @Override

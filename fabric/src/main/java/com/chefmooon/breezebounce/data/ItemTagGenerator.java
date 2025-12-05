@@ -16,37 +16,37 @@ public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
-        getOrCreateTagBuilder(ItemTags.DYEABLE)
+        valueLookupBuilder(ItemTags.DYEABLE)
                 .add(ModItemsImpl.VELCRO_HELMET)
                 .add(ModItemsImpl.VELCRO_CHESTPLATE)
                 .add(ModItemsImpl.VELCRO_LEGGINGS)
                 .add(ModItemsImpl.VELCRO_BOOTS);
 
-        getOrCreateTagBuilder(ItemTags.TRIMMABLE_ARMOR)
+        valueLookupBuilder(ItemTags.TRIMMABLE_ARMOR)
                 .add(ModItemsImpl.VELCRO_HELMET)
                 .add(ModItemsImpl.VELCRO_CHESTPLATE)
                 .add(ModItemsImpl.VELCRO_LEGGINGS)
                 .add(ModItemsImpl.VELCRO_BOOTS);
 
-        getOrCreateTagBuilder(ItemTags.HEAD_ARMOR_ENCHANTABLE)
+        valueLookupBuilder(ItemTags.HEAD_ARMOR_ENCHANTABLE)
                 .add(ModItemsImpl.VELCRO_HELMET);
-        getOrCreateTagBuilder(ItemTags.CHEST_ARMOR_ENCHANTABLE)
+        valueLookupBuilder(ItemTags.CHEST_ARMOR_ENCHANTABLE)
                 .add(ModItemsImpl.VELCRO_CHESTPLATE);
-        getOrCreateTagBuilder(ItemTags.LEG_ARMOR_ENCHANTABLE)
+        valueLookupBuilder(ItemTags.LEG_ARMOR_ENCHANTABLE)
                 .add(ModItemsImpl.VELCRO_LEGGINGS);
-        getOrCreateTagBuilder(ItemTags.FOOT_ARMOR_ENCHANTABLE)
+        valueLookupBuilder(ItemTags.FOOT_ARMOR_ENCHANTABLE)
                 .add(ModItemsImpl.VELCRO_BOOTS);
 
-        getOrCreateTagBuilder(ItemTags.HEAD_ARMOR)
+        valueLookupBuilder(ItemTags.HEAD_ARMOR)
                 .add(ModItemsImpl.VELCRO_HELMET);
-        getOrCreateTagBuilder(ItemTags.CHEST_ARMOR)
+        valueLookupBuilder(ItemTags.CHEST_ARMOR)
                 .add(ModItemsImpl.VELCRO_CHESTPLATE);
-        getOrCreateTagBuilder(ItemTags.LEG_ARMOR)
+        valueLookupBuilder(ItemTags.LEG_ARMOR)
                 .add(ModItemsImpl.VELCRO_LEGGINGS);
-        getOrCreateTagBuilder(ItemTags.FOOT_ARMOR)
+        valueLookupBuilder(ItemTags.FOOT_ARMOR)
                 .add(ModItemsImpl.VELCRO_BOOTS);
 
-        getOrCreateTagBuilder(BreezeBounceTags.BOUNCE_BLOCKS)
+        valueLookupBuilder(BreezeBounceTags.BOUNCE_BLOCKS)
                 .add(ModItemsImpl.BASIC_BOUNCE,
                         ModItemsImpl.BASIC_BOUNCE_ORANGE,
                         ModItemsImpl.BASIC_BOUNCE_MAGENTA,
@@ -65,7 +65,7 @@ public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
                         ModItemsImpl.BASIC_BOUNCE_BLACK
                 );
 
-        getOrCreateTagBuilder(BreezeBounceTags.BOUNCE_STAIRS)
+        valueLookupBuilder(BreezeBounceTags.BOUNCE_STAIRS)
                 .add(ModItemsImpl.BASIC_BOUNCE_STAIR_WHITE,
                         ModItemsImpl.BASIC_BOUNCE_STAIR_ORANGE,
                         ModItemsImpl.BASIC_BOUNCE_STAIR_MAGENTA,
@@ -84,7 +84,7 @@ public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
                         ModItemsImpl.BASIC_BOUNCE_STAIR_BLACK
                 );
 
-        getOrCreateTagBuilder(BreezeBounceTags.BOUNCE_SLABS)
+        valueLookupBuilder(BreezeBounceTags.BOUNCE_SLABS)
                 .add(ModItemsImpl.BASIC_BOUNCE_SLAB_WHITE,
                         ModItemsImpl.BASIC_BOUNCE_SLAB_ORANGE,
                         ModItemsImpl.BASIC_BOUNCE_SLAB_MAGENTA,
@@ -103,7 +103,7 @@ public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
                         ModItemsImpl.BASIC_BOUNCE_SLAB_BLACK
                 );
 
-        getOrCreateTagBuilder(BreezeBounceTags.BOUNCE_WALLS)
+        valueLookupBuilder(BreezeBounceTags.BOUNCE_WALLS)
                 .add(ModItemsImpl.BASIC_BOUNCE_WALL,
                         ModItemsImpl.BASIC_BOUNCE_WALL_ORANGE,
                         ModItemsImpl.BASIC_BOUNCE_WALL_MAGENTA,

@@ -22,7 +22,6 @@ import java.util.function.Function;
 import static com.chefmooon.breezebounce.common.registry.ModItems.basicItemProperties;
 
 public class ModItemsImpl {
-//    public static final DeferredRegister<Item> ITEMS = DeferredRegister.Items.create(Registries.ITEM, BreezeBounce.MOD_ID);
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(BreezeBounce.MOD_ID);
     public static LinkedHashSet<DeferredItem<? extends Item>> CREATIVE_TAB_ITEMS = Sets.newLinkedHashSet();
 

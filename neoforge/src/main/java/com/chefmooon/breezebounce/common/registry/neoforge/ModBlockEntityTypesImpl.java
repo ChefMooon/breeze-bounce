@@ -16,9 +16,6 @@ public class ModBlockEntityTypesImpl {
     public static final Supplier<BlockEntityType<InflationMachineBlockEntityImpl>> INFLATION_MACHINE = BLOCK_ENTITIES.register(ModBlockEntityTypes.INFLATION_MACHINE.getPath(),
             () -> new BlockEntityType<>(InflationMachineBlockEntityImpl::new, ModBlocksImpl.INFLATION_MACHINE.get()));
 
-//    public static final Supplier<BlockEntityType<InflationMachineBlockEntityImpl>> INFLATION_MACHINE = BLOCK_ENTITIES.register(ModBlockEntityTypes.INFLATION_MACHINE.getPath(),
-//            () -> BlockEntityType.Builder.of(InflationMachineBlockEntityImpl::new, ModBlocksImpl.INFLATION_MACHINE.get()).build(null));
-
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);
     }

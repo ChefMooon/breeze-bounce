@@ -20,13 +20,6 @@ public class ModBlockEntityTypesImpl {
         return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, location, FabricBlockEntityTypeBuilder.<T>create(entityFactory, blocks).build());
     }
 
-//    public static final BlockEntityType<InflationMachineBlockEntity> INFLATION_MACHINE = registerBlockEntity(ModBlockEntityTypes.INFLATION_MACHINE,
-//            BlockEntityType.Builder.of(InflationMachineBlockEntityImpl::new, ModBlocksImpl.INFLATION_MACHINE));
-//
-//    public static <T extends BlockEntity> BlockEntityType<T> registerBlockEntity(ResourceLocation location, BlockEntityType.Builder<T> builder) {
-//        return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, location, builder.build(null));
-//    }
-
     public static void register() {
     }
 }
