@@ -32,12 +32,32 @@ public class VelcroEffect extends MobEffect {
         if (isTouchingHorizontalSide(livingEntity, level)) { // TODO: improve make sound on initial contact and fall off
             if (!verticalSound) playVelcroSound(level, belowPos, livingEntity, livingEntity.isCrouching(), livingEntity.getDeltaMovement());
             if (livingEntity.isCrouching()) {
-                livingEntity.setDeltaMovement(livingEntity.getDeltaMovement().x * 0.8, 0.0, livingEntity.getDeltaMovement().z * 0.8);
+                livingEntity.setDeltaMovement(getVelcroMotionVector(livingEntity));
                 livingEntity.resetFallDistance();
             }
         }
 
         return true;
+    }
+
+    private Vec3 getVelcroMotionVector(LivingEntity livingEntity) {
+        float headRot = livingEntity.getViewXRot(1.0F);
+        double dx = livingEntity.getKnownMovement().x;
+        double dz = livingEntity.getKnownMovement().z;
+        double verticalSpeedThreshold = 0.002;
+        if (Math.abs(dx) > verticalSpeedThreshold || Math.abs(dz) > verticalSpeedThreshold) {
+            double dy = (-headRot / 8) * 0.005;
+            return new Vec3(dx * 0.8, dy, dz * 0.8);
+        } else {
+            boolean notMoving = Math.abs(dx) < verticalSpeedThreshold || Math.abs(dz) < verticalSpeedThreshold;
+            if (notMoving && headRot > 75.0F) {
+                return new Vec3(dx * 0.8, -0.03, dz * 0.8);
+            } else if (notMoving && headRot < -75.0F) {
+                return new Vec3(dx * 0.8, 0.03, dz * 0.8);
+            } else {
+                return new Vec3(dx * 0.8, 0.0, dz * 0.8);
+            }
+        }
     }
 
     private boolean isTouchingHorizontalSide(LivingEntity entity, Level level) {
