@@ -15,6 +15,7 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static com.chefmooon.breezebounce.common.registry.ModBlocks.*;
 
@@ -22,7 +23,7 @@ public class ModBlocksImpl {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(BreezeBounce.MOD_ID);
 
     public static final DeferredBlock<Block> INFLATION_MACHINE = registerBlock(ModBlocks.INFLATION_MACHINE,
-            InflationMachineBlockImpl::new, BlockBehaviour.Properties.ofFullCopy(Blocks.COBBLESTONE));
+            InflationMachineBlockImpl::new, () -> BlockBehaviour.Properties.ofFullCopy(Blocks.COBBLESTONE));
 
     public static final DeferredBlock<Block> BASIC_BOUNCE_WHITE = registerBaseBlock(ModBlocks.BASIC_BOUNCE_WHITE,
             basicBounceWhite());
@@ -173,18 +174,18 @@ public class ModBlocksImpl {
     }
 
     public static DeferredBlock<Block> registerBaseBlock(ResourceLocation location, BlockBehaviour.Properties properties) {
-        return registerBlock(location, BreezeBounceBlockImpl::new, properties);
+        return registerBlock(location, BreezeBounceBlockImpl::new, () -> properties);
     }
 
     public static DeferredBlock<Block> registerSlabBlock(ResourceLocation location, BlockBehaviour.Properties properties) {
-        return registerBlock(location, BreezeBounceSlabBlockImpl::new, properties);
+        return registerBlock(location, BreezeBounceSlabBlockImpl::new, () -> properties);
     }
 
     public static DeferredBlock<Block> registerWallBlock(ResourceLocation location, BlockBehaviour.Properties properties) {
-        return registerBlock(location, BreezeBounceWallBlockImpl::new, properties);
+        return registerBlock(location, BreezeBounceWallBlockImpl::new, () -> properties);
     }
 
-    public static <B extends Block> DeferredBlock<B> registerBlock(ResourceLocation location, Function<BlockBehaviour.Properties, ? extends B> function, BlockBehaviour.Properties properties) {
+    public static <B extends Block> DeferredBlock<B> registerBlock(ResourceLocation location, Function<BlockBehaviour.Properties, ? extends B> function, Supplier<BlockBehaviour.Properties> properties) {
         return BLOCKS.registerBlock(location.getPath(), function, properties);
     }
 

@@ -8,12 +8,10 @@ import com.chefmooon.breezebounce.common.util.ValidConnectionUtil;
 import com.google.common.collect.Maps;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.network.chat.MutableComponent;
@@ -35,7 +33,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
@@ -124,9 +121,7 @@ public class InflationMachineBlockEntity extends BlockEntity implements WorldlyC
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
         this.lockKey = LockCode.fromTag(input);
-        if (input.contains("CustomName")) {
-            this.name = parseCustomNameSafe(input, "CustomName");
-        }
+        this.name = parseCustomNameSafe(input, "CustomName");
         this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
         ContainerHelper.loadAllItems(input, this.items);
         this.inflateTime = input.getShortOr("InflateTime", (short)0);
@@ -151,12 +146,6 @@ public class InflationMachineBlockEntity extends BlockEntity implements WorldlyC
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
     }
-
-//    @Override
-//    public @NotNull CompoundTag getUpdateTag(HolderLookup.Provider provider) {
-//        return  super.getUpdateTag(provider);
-//        return this.saveCustomAndMetadata(provider);
-//    }
 
     protected int getInflateDuration(ItemStack itemStack) {
         if (itemStack.isEmpty()) {

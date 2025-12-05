@@ -18,7 +18,7 @@ public class BreezeBounceImpl {
     public BreezeBounceImpl(IEventBus modEventBus, ModContainer modContainer) {
         BreezeBounce.init();
 
-        if (FMLEnvironment.dist.isClient()) {
+        if (FMLEnvironment.getDist().isClient()) {
             modEventBus.addListener(BreezeBounceClientImpl::init);
         }
 

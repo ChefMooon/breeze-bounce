@@ -19,8 +19,6 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import java.util.LinkedHashSet;
 import java.util.function.Function;
 
-import static com.chefmooon.breezebounce.common.registry.ModItems.basicItemProperties;
-
 public class ModItemsImpl {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(BreezeBounce.MOD_ID);
     public static LinkedHashSet<DeferredItem<? extends Item>> CREATIVE_TAB_ITEMS = Sets.newLinkedHashSet();
@@ -113,13 +111,13 @@ public class ModItemsImpl {
     public static final DeferredItem<BlockItem> BASIC_BOUNCE_WALL_PINK = registerItem(ModItems.BASIC_BOUNCE_WALL_PINK, ModBlocksImpl.BASIC_BOUNCE_WALL_PINK);
 
     public static DeferredItem<BlockItem> registerStairItem(final ResourceLocation location, final DeferredBlock<BreezeBounceStairBlockImpl> block) {
-        DeferredItem<BlockItem> item = ITEMS.registerSimpleBlockItem(location.getPath(), block, basicItemProperties());
+        DeferredItem<BlockItem> item = ITEMS.registerSimpleBlockItem(location.getPath(), block, ModItems::basicItemProperties);
         CREATIVE_TAB_ITEMS.add(item);
         return item;
     }
 
     public static DeferredItem<BlockItem> registerItem(final ResourceLocation location, final DeferredBlock<Block> block) {
-        DeferredItem<BlockItem> item = ITEMS.registerSimpleBlockItem(location.getPath(), block, basicItemProperties());
+        DeferredItem<BlockItem> item = ITEMS.registerSimpleBlockItem(location.getPath(), block, ModItems::basicItemProperties);
         CREATIVE_TAB_ITEMS.add(item);
         return item;
     }

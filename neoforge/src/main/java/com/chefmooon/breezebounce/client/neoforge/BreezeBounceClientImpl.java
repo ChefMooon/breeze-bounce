@@ -32,7 +32,7 @@ public class BreezeBounceClientImpl {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void registerParticles(RegisterParticleProvidersEvent event) {
-        Minecraft.getInstance().particleEngine.register(ModParticleTypes.BOUNCE_WHITE.get(), BounceParticle.Provider::new);
+        event.registerSpriteSet(ModParticleTypes.BOUNCE_WHITE.get(), BounceParticle.Provider::new);
     }
 
     public static void handleVelcroS2CPayload(final VelcroS2CPayload payload, final IPayloadContext context) { // should this be somewhere else?
