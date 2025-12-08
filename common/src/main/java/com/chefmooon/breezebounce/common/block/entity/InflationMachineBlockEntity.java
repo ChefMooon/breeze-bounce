@@ -124,9 +124,7 @@ public class InflationMachineBlockEntity extends BlockEntity implements WorldlyC
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
         this.lockKey = LockCode.fromTag(input);
-        if (input.contains("CustomName")) {
-            this.name = parseCustomNameSafe(input, "CustomName");
-        }
+        this.name = parseCustomNameSafe(input, "CustomName");
         this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
         ContainerHelper.loadAllItems(input, this.items);
         this.inflateTime = input.getShortOr("InflateTime", (short)0);
