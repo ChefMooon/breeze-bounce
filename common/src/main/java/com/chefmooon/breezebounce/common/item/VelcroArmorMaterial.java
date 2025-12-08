@@ -24,7 +24,7 @@ public class VelcroArmorMaterial {
                     ArmorType.BOOTS, 1
             ),
             15,
-            Holder.direct(ModSounds.ITEM_VELCRO_ARMOUR_EQUIP.get()), // TODO: fix sound
+            Holder.direct(ModSounds.ITEM_VELCRO_ARMOUR_EQUIP.get()),
             0.0F,
             0.0F,
             ItemTags.REPAIRS_LEATHER_ARMOR,
