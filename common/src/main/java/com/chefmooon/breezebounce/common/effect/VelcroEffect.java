@@ -5,9 +5,11 @@ import com.chefmooon.breezebounce.common.network.VelcroS2CPayload;
 import com.chefmooon.breezebounce.common.registry.ModSounds;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.Entity;
@@ -27,16 +29,17 @@ public class VelcroEffect extends MobEffect {
 
         boolean verticalSound = false;
         if (serverLevel.getBlockState(belowPos).getBlock() instanceof SimpleBreezeBounceBlock) {
-            verticalSound = playVelcroSound(serverLevel, belowPos, livingEntity);
+            verticalSound = playVelcroSound(serverLevel, belowPos, livingEntity, false);
         }
 
-        if (isTouchingHorizontalSide(livingEntity, serverLevel)) { // TODO: improve make sound on initial contact and fall off
-            if (!verticalSound) playVelcroSound(serverLevel, belowPos, livingEntity);
+        Direction horizontalSide = isTouchingHorizontalSide(livingEntity, serverLevel);
+        if (horizontalSide != null) { // TODO: improve make sound on initial contact and fall off
+            if (!verticalSound) playVelcroSound(serverLevel, belowPos, livingEntity, true);
             if (livingEntity.isCrouching()) {
                 Entity serverEntity = serverLevel.getEntity(livingEntity.getUUID());
                 if (serverEntity != null) {
-                    setEntityVerticalMotionToZero(serverEntity, livingEntity);
-                    sendVelcroNoFallPacketToClient(serverEntity, new VelcroS2CPayload(serverEntity.getUUID(), getVelcroMotionVector(livingEntity)));
+                    setEntityVerticalMotionToZero(serverEntity, livingEntity, horizontalSide);
+                    sendVelcroNoFallPacketToClient(serverEntity, new VelcroS2CPayload(serverEntity.getUUID(), getVelcroMotionVector(livingEntity, horizontalSide)));
                 }
             }
         }
@@ -49,32 +52,27 @@ public class VelcroEffect extends MobEffect {
         throw new AssertionError();
     }
 
-    private void setEntityVerticalMotionToZero(Entity entity, LivingEntity livingEntity) {
-        entity.setDeltaMovement(getVelcroMotionVector(livingEntity));
+    private void setEntityVerticalMotionToZero(Entity entity, LivingEntity livingEntity, Direction direction) {
+        entity.setDeltaMovement(getVelcroMotionVector(livingEntity, direction));
         entity.resetFallDistance();
     }
 
-    private Vec3 getVelcroMotionVector(LivingEntity livingEntity) {
-        float headRot = livingEntity.getViewXRot(1.0F);
+    private Vec3 getVelcroMotionVector(LivingEntity livingEntity, Direction direction) {
         double dx = livingEntity.getKnownMovement().x;
         double dz = livingEntity.getKnownMovement().z;
-        double verticalSpeedThreshold = 0.002;
-        if (Math.abs(dx) > verticalSpeedThreshold || Math.abs(dz) > verticalSpeedThreshold) {
-            double dy = (-headRot / 8) * 0.005;
-            return new Vec3(dx * 0.8, dy, dz * 0.8);
-        } else {
-            boolean notMoving = Math.abs(dx) < verticalSpeedThreshold || Math.abs(dz) < verticalSpeedThreshold;
-            if (notMoving && headRot > 75.0F) {
-                return new Vec3(dx * 0.8, -0.03, dz * 0.8);
-            } else if (notMoving && headRot < -75.0F) {
-                return new Vec3(dx * 0.8, 0.03, dz * 0.8);
-            } else {
-                return new Vec3(dx * 0.8, 0.0, dz * 0.8);
+        double dy = (-livingEntity.getViewXRot(1.0F) / 8) * 0.005;
+        if (direction != null) {
+            boolean facingWall = direction != livingEntity.getDirection().getOpposite();
+            if (dx != 0.0 || dz != 0.0) {
+                return new Vec3(dx * 0.8, facingWall ? dy : -dy, dz * 0.8);
             }
+        } else if (Math.abs(dx) > 0.0 || Math.abs(dz) > 0.0) {
+            return new Vec3(dx * 0.8, dy, dz * 0.8);
         }
+        return new Vec3(dx * 0.8, 0.0, dz * 0.8);
     }
 
-    private boolean isTouchingHorizontalSide(LivingEntity entity, Level level) {
+    private Direction isTouchingHorizontalSide(LivingEntity entity, Level level) {
         AABB bb = entity.getBoundingBox();
         double eps = 1e-6;
 
@@ -97,26 +95,22 @@ public class VelcroEffect extends MobEffect {
                 for (int z = startZ; z <= endZ; z++) {
                     BlockPos pos = new BlockPos(x, y, z);
                     if (!isBounceBlock(level, pos)) continue;
-                    if (isBlockSideTouching(bb, pos, eps)) return true;
+                    Direction direction = getBlockSideTouchingDirection(bb, pos, eps);
+                    if (direction != null) return direction;
                 }
             }
         }
 
-        return false;
+        return null;
     }
 
-    private boolean isBounceBlock(Level level, BlockPos pos) {
-        if (!level.isLoaded(pos)) return false;
-        return level.getBlockState(pos).getBlock() instanceof SimpleBreezeBounceBlock;
-    }
-
-    private boolean isBlockSideTouching(AABB entityBB, BlockPos pos, double eps) {
+    private Direction getBlockSideTouchingDirection(AABB entityBB, BlockPos pos, double eps) {
         AABB blockBB = new AABB(
-            pos.getX() - eps, pos.getY() - eps, pos.getZ() - eps,
-            pos.getX() + 1.0 + eps, pos.getY() + 1.0 + eps, pos.getZ() + 1.0 + eps
+                pos.getX() - eps, pos.getY() - eps, pos.getZ() - eps,
+                pos.getX() + 1.0 + eps, pos.getY() + 1.0 + eps, pos.getZ() + 1.0 + eps
         );
 
-        if (!entityBB.intersects(blockBB)) return false;
+        if (!entityBB.intersects(blockBB)) return null;
 
         double overlapX = Math.min(entityBB.maxX, blockBB.maxX) - Math.max(entityBB.minX, blockBB.minX);
         double overlapY = Math.min(entityBB.maxY, blockBB.maxY) - Math.max(entityBB.minY, blockBB.minY);
@@ -124,10 +118,23 @@ public class VelcroEffect extends MobEffect {
 
         double minOverlap = Math.min(overlapX, Math.min(overlapY, overlapZ));
 
-        return (minOverlap < overlapY - 1e-6) && (minOverlap > 0.0);
+        if (minOverlap >= overlapY - 1e-6 || minOverlap <= 0.0) return null;
+
+        if (minOverlap == overlapX) {
+            return entityBB.minX < blockBB.minX ? Direction.EAST : Direction.WEST;
+        } else if (minOverlap == overlapZ) {
+            return entityBB.minZ < blockBB.minZ ? Direction.SOUTH : Direction.NORTH;
+        }
+
+        return null;
     }
 
-    private boolean playVelcroSound(ServerLevel serverLevel, BlockPos blockPos, LivingEntity livingEntity) {
+    private boolean isBounceBlock(Level level, BlockPos pos) {
+        if (!level.isLoaded(pos)) return false;
+        return level.getBlockState(pos).is(BlockTags.WOOL);
+    }
+
+    private boolean playVelcroSound(ServerLevel serverLevel, BlockPos blockPos, LivingEntity livingEntity, boolean onWall) {
         Vec3 deltaMovement = livingEntity.getKnownMovement();
         double dx = deltaMovement.x;
         double dy = deltaMovement.y;
@@ -136,8 +143,8 @@ public class VelcroEffect extends MobEffect {
         double horizontal = Math.sqrt(dx * dx + dz * dz);
         double speed = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
-        final double MIN_SPEED = 0.079;
-        if (speed <= MIN_SPEED) return false;
+        final double MIN_SPEED = onWall ? 0.03 : 0.079;
+        if (speed == 0.0784000015258789 || speed <= MIN_SPEED) return false;
 
         double chance = Math.min(0.2, 0.02 + speed * 0.2);
 
