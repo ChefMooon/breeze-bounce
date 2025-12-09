@@ -7,9 +7,11 @@ Greatly appreciate any bug reports on the
 
 ### Added
 
-- Velcro Armour: New armour set that allows players wearing a full set to stick to Bounce Blocks while crouching
+- Velcro Armour: New armour set that grants the "Velcro" effect when wearing the complete set
+    - "Velcro" effect lets players stick to the sides of wool-tagged blocks
     - Made from Leather and Cactus
     - Can be dyed similar to leather armour
+    - Compatible with vanilla armour trims
 
 ### Fixed
 
