@@ -1,6 +1,8 @@
 package com.chefmooon.breezebounce.common.block;
 
+import com.chefmooon.breezebounce.common.network.VelcroS2CPayload;
 import com.chefmooon.breezebounce.common.registry.ModSounds;
+import com.chefmooon.breezebounce.common.util.PayloadUtil;
 import com.chefmooon.breezebounce.common.util.ValidConnectionUtil;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
@@ -154,7 +156,13 @@ public interface SimpleBreezeBounceBlock {
         AABB checkAABB = getEntityCheckAABB(block, blockState, blockPos);
         List<Entity> entities = level.getEntitiesOfClass(Entity.class, checkAABB, entity -> true);
         for (Entity entity : entities) {
-            if (entity != null && !entity.is(sourceEntity)) this.doubleBounceUp(level, blockPos, entity, TERMINAL_VELOCITY);
+            if (entity != null && !entity.is(sourceEntity)) {
+                if (entity instanceof Player player) {
+                    Vec3 vec3 = player.getDeltaMovement();
+                    PayloadUtil.sendDoubleBouncePacketToClient(player, new VelcroS2CPayload(player.getUUID(), new Vec3(vec3.x, TERMINAL_VELOCITY, vec3.z)));
+                }
+                this.doubleBounceUp(level, blockPos, entity, TERMINAL_VELOCITY);
+            }
         }
     }
 
