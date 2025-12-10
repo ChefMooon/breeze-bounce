@@ -2,8 +2,10 @@ package com.chefmooon.breezebounce.fabric;
 
 import com.chefmooon.breezebounce.BreezeBounce;
 import com.chefmooon.breezebounce.common.fabric.CommonSetup;
+import com.chefmooon.breezebounce.common.network.VelcroS2CPayload;
 import com.chefmooon.breezebounce.common.registry.fabric.*;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 
 public class BreezeBounceImpl implements ModInitializer {
 	public static final String MOD_ID = "breezebounce";
@@ -24,5 +26,10 @@ public class BreezeBounceImpl implements ModInitializer {
 
 		CommonSetup.init();
 
+        registerNetwork();
 	}
+
+    private static void registerNetwork() {
+        PayloadTypeRegistry.playS2C().register(VelcroS2CPayload.ID, VelcroS2CPayload.CODEC);
+    }
 }
