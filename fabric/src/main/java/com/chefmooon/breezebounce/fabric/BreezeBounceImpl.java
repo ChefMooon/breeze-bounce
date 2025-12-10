@@ -8,7 +8,6 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 
 public class BreezeBounceImpl implements ModInitializer {
-	public static final String MOD_ID = "breezebounce";
 
 	@Override
 	public void onInitialize() {
