@@ -2,7 +2,7 @@ package com.chefmooon.breezebounce.common.core;
 
 import com.chefmooon.breezebounce.common.registry.ModItems;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -84,7 +84,7 @@ public enum BreezeBounceBlockTypes implements StringRepresentable {
         return "";
     }
 
-    private static Item getItem(ResourceLocation resourceLocation) {
-        return BuiltInRegistries.ITEM.get(resourceLocation).get().value();
+    private static Item getItem(Identifier identifier) {
+        return BuiltInRegistries.ITEM.get(identifier).get().value();
     }
 }

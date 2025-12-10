@@ -2,7 +2,7 @@ package com.chefmooon.breezebounce.common.registry;
 
 import com.chefmooon.breezebounce.common.util.TextUtil;
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 
 import java.util.function.Supplier;
@@ -26,7 +26,7 @@ public class ModSounds {
     }
 
     @ExpectPlatform
-    public static <T extends SoundEvent> Supplier<T> registerSound(ResourceLocation id, Supplier<T> supplier) {
+    public static <T extends SoundEvent> Supplier<T> registerSound(Identifier id, Supplier<T> supplier) {
         throw new AssertionError();
     }
 

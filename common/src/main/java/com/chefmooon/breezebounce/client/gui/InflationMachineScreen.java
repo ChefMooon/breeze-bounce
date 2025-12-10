@@ -2,20 +2,18 @@ package com.chefmooon.breezebounce.client.gui;
 
 import com.chefmooon.breezebounce.common.block.entity.container.InflationMachineMenu;
 import com.chefmooon.breezebounce.common.util.TextUtil;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 
 import java.awt.*;
 
 public class InflationMachineScreen extends AbstractContainerScreen<InflationMachineMenu> {
-    private static final ResourceLocation BACKGROUND_TEXTURE = TextUtil.res("textures/gui/inflation_machine.png");
+    private static final Identifier BACKGROUND_TEXTURE = TextUtil.res("textures/gui/inflation_machine.png");
     private static final Rectangle INFLATION_ICON = new Rectangle(80,21,16,16);
     public InflationMachineScreen(InflationMachineMenu abstractContainerMenu, Inventory inventory, Component component) {
         super(abstractContainerMenu, inventory, component);

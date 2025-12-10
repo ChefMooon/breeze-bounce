@@ -9,8 +9,8 @@ import com.chefmooon.breezebounce.common.registry.ModBlocks;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -167,12 +167,12 @@ public class ModBlocksImpl {
     public static final Block BASIC_BOUNCE_WALL_PINK = registerBlock(ModBlocks.BASIC_BOUNCE_WALL_PINK,
             new BreezeBounceWallBlock(BlockBehaviour.Properties.ofFullCopy(BASIC_BOUNCE_PINK).setId(key(ModBlocks.BASIC_BOUNCE_WALL_PINK))));
 
-    private static Block registerBlock(ResourceLocation location, Block block) {
+    private static Block registerBlock(Identifier location, Block block) {
         return Registry.register(BuiltInRegistries.BLOCK, location, block);
     }
 
-    private static ResourceKey<Block> key(ResourceLocation resourceLocation) {
-        return ResourceKey.create(Registries.BLOCK, resourceLocation);
+    private static ResourceKey<Block> key(Identifier location) {
+        return ResourceKey.create(Registries.BLOCK, location);
     }
 
     public static void register() {

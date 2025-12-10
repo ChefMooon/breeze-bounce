@@ -10,6 +10,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,6 +31,12 @@ public class InflationMachineBlockEntityImpl extends InflationMachineBlockEntity
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
-        return this.canOpen(player) ? new InflationMachineMenu(i, inventory, this, this.dataAccess) : null;
+        if (this.canOpen(player)) {
+            return this.createMenu(i, inventory, player);
+        } else {
+            sendChestLockedNotifications(this.getBlockPos().getCenter(), player, this.getDisplayName());
+            return null;
+        }
+//        return this.canOpen(player) ? new InflationMachineMenu(i, inventory, this, this.dataAccess) : sendChestLockedNotifications(this.getBlockPos().getCenter(), player, this.getDisplayName());
     }
 }

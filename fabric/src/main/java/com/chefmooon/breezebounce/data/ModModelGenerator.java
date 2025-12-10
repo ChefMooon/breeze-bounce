@@ -15,7 +15,7 @@ import net.minecraft.client.data.models.blockstates.PropertyDispatch;
 import net.minecraft.client.data.models.model.*;
 import net.minecraft.client.renderer.block.model.VariantMutator;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.Half;
@@ -84,7 +84,7 @@ public class ModModelGenerator extends FabricModelProvider {
                 .put(TextureSlot.TOP, ModelLocationUtils.getModelLocation(fullBlock).withSuffix("_powered"))
                 .put(TextureSlot.SIDE, ModelLocationUtils.getModelLocation(fullBlock).withSuffix("_powered"));
 
-        ResourceLocation BASIC_BOUNCE_STAIRS_STRAIGHT_LOCATION = ModelTemplates.STAIRS_STRAIGHT.create(ModelLocationUtils.getModelLocation(stairBlock, "_straight"),
+        Identifier BASIC_BOUNCE_STAIRS_STRAIGHT_LOCATION = ModelTemplates.STAIRS_STRAIGHT.create(ModelLocationUtils.getModelLocation(stairBlock, "_straight"),
                 mapping, blockStateModelGenerator.modelOutput);
 
         MultiVariant BASIC_BOUNCE_STAIRS_INNER = BlockModelGenerators.plainVariant(ModelTemplates.STAIRS_INNER.create(ModelLocationUtils.getModelLocation(stairBlock, "_inner"),
@@ -191,8 +191,8 @@ public class ModModelGenerator extends FabricModelProvider {
     }
 
     private void createBasicBounceSlab(Block fullBlock, Block slabBlock, BlockModelGenerators blockStateModelGenerator){
-        ResourceLocation slabModelLocation = ModelLocationUtils.getModelLocation(slabBlock);
-        ResourceLocation fullModelLocation = ModelLocationUtils.getModelLocation(fullBlock);
+        Identifier slabModelLocation = ModelLocationUtils.getModelLocation(slabBlock);
+        Identifier fullModelLocation = ModelLocationUtils.getModelLocation(fullBlock);
 
         TextureMapping mapping = TextureMapping.singleSlot(TextureSlot.BOTTOM, fullModelLocation)
                 .put(TextureSlot.TOP, fullModelLocation);
@@ -225,7 +225,7 @@ public class ModModelGenerator extends FabricModelProvider {
     }
 
     private void createBasicBounceWall(Block block, BlockModelGenerators blockStateModelGenerator) {
-        ResourceLocation BASIC_BOUNCE_WALL_LOCATION = ModModelTemplates.TEMPLATE_BOUNCE_WALL.create(ModelLocationUtils.getModelLocation(block),
+        Identifier BASIC_BOUNCE_WALL_LOCATION = ModModelTemplates.TEMPLATE_BOUNCE_WALL.create(ModelLocationUtils.getModelLocation(block),
                 TextureMapping.singleSlot(TextureSlot.ALL, ModelLocationUtils.getModelLocation(block)), blockStateModelGenerator.modelOutput);
         MultiVariant BASIC_BOUNCE_WALL = BlockModelGenerators.plainVariant(BASIC_BOUNCE_WALL_LOCATION);
         MultiVariant BASIC_BOUNCE_POWERED_WALL = BlockModelGenerators.plainVariant(ModModelTemplates.TEMPLATE_BOUNCE_WALL.create(ModelLocationUtils.getModelLocation(block, "_powered"),

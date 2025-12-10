@@ -19,6 +19,7 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.*;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
@@ -33,6 +34,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
@@ -363,18 +365,32 @@ public class InflationMachineBlockEntity extends BlockEntity implements WorldlyC
     }
 
     public boolean canOpen(Player player) {
-        return canUnlock(player, this.lockKey, this.getDisplayName());
+        return this.lockKey.canUnlock(player);
+//        return canUnlock(player, this.lockKey, this.getDisplayName());
     }
 
-    public static boolean canUnlock(Player player, LockCode code, Component displayName) {
-        if (!player.isSpectator() && !code.unlocksWith(player.getMainHandItem())) {
-            player.displayClientMessage(Component.translatable("container.isLocked", displayName), true);
-            player.playNotifySound(SoundEvents.CHEST_LOCKED, SoundSource.BLOCKS, 1.0F, 1.0F);
-            return false;
-        } else {
-            return true;
+    public static void sendChestLockedNotifications(Vec3 vec3, Player player, Component component) {
+        Level level = player.level();
+        player.displayClientMessage(Component.translatable("container.isLocked", player), true);
+        if (!level.isClientSide()) {
+            level.playSound((Entity)null, vec3.x(), vec3.y(), vec3.z(), SoundEvents.CHEST_LOCKED, SoundSource.BLOCKS, 1.0F, 1.0F);
         }
+
     }
+
+//    public static boolean canUnlock(Player player, LockCode code, Component displayName) {
+//        Level level = player.level();
+//        if (!player.isSpectator() && !code.unlocksWith(player.getMainHandItem())) {
+//            player.displayClientMessage(Component.translatable("container.isLocked", displayName), true);
+//            if (!level.isClientSide()) {
+//                level.playSound((Entity)null, player.x(), player.y(), player.z(), SoundEvents.CHEST_LOCKED, SoundSource.BLOCKS, 1.0F, 1.0F);
+//            }
+//            player.playNotifySound(SoundEvents.CHEST_LOCKED, SoundSource.BLOCKS, 1.0F, 1.0F);
+//            return false;
+//        } else {
+//            return true;
+//        }
+//    }
 
     protected void applyImplicitComponents(DataComponentGetter dataComponentGetter) {
         super.applyImplicitComponents(dataComponentGetter);

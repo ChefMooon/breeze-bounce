@@ -24,6 +24,12 @@ public class InflationMachineBlockEntityImpl extends InflationMachineBlockEntity
 
     @Override
     public @Nullable AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
-        return this.canOpen(player) ? new InflationMachineMenu(i, inventory, this, this.dataAccess) : null;
+        if (this.canOpen(player)) {
+            return this.createMenu(i, inventory, player);
+        } else {
+            sendChestLockedNotifications(this.getBlockPos().getCenter(), player, this.getDisplayName());
+            return null;
+        }
+//        return this.canOpen(player) ? new InflationMachineMenu(i, inventory, this, this.dataAccess) : null;
     }
 }

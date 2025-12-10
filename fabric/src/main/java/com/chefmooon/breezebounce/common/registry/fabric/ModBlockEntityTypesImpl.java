@@ -6,7 +6,7 @@ import com.chefmooon.breezebounce.common.registry.ModBlockEntityTypes;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -16,7 +16,7 @@ public class ModBlockEntityTypesImpl {
     public static final BlockEntityType<InflationMachineBlockEntity> INFLATION_MACHINE = registerBlockEntity(ModBlockEntityTypes.INFLATION_MACHINE,
             InflationMachineBlockEntityImpl::new, ModBlocksImpl.INFLATION_MACHINE);
 
-    private static <T extends BlockEntity> BlockEntityType<T> registerBlockEntity(ResourceLocation location, FabricBlockEntityTypeBuilder.Factory<? extends T> entityFactory, Block... blocks) {
+    private static <T extends BlockEntity> BlockEntityType<T> registerBlockEntity(Identifier location, FabricBlockEntityTypeBuilder.Factory<? extends T> entityFactory, Block... blocks) {
         return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, location, FabricBlockEntityTypeBuilder.<T>create(entityFactory, blocks).build());
     }
 

@@ -7,8 +7,8 @@ import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.equipment.ArmorType;
@@ -106,19 +106,19 @@ public class ModItemsImpl {
     public static final Item BASIC_BOUNCE_WALL_PINK = registerItem(ModItems.BASIC_BOUNCE_WALL_PINK, ModBlocksImpl.BASIC_BOUNCE_WALL_PINK);
 
 
-    private static Item registerItem(ResourceLocation location, Block block) {
+    private static Item registerItem(Identifier location, Block block) {
         BlockItem blockItem = new BlockItem(block, basicItemProperties().setId(key(location)).useBlockDescriptionPrefix());
         ItemGroupEvents.modifyEntriesEvent(ModCreativeTabs.ITEM_GROUP).register(entries -> entries.accept(blockItem));
         return Registry.register(BuiltInRegistries.ITEM, location, blockItem);
     }
 
-    private static Item registerItem(ResourceLocation location, Item item) {
+    private static Item registerItem(Identifier location, Item item) {
         ItemGroupEvents.modifyEntriesEvent(ModCreativeTabs.ITEM_GROUP).register(entries -> entries.accept(item));
         return Registry.register(BuiltInRegistries.ITEM, location, item);
     }
 
-    private static ResourceKey<Item> key(ResourceLocation resourceLocation) {
-        return ResourceKey.create(Registries.ITEM, resourceLocation);
+    private static ResourceKey<Item> key(Identifier location) {
+        return ResourceKey.create(Registries.ITEM, location);
     }
 
     public static void register() {

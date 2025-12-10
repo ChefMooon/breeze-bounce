@@ -6,14 +6,14 @@ import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 
 public class ModMenuTypesImpl {
     public static final MenuType<InflationMachineMenu> INFLATION_MACHINE = register(ModMenuTypes.INFLATION_MACHINE,
             new ExtendedScreenHandlerType<>(InflationMachineMenu::new, BlockPos.STREAM_CODEC));
-    private static <T extends AbstractContainerMenu> MenuType<T> register(ResourceLocation location, MenuType<T> menuType) {
+    private static <T extends AbstractContainerMenu> MenuType<T> register(Identifier location, MenuType<T> menuType) {
         return Registry.register(BuiltInRegistries.MENU, location, menuType);
     }
 

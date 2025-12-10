@@ -4,8 +4,8 @@ import com.chefmooon.breezebounce.BreezeBounce;
 import com.chefmooon.breezebounce.common.block.neoforge.*;
 import com.chefmooon.breezebounce.common.registry.ModBlocks;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -169,23 +169,23 @@ public class ModBlocksImpl {
     public static final DeferredBlock<Block> BASIC_BOUNCE_WALL_PINK = registerWallBlock(ModBlocks.BASIC_BOUNCE_WALL_PINK,
             basicBouncePink());
 
-    public static DeferredBlock<BreezeBounceStairBlockImpl> registerStairBlock(ResourceLocation location, BlockState blockState, BlockBehaviour.Properties properties) {
+    public static DeferredBlock<BreezeBounceStairBlockImpl> registerStairBlock(Identifier location, BlockState blockState, BlockBehaviour.Properties properties) {
         return BLOCKS.register(location.getPath(), key -> new BreezeBounceStairBlockImpl(blockState, properties.setId(ResourceKey.create(Registries.BLOCK, key))));
     }
 
-    public static DeferredBlock<Block> registerBaseBlock(ResourceLocation location, BlockBehaviour.Properties properties) {
+    public static DeferredBlock<Block> registerBaseBlock(Identifier location, BlockBehaviour.Properties properties) {
         return registerBlock(location, BreezeBounceBlockImpl::new, () -> properties);
     }
 
-    public static DeferredBlock<Block> registerSlabBlock(ResourceLocation location, BlockBehaviour.Properties properties) {
+    public static DeferredBlock<Block> registerSlabBlock(Identifier location, BlockBehaviour.Properties properties) {
         return registerBlock(location, BreezeBounceSlabBlockImpl::new, () -> properties);
     }
 
-    public static DeferredBlock<Block> registerWallBlock(ResourceLocation location, BlockBehaviour.Properties properties) {
+    public static DeferredBlock<Block> registerWallBlock(Identifier location, BlockBehaviour.Properties properties) {
         return registerBlock(location, BreezeBounceWallBlockImpl::new, () -> properties);
     }
 
-    public static <B extends Block> DeferredBlock<B> registerBlock(ResourceLocation location, Function<BlockBehaviour.Properties, ? extends B> function, Supplier<BlockBehaviour.Properties> properties) {
+    public static <B extends Block> DeferredBlock<B> registerBlock(Identifier location, Function<BlockBehaviour.Properties, ? extends B> function, Supplier<BlockBehaviour.Properties> properties) {
         return BLOCKS.registerBlock(location.getPath(), function, properties);
     }
 

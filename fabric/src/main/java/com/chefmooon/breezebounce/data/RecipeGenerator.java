@@ -5,7 +5,7 @@ import com.chefmooon.breezebounce.common.registry.fabric.ModItemsImpl;
 import com.chefmooon.breezebounce.common.tag.BreezeBounceTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.advancements.criterion.ItemPredicate;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;

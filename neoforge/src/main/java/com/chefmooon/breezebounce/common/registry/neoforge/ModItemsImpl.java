@@ -6,7 +6,7 @@ import com.chefmooon.breezebounce.common.item.VelcroArmorItem;
 import com.chefmooon.breezebounce.common.item.VelcroArmorMaterial;
 import com.chefmooon.breezebounce.common.registry.ModItems;
 import com.google.common.collect.Sets;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.equipment.ArmorType;
@@ -110,19 +110,19 @@ public class ModItemsImpl {
     public static final DeferredItem<BlockItem> BASIC_BOUNCE_SLAB_PINK = registerItem(ModItems.BASIC_BOUNCE_SLAB_PINK, ModBlocksImpl.BASIC_BOUNCE_SLAB_PINK);
     public static final DeferredItem<BlockItem> BASIC_BOUNCE_WALL_PINK = registerItem(ModItems.BASIC_BOUNCE_WALL_PINK, ModBlocksImpl.BASIC_BOUNCE_WALL_PINK);
 
-    public static DeferredItem<BlockItem> registerStairItem(final ResourceLocation location, final DeferredBlock<BreezeBounceStairBlockImpl> block) {
+    public static DeferredItem<BlockItem> registerStairItem(final Identifier location, final DeferredBlock<BreezeBounceStairBlockImpl> block) {
         DeferredItem<BlockItem> item = ITEMS.registerSimpleBlockItem(location.getPath(), block, ModItems::basicItemProperties);
         CREATIVE_TAB_ITEMS.add(item);
         return item;
     }
 
-    public static DeferredItem<BlockItem> registerItem(final ResourceLocation location, final DeferredBlock<Block> block) {
+    public static DeferredItem<BlockItem> registerItem(final Identifier location, final DeferredBlock<Block> block) {
         DeferredItem<BlockItem> item = ITEMS.registerSimpleBlockItem(location.getPath(), block, ModItems::basicItemProperties);
         CREATIVE_TAB_ITEMS.add(item);
         return item;
     }
 
-    public static <I extends Item> DeferredItem<I> registerItem(final ResourceLocation location, final Function<Item.Properties, ? extends I> func) {
+    public static <I extends Item> DeferredItem<I> registerItem(final Identifier location, final Function<Item.Properties, ? extends I> func) {
         DeferredItem<I> item = ITEMS.registerItem(location.getPath(), func);
         CREATIVE_TAB_ITEMS.add(item);
         return item;
