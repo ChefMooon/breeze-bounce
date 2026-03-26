@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id 'com.gradleup.shadow'
 }
 
 architectury {
@@ -16,12 +16,9 @@ configurations {
 }
 
 dependencies {
-    //forge "net.minecraftforge:forge:${rootProject.forge_version}"
     neoForge "net.neoforged:neoforge:${neoforge_version}"
-    // Remove the next line if you don't want to depend on the API
-    //modApi "dev.architectury:architectury-neoforge:${rootProject.architectury_version}"
 
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
+    common(project(path: ":common")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
 }
 
@@ -29,17 +26,18 @@ processResources {
 
 }
 
-shadowJar {
-    exclude "fabric.mod.json"
-    exclude "architectury.common.json"
-
-    configurations = [project.configurations.shadowCommon]
-    archiveClassifier = "dev-shadow"
+jar {
+    archiveClassifier = "raw"
 }
 
-remapJar {
-    input.set shadowJar.archiveFile
-    dependsOn shadowJar
+shadowJar {
+    dependsOn(jar)
+    mainSpec.sourcePaths.clear()       // Remove default source set inclusion
+    from(zipTree(jar.archiveFile))     // Unpack jar output (preserves Loom modifications)
+
+    configurations = [project.configurations.shadowCommon]
+    archiveClassifier = null           // shadowJar becomes the main artifact
+    from rootProject.file("LICENSE.md")
 }
 
 sourcesJar {
@@ -82,7 +80,7 @@ if (env.MODRINTH_TOKEN) {
         versionNumber = project.version // You don't need to set this manually. Will fail if Modrinth has this version already
         versionType = mod_version_type // This is the default -- can also be `beta` or `alpha`
         changelog = changelogText
-        uploadFile = remapJar // With Loom, this MUST be set to `remapJar` instead of `jar`!
+        uploadFile = shadowJar // With Loom, this MUST be set to `remapJar` instead of `jar`!
         gameVersions = minecraft_supported_versions.split(",").toList()
         loaders = ["neoforge"]
     }
@@ -101,7 +99,7 @@ if (env.CURSEFORGE_TOKEN) {
             }
             addGameVersion "NeoForge"
 
-            mainArtifact(remapJar) {
+            mainArtifact(shadowJar) {
                 displayName = vName
             }
         }

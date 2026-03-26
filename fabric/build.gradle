@@ -1,5 +1,5 @@
 plugins {
-	id "com.github.johnrengelman.shadow" version "7.1.2"
+    id 'com.gradleup.shadow'
 }
 
 architectury {
@@ -17,7 +17,7 @@ configurations {
 
 loom {
 	Project common = project(":common")
-	accessWidenerPath = common.loom.accessWidenerPath
+//	accessWidenerPath = common.loom.accessWidenerPath
 
 	runs {
 		datagen {
@@ -39,12 +39,12 @@ dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 
-	modImplementation "net.fabricmc:fabric-loader:${project.fabric_loader_version}"
+	api "net.fabricmc:fabric-loader:${project.fabric_loader_version}"
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+	api "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
-	common(project(path: ":common", configuration: "namedElements")) { transitive false }
+	common(project(path: ":common")) { transitive false }
 	shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 }
 
@@ -53,7 +53,7 @@ processResources {
 }
 
 tasks.withType(JavaCompile).configureEach {
-	it.options.release = 21
+	it.options.release = 25
 }
 
 java {
@@ -62,22 +62,22 @@ java {
 	// If you remove this line, sources will not be generated.
 	withSourcesJar()
 
-	sourceCompatibility = JavaVersion.VERSION_21
-	targetCompatibility = JavaVersion.VERSION_21
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
+}
+
+jar {
+    archiveClassifier = "raw"
 }
 
 shadowJar {
-	exclude "architectury.common.json"
+    dependsOn(jar)
+    mainSpec.sourcePaths.clear()       // Remove default source set inclusion
+    from(zipTree(jar.archiveFile))     // Unpack jar output (preserves Loom modifications)
 
-	configurations = [project.configurations.shadowCommon]
-	archiveClassifier = "dev-shadow"
-}
-
-remapJar {
-	injectAccessWidener = true
-	input.set shadowJar.archiveFile
-	dependsOn shadowJar
-
+    configurations = [project.configurations.shadowCommon]
+    archiveClassifier = null           // shadowJar becomes the main artifact
+    from rootProject.file("LICENSE.md")
 }
 
 sourcesJar {
@@ -95,7 +95,7 @@ components.java {
 // configure the maven publication
 publishing {
 	publications {
-		create("mavenJava", MavenPublication) {
+		mavenFabric(MavenPublication) {
 			artifactId = project.archives_base_name
 			from components.java
 		}
