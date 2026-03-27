@@ -1,13 +1,14 @@
-Before updating, please **back-up** your world. 
-This is a beta for Minecraft 26.1, ensure you back-up your world before updating.
-Greatly appreciate any bug reports on the 
-[Github](https://github.com/ChefMooon/breeze-bounce/issues)
+Before updating, please **back-up** your world.
+If you encounter a bug please open an issue
+[here](https://github.com/ChefMooon/breeze-bounce/issues)
 
 ***
+
+Initial release for Minecraft 26.1!
 
 ### Fixed
 
 - 1.21.11+ Fixed crash when opening Inflation Machine GUI
 
-[Current Features](https://github.com/ChefMooon/breeze-bounce/blob/1.21.x-multi/README.md#current-features)
+[Detailed Changelog](https://chefmooon.github.io/breezebounce/changelog.html)
 
