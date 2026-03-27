@@ -39,7 +39,7 @@
 	"custom": {
 		"modmenu": {
 			"links": {
-				"modmenu.wiki": "${mod_homepage}",
+				"modmenu.wiki": "${mod_wiki}",
 				"modmenu.discord": "${mod_discord}"
 			}
 		}

@@ -47,6 +47,7 @@ subprojects {
                 mod_description      : project.mod_description,
                 mod_credits          : project.mod_credits,
                 mod_homepage         : project.mod_homepage,
+                mod_wiki             : project.mod_wiki,
                 mod_github           : project.mod_github,
                 mod_issues           : project.mod_issues,
                 mod_discord          : project.mod_discord
