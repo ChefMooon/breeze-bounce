@@ -5,21 +5,9 @@ Greatly appreciate any bug reports on the
 
 ***
 
-### Added
-
-- Velcro Armour: New armour set that grants the "Velcro" effect when wearing the complete set
-    - "Velcro" effect lets players stick to the sides of wool-tagged blocks
-    - Made from Leather and Cactus
-    - Can be dyed similar to leather armour
-    - Compatible with vanilla armour trims
-
 ### Fixed
 
-- When broken Inflation Machine will only remove inflation if the machine is on
-
-### Fixed
-
-- Inflation Machine subtitles
+- 1.21.11+ Fixed crash when opening Inflation Machine GUI
 
 [Current Features](https://github.com/ChefMooon/breeze-bounce/blob/1.21.x-multi/README.md#current-features)
 
