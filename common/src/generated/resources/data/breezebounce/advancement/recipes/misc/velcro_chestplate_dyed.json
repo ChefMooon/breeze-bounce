@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "breezebounce:velcro_chestplate_dyed"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_velcro_chestplate": {
+      "conditions": {
+        "items": [
+          {
+            "items": "breezebounce:velcro_chestplate"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_velcro_chestplate"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "breezebounce:velcro_chestplate_dyed"
+    ]
+  }
+}

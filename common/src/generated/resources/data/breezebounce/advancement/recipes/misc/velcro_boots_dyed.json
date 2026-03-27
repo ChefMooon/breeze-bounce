@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "breezebounce:velcro_boots_dyed"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_velcro_boots": {
+      "conditions": {
+        "items": [
+          {
+            "items": "breezebounce:velcro_boots"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_velcro_boots"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "breezebounce:velcro_boots_dyed"
+    ]
+  }
+}

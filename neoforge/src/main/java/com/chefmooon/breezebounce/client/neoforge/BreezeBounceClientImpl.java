@@ -27,6 +27,7 @@ public class BreezeBounceClientImpl {
 
     @SubscribeEvent
     public static void registerMenuScreens(RegisterMenuScreensEvent event) {
+        // TODO: fix register menu
         event.register(ModMenuTypesImpl.INFLATION_MACHINE.get(), InflationMachineScreen::new);
     }
 

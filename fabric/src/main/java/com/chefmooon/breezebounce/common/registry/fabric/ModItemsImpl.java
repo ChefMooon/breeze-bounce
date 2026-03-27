@@ -3,7 +3,7 @@ package com.chefmooon.breezebounce.common.registry.fabric;
 import com.chefmooon.breezebounce.common.item.VelcroArmorItem;
 import com.chefmooon.breezebounce.common.item.VelcroArmorMaterial;
 import com.chefmooon.breezebounce.common.registry.ModItems;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -108,12 +108,12 @@ public class ModItemsImpl {
 
     private static Item registerItem(Identifier location, Block block) {
         BlockItem blockItem = new BlockItem(block, basicItemProperties().setId(key(location)).useBlockDescriptionPrefix());
-        ItemGroupEvents.modifyEntriesEvent(ModCreativeTabs.ITEM_GROUP).register(entries -> entries.accept(blockItem));
+        CreativeModeTabEvents.modifyOutputEvent(ModCreativeTabs.ITEM_GROUP).register(entries -> entries.accept(blockItem));
         return Registry.register(BuiltInRegistries.ITEM, location, blockItem);
     }
 
     private static Item registerItem(Identifier location, Item item) {
-        ItemGroupEvents.modifyEntriesEvent(ModCreativeTabs.ITEM_GROUP).register(entries -> entries.accept(item));
+        CreativeModeTabEvents.modifyOutputEvent(ModCreativeTabs.ITEM_GROUP).register(entries -> entries.accept(item));
         return Registry.register(BuiltInRegistries.ITEM, location, item);
     }
 

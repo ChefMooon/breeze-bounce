@@ -7,7 +7,7 @@ import com.chefmooon.breezebounce.common.registry.ModParticleTypes;
 import com.chefmooon.breezebounce.common.registry.fabric.ModMenuTypesImpl;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleProviderRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -16,9 +16,10 @@ import net.minecraft.world.entity.Entity;
 public class BreezeBounceClientImpl implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        ParticleFactoryRegistry.getInstance().register(ModParticleTypes.BOUNCE_WHITE.get(), BounceParticle.Provider::new);
+        ParticleProviderRegistry.getInstance().register(ModParticleTypes.BOUNCE_WHITE.get(), BounceParticle.Provider::new);
 
-        MenuScreens.register(ModMenuTypesImpl.INFLATION_MACHINE, InflationMachineScreen::new);
+        // TODO: fix register menu
+        MenuScreens.register(ModMenuTypesImpl.INFLATION_MACHINE.get(), InflationMachineScreen::new);
 
         registerNetworking();
     }

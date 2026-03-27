@@ -4,7 +4,7 @@ import com.chefmooon.breezebounce.BreezeBounce;
 import com.chefmooon.breezebounce.common.registry.ModMenuTypes;
 import com.chefmooon.breezebounce.common.registry.fabric.ModCreativeTabs;
 import com.chefmooon.breezebounce.common.registry.fabric.ModItemsImpl;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.core.HolderLookup;
 
@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class TranslationGenerator extends FabricLanguageProvider {
 
-    protected TranslationGenerator(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
+    protected TranslationGenerator(FabricPackOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(dataOutput, registryLookup);
     }
 

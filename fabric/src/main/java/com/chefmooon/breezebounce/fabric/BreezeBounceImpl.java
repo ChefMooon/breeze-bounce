@@ -28,6 +28,6 @@ public class BreezeBounceImpl implements ModInitializer {
     }
 
     private static void registerNetworking() {
-        PayloadTypeRegistry.playS2C().register(VelcroS2CPayload.ID, VelcroS2CPayload.CODEC);
+        PayloadTypeRegistry.clientboundPlay().register(VelcroS2CPayload.ID, VelcroS2CPayload.CODEC);
     }
 }

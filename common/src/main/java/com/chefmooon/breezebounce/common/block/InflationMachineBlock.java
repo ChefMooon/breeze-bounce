@@ -126,7 +126,7 @@ public class InflationMachineBlock extends BaseEntityBlock {
 
     public void spawnParticles(Level level, BlockPos blockPos) {
         double d = 0.5625;
-        RandomSource randomSource = level.random;
+        RandomSource randomSource = level.getRandom();
         Direction[] directions = Direction.values();
 
         for (Direction direction : directions) {

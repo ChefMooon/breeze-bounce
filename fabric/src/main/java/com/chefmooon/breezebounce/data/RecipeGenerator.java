@@ -3,20 +3,26 @@ package com.chefmooon.breezebounce.data;
 import com.chefmooon.breezebounce.common.core.BreezeBounceBlockTypes;
 import com.chefmooon.breezebounce.common.registry.fabric.ModItemsImpl;
 import com.chefmooon.breezebounce.common.tag.BreezeBounceTags;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import com.chefmooon.breezebounce.common.util.TextUtil;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.advancements.criterion.ItemPredicate;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.*;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.DyeRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.concurrent.CompletableFuture;
 
 public class RecipeGenerator extends FabricRecipeProvider {
-    public RecipeGenerator(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+    public RecipeGenerator(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
     @Override
@@ -80,6 +86,12 @@ public class RecipeGenerator extends FabricRecipeProvider {
                 .unlockedBy(RecipeProvider.getHasName(Items.LEATHER), RecipeProvider.inventoryTrigger(ItemPredicate.Builder.item().of(provider.lookupOrThrow(Registries.ITEM), Items.LEATHER)))
                 .unlockedBy(RecipeProvider.getHasName(Items.CACTUS), RecipeProvider.inventoryTrigger(ItemPredicate.Builder.item().of(provider.lookupOrThrow(Registries.ITEM), Items.CACTUS)))
                 .save(exporter, RecipeProvider.getSimpleRecipeName(ModItemsImpl.VELCRO_BOOTS));
+
+
+        velcroArmor(provider, ModItemsImpl.VELCRO_HELMET, exporter);
+        velcroArmor(provider, ModItemsImpl.VELCRO_CHESTPLATE, exporter);
+        velcroArmor(provider, ModItemsImpl.VELCRO_LEGGINGS, exporter);
+        velcroArmor(provider, ModItemsImpl.VELCRO_BOOTS, exporter);
     }
 
     private void buildBounceBlockRecipes(HolderLookup.Provider provider, RecipeOutput exporter) {
@@ -166,6 +178,15 @@ public class RecipeGenerator extends FabricRecipeProvider {
                 .define('A', input)
                 .unlockedBy(RecipeProvider.getHasName(input), RecipeProvider.inventoryTrigger(ItemPredicate.Builder.item().of(holderGetter, input)))
                 .save(exporter, RecipeProvider.getSimpleRecipeName(output));
+    }
+
+    private static void velcroArmor(HolderLookup.Provider provider, Item armour, RecipeOutput exporter) {
+        HolderGetter<Item> holderGetter = provider.lookupOrThrow(Registries.ITEM);
+        CustomCraftingRecipeBuilder.customCrafting(RecipeCategory.MISC,
+                        (commonInfo, bookInfo) -> new DyeRecipe(commonInfo, bookInfo, Ingredient.of(armour),Ingredient.of(holderGetter.getOrThrow(ItemTags.DYES)), new ItemStackTemplate(armour)))
+                .unlockedBy(RecipeProvider.getHasName(armour),  RecipeProvider.inventoryTrigger(ItemPredicate.Builder.item().of(holderGetter, armour)))
+                .group("dyed_armor")
+                .save(exporter, ResourceKey.create(Registries.RECIPE, TextUtil.res(RecipeProvider.getItemName(armour) + "_dyed")));
     }
 
     @Override

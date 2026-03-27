@@ -101,7 +101,7 @@ public class BreezeBounceWallBlock extends BreezeBounceBlock implements SimpleWa
     public void spawnParticles(Level level, BlockPos blockPos) {
         double d = 0.1625;
         double dNorm = 0.5625;
-        RandomSource randomSource = level.random;
+        RandomSource randomSource = level.getRandom();
         Direction[] directions = Direction.values();
 
         Direction.Axis facingAxis = level.getBlockState(blockPos).getValue(AXIS);
@@ -110,7 +110,6 @@ public class BreezeBounceWallBlock extends BreezeBounceBlock implements SimpleWa
             Direction.Axis axis = direction.getAxis();
             if (facingAxis == axis) {
                 BlockPos blockPos2 = blockPos.relative(direction);
-//                if (level.getBlockState(blockPos2).isSolidRender(level, blockPos2)) {
                 if (level.getBlockState(blockPos2).isSolidRender()) {
                     continue;
                 }

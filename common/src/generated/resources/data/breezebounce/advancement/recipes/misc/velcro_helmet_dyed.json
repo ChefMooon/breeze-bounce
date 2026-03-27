@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "breezebounce:velcro_helmet_dyed"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_velcro_helmet": {
+      "conditions": {
+        "items": [
+          {
+            "items": "breezebounce:velcro_helmet"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_velcro_helmet"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "breezebounce:velcro_helmet_dyed"
+    ]
+  }
+}

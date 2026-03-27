@@ -371,7 +371,7 @@ public class InflationMachineBlockEntity extends BlockEntity implements WorldlyC
 
     public static void sendChestLockedNotifications(Vec3 vec3, Player player, Component component) {
         Level level = player.level();
-        player.displayClientMessage(Component.translatable("container.isLocked", player), true);
+        player.sendOverlayMessage(Component.translatable("container.isLocked", player));
         if (!level.isClientSide()) {
             level.playSound((Entity)null, vec3.x(), vec3.y(), vec3.z(), SoundEvents.CHEST_LOCKED, SoundSource.BLOCKS, 1.0F, 1.0F);
         }

@@ -109,14 +109,13 @@ public class BreezeBounceSlabBlock extends SlabBlock implements SimpleBreezeBoun
     @Override
     public void spawnParticles(Level level, BlockPos blockPos) {
         double d = 0.5625;
-        RandomSource randomSource = level.random;
+        RandomSource randomSource = level.getRandom();
         Direction[] directions = Direction.values();
 
         SlabType slabType = level.getBlockState(blockPos).getValue(TYPE);
 
         for (Direction direction : directions) {
             BlockPos blockPos2 = blockPos.relative(direction);
-//            if (!level.getBlockState(blockPos2).isSolidRender(level, blockPos2)) {
             if (!level.getBlockState(blockPos2).isSolidRender()) {
                 Direction.Axis axis = direction.getAxis();
                 double e = axis == Direction.Axis.X ? 0.5 + d * (double) direction.getStepX() : (double) randomSource.nextFloat();

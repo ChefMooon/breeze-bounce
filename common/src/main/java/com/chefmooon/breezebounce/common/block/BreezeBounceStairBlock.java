@@ -111,7 +111,7 @@ public class BreezeBounceStairBlock extends StairBlock implements SimpleBreezeBo
     @Override
     public void spawnParticles(Level level, BlockPos blockPos) {
         double d = 0.5625;
-        RandomSource randomSource = level.random;
+        RandomSource randomSource = level.getRandom();
         Direction[] directions = Direction.values();
 
         BlockState blockState = level.getBlockState(blockPos);
@@ -120,7 +120,6 @@ public class BreezeBounceStairBlock extends StairBlock implements SimpleBreezeBo
 
         for (Direction direction : directions) {
             BlockPos blockPos2 = blockPos.relative(direction);
-//            if (!level.getBlockState(blockPos2).isSolidRender(level, blockPos2)) {
             if (!level.getBlockState(blockPos2).isSolidRender()) {
                 spawnSlabParticles(level, blockPos, randomSource, direction, half, facing, d);
                 spawnOtherParticles(level, blockPos, randomSource, direction, half, facing, d);
