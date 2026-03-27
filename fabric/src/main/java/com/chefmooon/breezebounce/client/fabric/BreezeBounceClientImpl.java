@@ -18,7 +18,6 @@ public class BreezeBounceClientImpl implements ClientModInitializer {
     public void onInitializeClient() {
         ParticleProviderRegistry.getInstance().register(ModParticleTypes.BOUNCE_WHITE.get(), BounceParticle.Provider::new);
 
-        // TODO: fix register menu
         MenuScreens.register(ModMenuTypesImpl.INFLATION_MACHINE.get(), InflationMachineScreen::new);
 
         registerNetworking();
