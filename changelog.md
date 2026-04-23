@@ -4,7 +4,7 @@ If you encounter a bug please open an issue
 
 ***
 
-Release for Minecraft 26.1.1
+Release for Minecraft 26.1.1 & 26.1.2
 
 [Detailed Changelog](https://chefmooon.github.io/breezebounce/changelog.html)
 
